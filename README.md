@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-commerce Frontend (Next.js)
 
-## Getting Started
+Este es el frontend del proyecto de e-commerce desarrollado con Next.js. Por ahora, incluye exclusivamente el **panel de administración** con funcionalidades para manejar productos, categorías, subcategorías, tags y autenticación JWT funcional.
 
-First, run the development server:
+---
+
+## Características principales
+
+- Panel de administración moderno y responsivo
+- Gestión de productos (crear, editar, eliminar)
+- Gestión de categorías y subcategorías
+- Gestión de tags para mejorar la búsqueda y organización
+- Sistema de autenticación con JWT (login, logout y rutas protegidas)
+- Construido con Next.js, React y Tailwind CSS (puedes ajustar según lo que uses)
+
+---
+
+## Instalación
+
+Instalá las dependencias:
+
+```bash
+npm install
+# o
+yarn install
+```
+
+---
+
+## Uso
+
+Ejecutar el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
+# o
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir en el navegador: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts disponibles
 
-## Learn More
+- `dev` — Inicia el servidor de desarrollo
+- `build` — Construye la app para producción
+- `start` — Inicia la app en modo producción
+- `lint` — Ejecuta linter para verificar código
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estructura de carpetas
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `/pages` — Páginas y rutas de Next.js
+- `/components` — Componentes reutilizables
+- `/utils` — Funciones y helpers
+- `/services` — Comunicación con backend (API)
+- `/styles` — Estilos globales y configuración Tailwind
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Autenticación
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+El sistema usa JWT para autenticar usuarios y proteger rutas del panel de administración.
+
+Se recomienda configurar las variables de entorno para la URL del backend y claves secretas.
+
+---
+
+## Variables de entorno
+
+Crear un archivo `.env.local` en la raíz del proyecto y agregar:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000/api
+JWT_SECRET=tu_clave_secreta
+```
+
+Ajustá los valores según tu entorno.
+
+---
+
+## Contribuciones
+
+Si querés contribuir, hacé un fork, creá una rama para tu feature y abrí un Pull Request.
+
+---
+
+## Licencia
+
+MIT License © 2025 Salvador Di Sabatto Fund
