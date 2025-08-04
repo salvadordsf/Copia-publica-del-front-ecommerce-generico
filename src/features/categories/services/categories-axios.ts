@@ -1,0 +1,45 @@
+import axiosInstance from "@/lib/axios/axios";
+import { ICreateCategory, IGetCategoryQuery, IUpdateCategory } from "../schemas/categories-schema";
+
+export const getCategories = async (data: IGetCategoryQuery) => {
+  const params: any = {
+    name: data.name,
+  };
+  if (data.subcategories) {
+    params.subcategories = true;
+  }
+  if (data.products) {
+    params.products = true;
+  }
+
+  const res = await axiosInstance.get("/categories", {
+    params,
+  });
+  console.log(res);
+  return res.data;
+};
+export const getCategoryById = async (id: string) => {
+  const res = await axiosInstance.get(`/categories/${id}`);
+  console.log(res);
+  return res.data;
+};
+
+export const createCategory = async (data: ICreateCategory) => {
+  const res = await axiosInstance.post("/categories", data);
+  console.log(data);
+  console.log(res);
+  return res.data;
+};
+
+export const updateCategory = async (id: string, data: IUpdateCategory) => {
+  const res = await axiosInstance.put(`/categories/${id}`, data);
+  console.log(data);
+  console.log(res);
+  return res.data;
+};
+
+export const deleteCategory = async (id: string) => {
+  const res = await axiosInstance.delete(`/categories/${id}`);
+  console.log(res);
+  return res.data;
+};
