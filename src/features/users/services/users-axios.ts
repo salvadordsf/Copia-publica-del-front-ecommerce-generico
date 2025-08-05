@@ -38,14 +38,14 @@ export const getUserById = async (id: string) => {
 };
 
 export const createUser = async (data: ICreateUser) => {
-  const res = await axiosInstance.post("/user", data);
+  const res = await axiosInstance.post("/users", data);
   console.log(data);
   console.log(res);
   return res.data;
 };
 
 export const updateUser = async (id: string, data: IUpdateUser) => {
-  const res = await axiosInstance.put(`/user/${id}`, data);
+  const res = await axiosInstance.put(`/users/${id}`, data);
   console.log(data);
   console.log(res);
   return res.data;
