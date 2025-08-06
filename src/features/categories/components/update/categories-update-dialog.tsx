@@ -11,7 +11,8 @@ import {
 import { useUpdateCategory } from "../../services/categories-mutations";
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
-import UpdateDialog from "@/components/dashboard/actions/action-update-dialog";
+import UpdateDialog from "@/components/dashboard/actions/update/action-update-dialog";
+import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
 
 interface Props {
   categoryId: string;
@@ -22,13 +23,12 @@ export default function UpdateCategoryDialog({
   categoryId,
   initialName,
 }: Props) {
-
   //Update hook
   const { mutateAsync, isError, error } = useUpdateCategory(categoryId);
 
   //State for open/close dialog
   const [open, setOpen] = useState(false);
-  
+
   //Form methods for Dialog > GenericForm
   const methods = useForm<IUpdateCategory>({
     resolver: zodResolver(UpdateCategorySchema),
@@ -70,6 +70,17 @@ export default function UpdateCategoryDialog({
       onSubmitAction={onSubmit}
       isError={isError}
       serverError={error}
+      stepsAry={[
+        <UpdateConfirmDialog
+          resource={[
+            {
+              label: "Nombre",
+              original: initialName,
+              edited: methods.getValues().name,
+            },
+          ]}
+        />,
+      ]}
     />
   );
 }

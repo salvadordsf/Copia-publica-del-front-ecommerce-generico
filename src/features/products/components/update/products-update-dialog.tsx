@@ -6,13 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
-import UpdateDialog from "@/components/dashboard/actions/action-update-dialog";
+import UpdateDialog from "@/components/dashboard/actions/update/action-update-dialog";
 import { useUpdateProduct } from "../../services/products-mutations";
 import {
   IUpdateProduct,
   UpdateProductSchema,
 } from "../../schemas/products-schemas";
 import { useCategories } from "@/features/categories/services/categories-querys";
+import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
 
 interface Props {
   product: any;
@@ -24,6 +25,14 @@ export default function UpdateProductDialog({ product }: Props) {
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
+  const getCategoryName = (id: string) =>
+    categories.find((c: any) => c.id === id)?.name || "Sin categoría";
+
+  const getSubcategoryName = (categoryId: string, subcategoryId: string) =>
+    categories
+      .find((c: any) => c.id === categoryId)
+      ?.subcategories.find((s: any) => s.id === subcategoryId)?.name ||
+    "Sin subcategoría";
   //Update hook
   const { mutateAsync, isError, error } = useUpdateProduct(product.id);
 
@@ -36,7 +45,7 @@ export default function UpdateProductDialog({ product }: Props) {
     defaultValues: {
       name: product.name,
       description: product.description,
-      price: product.price,
+      price: Number(product.price),
       stock: product.stock,
       categoryId: product.categoryId,
       subcategoryId: product.subcategoryId,
@@ -56,7 +65,7 @@ export default function UpdateProductDialog({ product }: Props) {
       setOpen(false);
     }
   };
-
+  console.log(product.tags);
   if (isLoadingCategories) return <div>Loading categories...</div>;
   if (getCategoriesError) return <div>Error al obtener categorías</div>;
   return (
@@ -157,6 +166,53 @@ export default function UpdateProductDialog({ product }: Props) {
       onSubmitAction={onSubmit}
       isError={isError}
       serverError={error}
+      stepsAry={[
+        <UpdateConfirmDialog
+          resource={[
+            {
+              label: "Nombre",
+              original: product.name,
+              edited: methods.getValues().name,
+            },
+            {
+              label: "Descripción",
+              original: product.description,
+              edited: methods.getValues().description,
+            },
+            {
+              label: "Precio",
+              original: product.price,
+              edited: methods.getValues().price,
+            },
+            {
+              label: "Stock",
+              original: product.stock,
+              edited: methods.getValues().stock,
+            },
+            {
+              label: "Categoría",
+              original: getCategoryName(product.categoryId),
+              edited: getCategoryName(methods.getValues().categoryId ?? ""),
+            },
+            {
+              label: "Subcategoría",
+              original: getSubcategoryName(
+                product.categoryId,
+                product.subcategoryId
+              ),
+              edited: getSubcategoryName(
+                methods.getValues().categoryId ?? "",
+                methods.getValues().subcategoryId ?? ""
+              ),
+            },
+            {
+              label: "Relevancia",
+              original: product.relevance,
+              edited: methods.getValues().relevance,
+            },
+          ]}
+        />,
+      ]}
     />
   );
 }

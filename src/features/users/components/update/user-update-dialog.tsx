@@ -6,16 +6,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
-import UpdateDialog from "@/components/dashboard/actions/action-update-dialog";
 import { useUpdateUser } from "../../services/users-mutations";
 import { IUpdateUser, UpdateUserSchema } from "../../schemas/user-schemas";
+import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
+import UpdateDialog from "@/components/dashboard/actions/update/action-update-dialog";
 
 interface Props {
   user: any;
 }
 
 export default function UpdateUserDialog({ user }: Props) {
-
   //Update hook
   const { mutateAsync, isError, error } = useUpdateUser(user.id);
 
@@ -32,7 +32,7 @@ export default function UpdateUserDialog({ user }: Props) {
     },
   });
 
-  //onSubmit form > try Update hook + toast
+  //onSubmit form > open 2 step dialog + toast error
   const onSubmit = async (data: IUpdateUser) => {
     try {
       await mutateAsync(data);
@@ -62,16 +62,16 @@ export default function UpdateUserDialog({ user }: Props) {
         },
         {
           name: "role",
-          label: "Usar con precaución - Rol del usuario",
+          label: "⚠️ Precaución - Rol del usuario",
           placeholder: "Seleccina el rol",
           type: "select",
           options: [
-            {value: "USER", label: "Usuario"},
-            {value: "EDITOR", label: "Editor"},
-            {value: "ADMIN", label: "Administrador"},
+            { value: "USER", label: "Usuario" },
+            { value: "EDITOR", label: "Editor" },
+            { value: "ADMIN", label: "Administrador" },
           ],
           defaultValue: user.role,
-          className: "bg-red-200 p-2 rounded-lg border-2 border-red-400",
+          className: "bg-yellow-200 p-2 rounded-lg border-2 border-yellow-400",
         },
       ]}
       submitBtnConfig={{
@@ -81,6 +81,23 @@ export default function UpdateUserDialog({ user }: Props) {
       onSubmitAction={onSubmit}
       isError={isError}
       serverError={error}
+      stepsAry={[
+        <UpdateConfirmDialog
+          resource={[
+            {
+              label: "Nombre",
+              original: user.name,
+              edited: methods.getValues().name,
+            },
+            {
+              label: "Rol",
+              original: user.role,
+              edited: methods.getValues().role,
+              alert: true,
+            },
+          ]}
+        />
+      ]}
     />
   );
 }

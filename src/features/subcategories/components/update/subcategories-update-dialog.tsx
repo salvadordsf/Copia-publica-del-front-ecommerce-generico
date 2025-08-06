@@ -1,7 +1,7 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import UpdateDialog from "@/components/dashboard/actions/action-update-dialog";
+import UpdateDialog from "@/components/dashboard/actions/update/action-update-dialog";
 import { useState } from "react";
 import { useCategories } from "@/features/categories/services/categories-querys";
 import { useUpdateSubcategory } from "../../services/subcategories-mutations";
@@ -14,19 +14,19 @@ import {
 import { AxiosError } from "axios";
 import { toastError } from "@/utils/toast-error-utility";
 import { toast } from "sonner";
+import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
 
 interface Props {
   subcategoryId: string;
   initialName: string;
   initialCategoryId: string;
-} 
+}
 
 export default function UpdateSubcategoryDialog({
   subcategoryId,
   initialName,
   initialCategoryId,
 }: Props) {
-  
   //Get categories for select
   let {
     data: categories,
@@ -93,12 +93,32 @@ export default function UpdateSubcategoryDialog({
       ]}
       submitBtnConfig={{
         text: "Actualizar subcategoría",
-        color: "white",
-        bg: "method-put",
+        type: "update",
       }}
       onSubmitAction={onSubmit}
       isError={isError}
       serverError={error}
+      stepsAry={[
+        <UpdateConfirmDialog
+          resource={[
+            {
+              label: "Nombre",
+              original: initialName,
+              edited: methods.getValues().name,
+            },
+            {
+              label: "Categoría",
+              original: categories.filter((category: any) => {
+                if (category.id === initialCategoryId) return category;
+              })[0].name,
+              edited: categories.filter((category: any) => {
+                if (category.id === methods.getValues().categoryId)
+                  return category;
+              })[0].name,
+            },
+          ]}
+        />,
+      ]}
     />
   );
 }

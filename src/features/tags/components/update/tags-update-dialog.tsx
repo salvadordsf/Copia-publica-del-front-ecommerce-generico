@@ -8,7 +8,8 @@ import { useUpdateTag } from "@/features/tags/services/tags-mutations";
 import { CreateTagSchema, ICreateTagSchema } from "../../schemas/tags-schema";
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
-import UpdateDialog from "@/components/dashboard/actions/action-update-dialog";
+import UpdateDialog from "@/components/dashboard/actions/update/action-update-dialog";
+import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
 
 interface Props {
   tagId: string;
@@ -16,7 +17,6 @@ interface Props {
 }
 
 export default function UpdateTagDialog({ tagId, initialName }: Props) {
-
   //Update hook
   const { mutateAsync, isError, error } = useUpdateTag(tagId);
 
@@ -64,6 +64,17 @@ export default function UpdateTagDialog({ tagId, initialName }: Props) {
       onSubmitAction={onSubmit}
       isError={isError}
       serverError={error}
+      stepsAry={[
+        <UpdateConfirmDialog
+          resource={[
+            {
+              label: "Nombre",
+              original: initialName,
+              edited: methods.getValues().name,
+            },
+          ]}
+        />,
+      ]}
     />
   );
 }
