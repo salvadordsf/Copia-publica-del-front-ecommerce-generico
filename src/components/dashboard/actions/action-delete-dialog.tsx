@@ -1,7 +1,7 @@
 // components/ConfirmDeleteDialog.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -16,17 +16,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 interface ConfirmDeleteDialogProps {
-  trigger: React.ReactNode;
+  resourceStatus: "ACTIVE" | "ARCHIVED" | "DELETED";
   resourceType: string;
   resourceName: string;
-  onConfirmAction: () => Promise<void> | void;
+  onConfirmActions: (Promise<any> | any)[];
 }
 
 export default function ConfirmDeleteDialog({
-  trigger,
+  resourceStatus,
   resourceType,
   resourceName,
-  onConfirmAction,
+  onConfirmActions,
 }: ConfirmDeleteDialogProps) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
@@ -38,18 +38,39 @@ export default function ConfirmDeleteDialog({
   };
 
   const handleFinalConfirm = async () => {
-    if (confirmationText.toLowerCase() !== "eliminar") {
-      toast.error("Debes escribir 'eliminar' para confirmar.");
-      return;
+    if (resourceStatus !== "DELETED") {
+      if (confirmationText.toLowerCase() !== "eliminar") {
+        toast.error("Debes escribir 'eliminar' para confirmar.");
+        return;
+      }
+    } else {
+      if (confirmationText.toLowerCase() !== "restaurar") {
+        toast.error("Debes escribir 'restaurar' para confirmar.");
+        return;
+      }
     }
 
     setLoading(true);
     try {
-      await onConfirmAction();
-      toast.success(`${resourceType.toLocaleUpperCase()} "${resourceName}" eliminado correctamente.`);
+      if (resourceStatus !== "DELETED") {
+        //Delete
+        await onConfirmActions[0]();
+      } else {
+        //Restore
+        await onConfirmActions[1]({ status: "ARCHIVED" });
+      }
+      toast.success(
+        `${resourceType.toLocaleUpperCase()} "${resourceName}" ${
+          resourceStatus !== "DELETED" ? "eliminado" : "restaurado"
+        } correctamente.`
+      );
       setOpen(false);
     } catch {
-      toast.error("Error al eliminar el recurso.");
+      toast.error(
+        `Error al ${
+          resourceStatus !== "DELETED" ? "eliminar" : "restaurar"
+        } el recurso.`
+      );
     } finally {
       setLoading(false);
       setStep(1);
@@ -62,21 +83,37 @@ export default function ConfirmDeleteDialog({
     setStep(1);
     setConfirmationText("");
   };
+  useEffect(() => {
+    setStep(1);
+    setConfirmationText("");
+  }, [open]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button variant="destructive">
+          {resourceStatus !== "DELETED" ? "Eliminar" : "Restaurar"}
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
             {step === 1
-              ? `¿Eliminar ${resourceType} "${resourceName}"?`
-              : `Escribí "eliminar" para confirmar`}
+              ? `¿${
+                  resourceStatus !== "DELETED" ? "Eliminar" : "Restaurar"
+                } ${resourceType} "${resourceName}"?`
+              : `Escribí "${
+                  resourceStatus !== "DELETED" ? "eliminar" : "restaurar"
+                }" para confirmar`}
           </DialogTitle>
           <DialogDescription>
-          {step === 1
-              ? `Se borrará de manera permanente`
-              : `El recurso dejará de aparecer asociado a otros recursos que lo incluyan.`}
+            {step === 1
+              ? resourceStatus !== "DELETED"
+                ? `Se borrará de manera permanente`
+                : "El recurso se restaurará"
+              : resourceStatus !== "DELETED"
+              ? `El recurso dejará de aparecer asociado a otros recursos que lo incluyan.`
+              : "El recurso dejará de estár borrado y se archivará."}
           </DialogDescription>
         </DialogHeader>
 
@@ -84,7 +121,11 @@ export default function ConfirmDeleteDialog({
           <Input
             value={confirmationText}
             onChange={(e) => setConfirmationText(e.target.value)}
-            placeholder="escribí: eliminar"
+            placeholder={
+              resourceStatus !== "DELETED"
+                ? "escribí: eliminar"
+                : "escribí: restaurar"
+            }
             className="mt-2"
             disabled={loading}
           />
@@ -99,7 +140,13 @@ export default function ConfirmDeleteDialog({
             onClick={step === 1 ? handleFirstConfirm : handleFinalConfirm}
             disabled={loading}
           >
-            {loading ? "Eliminando..." : "Eliminar"}
+            {loading
+              ? resourceStatus !== "DELETED"
+                ? "Eliminando..."
+                : "Restaurando..."
+              : resourceStatus !== "DELETED"
+              ? "Eliminar"
+              : "Restaurar"}
           </Button>
         </DialogFooter>
       </DialogContent>
