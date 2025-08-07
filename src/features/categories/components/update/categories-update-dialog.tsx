@@ -65,7 +65,7 @@ export default function UpdateCategoryDialog({
       ]}
       submitBtnConfig={{
         text: "Actualizar categoría",
-        type: "create",
+        type: "update",
       }}
       onSubmitAction={onSubmit}
       isError={isError}

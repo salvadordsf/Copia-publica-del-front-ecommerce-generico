@@ -182,7 +182,7 @@ export default function UpdateProductDialog({ product }: Props) {
             {
               label: "Precio",
               original: product.price,
-              edited: methods.getValues().price,
+              edited: String(methods.getValues().price),
             },
             {
               label: "Stock",

@@ -31,6 +31,7 @@ const detectFieldUtil = (value: string | undefined) => {
 export default function UpdateConfirmDialog({ resource }: Props) {
   //Edited fields values
   const editedFieldsAry: any[] = resource.filter((item) => {
+    console.log(item)
     if (item && item.original !== item.edited)
       return [item.original, item.edited];
   });

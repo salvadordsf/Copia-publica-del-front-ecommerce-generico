@@ -88,7 +88,7 @@ export default function UpdateDialog({
       }
     }
   };
-
+  console.log(useFormMethods.formState.isDirty)
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>

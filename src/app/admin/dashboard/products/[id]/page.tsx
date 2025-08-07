@@ -34,6 +34,7 @@ export default function IdProductPage() {
       <div className="pt-5 space-y-6">
         <ResourceProperties 
           properties={[
+            {key: "Nombre", value: data.name},
             {key: "Descripción", value: data.description},
             {key: "Precio", value: data.price},
             {key: "Stock", value: data.stock},
