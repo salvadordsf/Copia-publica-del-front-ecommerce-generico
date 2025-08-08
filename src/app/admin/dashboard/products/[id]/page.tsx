@@ -1,21 +1,21 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
-import { useRouter } from "next/navigation";
 import { useProductById } from "@/features/products/services/products-querys";
-import { useDeleteProducts } from "@/features/products/services/products-mutations";
+import {
+  useDeleteProducts,
+  useUpdateProduct,
+} from "@/features/products/services/products-mutations";
 import UpdateProductDialog from "@/features/products/components/update/products-update-dialog";
-import ResourceStatus from "@/components/dashboard/resource-components/resource-status/resource-status-resource";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
+import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 
 export default function IdProductPage() {
   const { id } = useParams();
-  const { data, isLoading, isError } = useProductById(id as string);
+  const { data: product, isLoading, isError } = useProductById(id as string);
+  const updateProduct = useUpdateProduct(product.id);
   const deleteProduct = useDeleteProducts();
-  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -26,41 +26,36 @@ export default function IdProductPage() {
     );
   }
 
-  if (isError || !data)
+  if (isError || !product)
     return <p className="pt-8">Error al cargar el producto.</p>;
 
   return (
     <>
       <div className="pt-5 space-y-6">
-        <ResourceProperties 
+        <ResourceProperties
           properties={[
-            {key: "Nombre", value: data.name},
-            {key: "Descripción", value: data.description},
-            {key: "Precio", value: data.price},
-            {key: "Stock", value: data.stock},
-            {key: "Relevancia", value: data.relevance},
-            {key: "Categoría", value: data.category.name},
-            {key: "Subcategoría", value: data.subcategory.name},
+            { key: "Nombre", value: product.name },
+            { key: "Descripción", value: product.description },
+            { key: "Precio", value: product.price },
+            { key: "Stock", value: product.stock },
+            { key: "Relevancia", value: product.relevance },
+            { key: "Categoría", value: product.category.name },
+            { key: "Subcategoría", value: product.subcategory.name },
           ]}
           optionals={{
-            tags: {include: true, resourceTags: data.tags},
-            status: {include: true, resourceStatus: data.status},
+            tags: { include: true, resourceTags: product.tags },
+            status: { include: true, resourceStatus: product.status },
           }}
         />
 
         {/* Action btns */}
-        <section className="flex gap-4">
-          <UpdateProductDialog product={data} />
-          <ConfirmDeleteDialog
-            trigger={<Button variant="destructive">Eliminar</Button>}
-            resourceType="product"
-            resourceName={data.name}
-            onConfirmAction={() => {
-              deleteProduct.mutateAsync(data.id);
-              router.push("/admin/dashboard/products");
-            }}
-          />
-        </section>
+        <ResourceActionsHandler
+          resource={product}
+          resourceType="products"
+          updateResourceDialog={<UpdateProductDialog product={product} />}
+          updateResourceAction={updateProduct.mutateAsync}
+          deleteResourceAction={deleteProduct.mutateAsync}
+        />
       </div>
     </>
   );
