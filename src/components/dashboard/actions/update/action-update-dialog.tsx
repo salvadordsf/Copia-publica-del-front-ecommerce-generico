@@ -158,7 +158,7 @@ export default function UpdateDialog({
                     </Button>
                   )}
                 </div>
-                <ActionStepCounter step={step - 1} stepCount={stepCount} />
+                <ActionStepCounter step={step} stepCount={stepCount} />
               </div>
             </>
           )}
