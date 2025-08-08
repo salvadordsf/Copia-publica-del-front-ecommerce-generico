@@ -1,7 +1,6 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,18 +10,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
 import { useParams, useRouter } from "next/navigation";
 import { useCategoryById } from "@/features/categories/services/categories-querys";
-import { useDeleteCategory } from "@/features/categories/services/categories-mutations";
+import {
+  useDeleteCategory,
+  useUpdateCategory,
+} from "@/features/categories/services/categories-mutations";
 import UpdateCategoryDialog from "@/features/categories/components/update/categories-update-dialog";
 import UiDivider from "@/components/dashboard/divider/divider";
+import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 
 export default function IdCategoryPage() {
   const { id } = useParams();
-  const { data, isLoading, isError } = useCategoryById(id as string);
-  const deleteCategory = useDeleteCategory();
   const router = useRouter();
+  const { data: category, isLoading, isError } = useCategoryById(id as string);
+  const updateCategory = useUpdateCategory(category.id);
+  const deleteCategory = useDeleteCategory();
 
   if (isLoading) {
     return (
@@ -33,42 +36,45 @@ export default function IdCategoryPage() {
     );
   }
 
-  if (isError || !data) return <p className="pt-8">Error al cargar la categoría.</p>;
+  if (isError || !category)
+    return <p className="pt-8">Error al cargar la categoría.</p>;
 
   return (
     <div className="-translate-x-2 sm:-translate-0">
       <div className="pt-5 space-y-6">
-        {/* Metadata */}
+        {/* Metacategory */}
         <main>
-          <h1 className="text-2xl font-bold capitalize">{data.name}</h1>
+          <h1 className="text-2xl font-bold capitalize">{category.name}</h1>
           <div className="flex flex-col italic text-sm text-muted-foreground">
-            <span>Creada el: {new Date(data.createdAt).toLocaleString()}</span>
             <span>
-              Última actualización: {new Date(data.updatedAt).toLocaleString()}
+              Creada el: {new Date(category.createdAt).toLocaleString()}
+            </span>
+            <span>
+              Última actualización:{" "}
+              {new Date(category.updatedAt).toLocaleString()}
             </span>
           </div>
         </main>
 
         {/* Action btns */}
-        <section className="flex gap-4">
-          <UpdateCategoryDialog categoryId={data.id} initialName={data.name} />
-          <ConfirmDeleteDialog
-            trigger={<Button variant="destructive">Eliminar</Button>}
-            resourceType="categoría"
-            resourceName={data.name}
-            onConfirmAction={() => {
-              deleteCategory.mutateAsync(data.id);
-              router.push("/admin/dashboard/categories");
-            }}
-          />
-        </section>
-        <UiDivider />
+        <ResourceActionsHandler
+          resource={category}
+          resourceType="categories"
+          updateResourceDialog={
+            <UpdateCategoryDialog
+              categoryId={category.id}
+              initialName={category.name}
+            />
+          }
+          updateResourceAction={updateCategory.mutateAsync}
+          deleteResourceAction={deleteCategory.mutateAsync}
+        />
 
         {/* Subcategories list */}
         <section className="space-y-2">
           <h2 className="text-xl font-semibold">Subcategorías asociadas</h2>
 
-          {!data.subcategories?.length ? (
+          {!category.subcategories?.length ? (
             <p className="text-muted-foreground">
               Sin subcategorías asociadas.
             </p>
@@ -86,7 +92,7 @@ export default function IdCategoryPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.subcategories.map((subcategory: any) => (
+                {category.subcategories.map((subcategory: any) => (
                   <TableRow
                     className="cursor-pointer"
                     onClick={() =>
@@ -113,7 +119,7 @@ export default function IdCategoryPage() {
         <section className="space-y-2">
           <h2 className="text-xl font-semibold">Productos asociados</h2>
 
-          {!data.products?.length ? (
+          {!category.products?.length ? (
             <p className="text-muted-foreground">Sin productos asociados.</p>
           ) : (
             <Table>
@@ -132,7 +138,7 @@ export default function IdCategoryPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.products.map((product: any) => (
+                {category.products.map((product: any) => (
                   <TableRow key={product.id}>
                     <TableCell className="capitalize">{product.name}</TableCell>
                     <TableCell className="text-center">
