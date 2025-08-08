@@ -1,7 +1,6 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -14,16 +13,19 @@ import {
 import { useTagById } from "@/features/tags/services/tags-querys";
 import { useParams } from "next/navigation";
 import UpdateTagDialog from "@/features/tags/components/update/tags-update-dialog";
-import { useDeleteTag } from "@/features/tags/services/tags-mutations";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
+import {
+  useDeleteTag,
+  useUpdateTag,
+} from "@/features/tags/services/tags-mutations";
 import { useRouter } from "next/navigation";
-import UiBreadcrumb from "@/components/dashboard/breadcrumb/breadcrumb";
 import UiDivider from "@/components/dashboard/divider/divider";
 import ResourceStatus from "@/components/dashboard/resource-components/resource-status/resource-status-resource";
+import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 
 export default function IdTagPage() {
   const { id } = useParams();
-  const { data, isLoading, isError } = useTagById(id as string);
+  const { data: tag, isLoading, isError } = useTagById(id as string);
+  const updateTag = useUpdateTag(tag.id);
   const deleteTag = useDeleteTag();
   const router = useRouter();
 
@@ -36,45 +38,43 @@ export default function IdTagPage() {
     );
   }
 
-  if (isError || !data) return <p className="pt-8">Error al cargar la tag.</p>;
+  if (isError || !tag) return <p className="pt-8">Error al cargar la tag.</p>;
 
   return (
     <>
       <div className="pt-5 space-y-6">
-        {/* Metadata */}
+        {/* Metatag */}
         <main>
-          <h1 className="text-2xl font-bold capitalize">{data.name}</h1>
+          <h1 className="text-2xl font-bold capitalize">{tag.name}</h1>
           <div className="flex flex-col italic text-sm text-muted-foreground">
             <span>
-              Creada el: {new Date(data.createdAt).toLocaleDateString()}
+              Creada el: {new Date(tag.createdAt).toLocaleDateString()}
             </span>
             <span>
               Última actualización:{" "}
-              {new Date(data.updatedAt).toLocaleDateString()}
+              {new Date(tag.updatedAt).toLocaleDateString()}
             </span>
           </div>
-          <ResourceStatus status={data.status} />
+          <ResourceStatus status={tag.status} />
         </main>
 
         {/* Action btns */}
-        <section className="flex gap-4">
-          <UpdateTagDialog tagId={data.id} initialName={data.name} />
-          <ConfirmDeleteDialog
-            trigger={<Button variant="destructive">Eliminar</Button>}
-            resourceType="tag"
-            resourceName={data.name}
-            onConfirmAction={() => {
-              deleteTag.mutateAsync(data.id);
-              router.push("/admin/dashboard/tags");
-            }}
-          />
-        </section>
+        <ResourceActionsHandler
+          resource={tag}
+          resourceType="tags"
+          updateResourceDialog={
+            <UpdateTagDialog tagId={tag.id} initialName={tag.name} />
+          }
+          updateResourceAction={updateTag.mutateAsync}
+          deleteResourceAction={deleteTag.mutateAsync}
+        />
+
         <UiDivider />
         {/* Products list */}
         <section className="space-y-2">
           <h2 className="text-xl font-semibold">Productos asociados</h2>
 
-          {!data.products?.length ? (
+          {!tag.products?.length ? (
             <p className="text-muted-foreground">Sin productos asociados.</p>
           ) : (
             <Table>
@@ -89,7 +89,7 @@ export default function IdTagPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.products.map((product: any) => (
+                {tag.products.map((product: any) => (
                   <TableRow key={product.id}>
                     <TableCell className="capitalize">{product.name}</TableCell>
                     <TableCell>${product.price}</TableCell>
