@@ -1,14 +1,14 @@
 export const getSpResourceName = (resType: string) => {
 switch (resType) {
-    case "user":
+    case "users":
       return "usuario";
-    case "product":
+    case "products":
       return "producto";
-    case "category":
+    case "categories":
       return "categoría";
-    case "subcategory":
+    case "subcategories":
       return "subcategoría";
-    case "tag":
+    case "tags":
       return "etiqueta";
   
     default:

@@ -12,6 +12,7 @@ import {
 } from "@/features/users/services/users-mutations";
 import UpdateUserDialog from "@/features/users/components/update/user-update-dialog";
 import ArchiveDialog from "@/components/dashboard/actions/archive/action-archive-action";
+import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 
 export default function IdUserPage() {
   const { id } = useParams();
@@ -56,31 +57,13 @@ export default function IdUserPage() {
 
         */}
 
-        <section className="flex gap-4">
-          {user.status !== "DELETED" && (
-            <>
-              <UpdateUserDialog user={user} />
-              <ArchiveDialog
-                resourceStatus={user.status}
-                resourceType="usuario"
-                resourceName={user.name}
-                onConfirmAction={updateUser.mutateAsync}
-              />
-            </>
-          )}
-          <ConfirmDeleteDialog
-            resourceStatus={user.status}
-            resourceType="usuario"
-            resourceName={user.name}
-            onConfirmActions={[
-              () => {
-                deleteUser.mutateAsync(user.id);
-                router.push("/admin/dashboard/users");
-              },
-              updateUser.mutateAsync,
-            ]}
-          />
-        </section>
+        <ResourceActionsHandler
+          resource={user}
+          resourceType="users"
+          updateResourceDialog={<UpdateUserDialog user={user} />}
+          updateResourceAction={updateUser.mutateAsync}
+          deleteResourceAction={deleteUser.mutateAsync}
+        />
       </div>
     </>
   );
