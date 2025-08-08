@@ -17,7 +17,6 @@ import {
   useDeleteTag,
   useUpdateTag,
 } from "@/features/tags/services/tags-mutations";
-import { useRouter } from "next/navigation";
 import UiDivider from "@/components/dashboard/divider/divider";
 import ResourceStatus from "@/components/dashboard/resource-components/resource-status/resource-status-resource";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
@@ -27,7 +26,6 @@ export default function IdTagPage() {
   const { data: tag, isLoading, isError } = useTagById(id as string);
   const updateTag = useUpdateTag(tag.id);
   const deleteTag = useDeleteTag();
-  const router = useRouter();
 
   if (isLoading) {
     return (

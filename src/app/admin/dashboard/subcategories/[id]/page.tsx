@@ -12,19 +12,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Link2 } from "lucide-react";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import UiDivider from "@/components/dashboard/divider/divider";
 import { useSubcategoryById } from "@/features/subcategories/services/subcategories-querys";
-import { useDeleteSubcategories } from "@/features/subcategories/services/subcategories-mutations";
+import {
+  useDeleteSubcategories,
+  useUpdateSubcategory,
+} from "@/features/subcategories/services/subcategories-mutations";
 import Link from "next/link";
 import UpdateSubcategoryDialog from "@/features/subcategories/components/update/subcategories-update-dialog";
+import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 
 export default function IdSubcategoryPage() {
   const { id } = useParams();
-  const { data, isLoading, isError } = useSubcategoryById(id as string);
+  const {
+    data: subcategory,
+    isLoading,
+    isError,
+  } = useSubcategoryById(id as string);
+  const updateSubcategory = useUpdateSubcategory(id as string);
   const deleteSubcategory = useDeleteSubcategories();
-  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -35,48 +42,53 @@ export default function IdSubcategoryPage() {
     );
   }
 
-  if (isError || !data)
+  if (isError || !subcategory)
     return <p className="pt-8">Error al cargar la subcategoría.</p>;
 
   return (
     <div className="-translate-x-2 sm:-translate-0">
       <div className="pt-5 space-y-6">
-        {/* Metadata */}
+        {/* Metasubcategory */}
         <main>
-          <h1 className="text-2xl font-bold capitalize">{data.name}</h1>
+          <h1 className="text-2xl font-bold capitalize">{subcategory.name}</h1>
           <div className="flex flex-col italic text-sm text-muted-foreground">
-            <span>Creada el: {new Date(data.createdAt).toLocaleString()}</span>
             <span>
-              Última actualización: {new Date(data.updatedAt).toLocaleString()}
+              Creada el: {new Date(subcategory.createdAt).toLocaleString()}
+            </span>
+            <span>
+              Última actualización:{" "}
+              {new Date(subcategory.updatedAt).toLocaleString()}
             </span>
           </div>
         </main>
 
         {/* Action btns */}
-        <section className="flex gap-4">
-          <UpdateSubcategoryDialog subcategoryId={data.id} initialName={data.name} initialCategoryId={data.category.id}/>
-          <ConfirmDeleteDialog
-            trigger={<Button variant="destructive">Eliminar</Button>}
-            resourceType="subcategoría"
-            resourceName={data.name}
-            onConfirmAction={() => {
-              deleteSubcategory.mutateAsync(data.id);
-              router.push("/admin/dashboard/subcategories");
-            }}
-          />
-        </section>
+        <ResourceActionsHandler
+          resource={subcategory}
+          resourceType="subcategories"
+          updateResourceDialog={
+            <UpdateSubcategoryDialog
+              subcategoryId={subcategory.id}
+              initialName={subcategory.name}
+              initialCategoryId={subcategory.category.id}
+            />
+          }
+          updateResourceAction={updateSubcategory.mutateAsync}
+          deleteResourceAction={deleteSubcategory.mutateAsync}
+        />
+
         <UiDivider />
 
         {/* category section */}
         <section className="space-y-2">
           <h2 className="text-xl font-semibold">Categoría padre</h2>
-          <Link href={`/admin/dashboard/categories/${data.category.id}`}>
+          <Link href={`/admin/dashboard/categories/${subcategory.category.id}`}>
             <Button
               variant="link"
               className="text-xl capitalize cursor-pointer"
             >
               <Link2 />
-              {data.category.name}
+              {subcategory.category.name}
             </Button>
           </Link>
         </section>
@@ -85,7 +97,7 @@ export default function IdSubcategoryPage() {
         <section className="space-y-2">
           <h2 className="text-xl font-semibold">Productos asociados</h2>
 
-          {!data.products?.length ? (
+          {!subcategory.products?.length ? (
             <p className="text-muted-foreground">Sin productos asociados.</p>
           ) : (
             <Table>
@@ -104,7 +116,7 @@ export default function IdSubcategoryPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.products.map((product: any) => (
+                {subcategory.products.map((product: any) => (
                   <TableRow key={product.id}>
                     <TableCell className="capitalize">{product.name}</TableCell>
                     <TableCell className="text-center">
