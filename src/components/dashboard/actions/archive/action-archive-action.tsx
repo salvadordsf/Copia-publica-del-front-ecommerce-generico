@@ -13,7 +13,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { UseMutationResult } from "@tanstack/react-query";
 
 interface ArchiveDialogProps {
   resourceStatus: "ACTIVE" | "ARCHIVED" | "DELETED";

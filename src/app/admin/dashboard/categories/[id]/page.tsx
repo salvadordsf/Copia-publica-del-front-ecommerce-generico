@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/action-delete-dialog";
+import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
 import { useParams, useRouter } from "next/navigation";
 import { useCategoryById } from "@/features/categories/services/categories-querys";
 import { useDeleteCategory } from "@/features/categories/services/categories-mutations";

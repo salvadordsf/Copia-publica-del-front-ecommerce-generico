@@ -15,7 +15,7 @@ import { useTagById } from "@/features/tags/services/tags-querys";
 import { useParams } from "next/navigation";
 import UpdateTagDialog from "@/features/tags/components/update/tags-update-dialog";
 import { useDeleteTag } from "@/features/tags/services/tags-mutations";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/action-delete-dialog";
+import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
 import { useRouter } from "next/navigation";
 import UiBreadcrumb from "@/components/dashboard/breadcrumb/breadcrumb";
 import UiDivider from "@/components/dashboard/divider/divider";

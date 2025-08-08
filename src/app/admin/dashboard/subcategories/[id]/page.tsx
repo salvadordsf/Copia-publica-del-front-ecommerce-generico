@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Link2 } from "lucide-react";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/action-delete-dialog";
+import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
 import { useParams, useRouter } from "next/navigation";
 import UiDivider from "@/components/dashboard/divider/divider";
 import { useSubcategoryById } from "@/features/subcategories/services/subcategories-querys";

@@ -3,7 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/action-delete-dialog";
+import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
 import { useRouter } from "next/navigation";
 import { useProductById } from "@/features/products/services/products-querys";
 import { useDeleteProducts } from "@/features/products/services/products-mutations";

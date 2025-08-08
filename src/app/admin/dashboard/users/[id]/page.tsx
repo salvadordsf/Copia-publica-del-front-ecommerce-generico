@@ -1,9 +1,8 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/action-delete-dialog";
+import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
 import { useRouter } from "next/navigation";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 import { useUserById } from "@/features/users/services/users-querys";
@@ -12,7 +11,7 @@ import {
   useUpdateUser,
 } from "@/features/users/services/users-mutations";
 import UpdateUserDialog from "@/features/users/components/update/user-update-dialog";
-import ArchiveDialog from "@/components/dashboard/actions/action-archive-action";
+import ArchiveDialog from "@/components/dashboard/actions/archive/action-archive-action";
 
 export default function IdUserPage() {
   const { id } = useParams();
