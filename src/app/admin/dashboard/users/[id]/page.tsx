@@ -48,15 +48,6 @@ export default function IdUserPage() {
           }}
         />
 
-        {/*
-          ACTION BTNS
-
-          ACTIVE   -> Update + Archive + Delete
-          ARCHIVED -> Update + Unarchive(same component as Archive) + Delete
-          DELETE   -> Reactive(same component as Delete)
-
-        */}
-
         <ResourceActionsHandler
           resource={user}
           resourceType="users"

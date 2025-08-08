@@ -32,13 +32,14 @@ export default function ConfirmDeleteDialog({
   const [step, setStep] = useState<1 | 2>(1);
   const [confirmationText, setConfirmationText] = useState("");
   const [loading, setLoading] = useState(false);
+  const isNotDeleted = resourceStatus !== "DELETED";
 
   const handleFirstConfirm = () => {
     setStep(2);
   };
 
   const handleFinalConfirm = async () => {
-    if (resourceStatus !== "DELETED") {
+    if (isNotDeleted) {
       if (confirmationText.toLowerCase() !== "eliminar") {
         toast.error("Debes escribir 'eliminar' para confirmar.");
         return;
@@ -52,7 +53,7 @@ export default function ConfirmDeleteDialog({
 
     setLoading(true);
     try {
-      if (resourceStatus !== "DELETED") {
+      if (isNotDeleted) {
         //Delete
         await onConfirmActions[0]();
       } else {
@@ -61,14 +62,14 @@ export default function ConfirmDeleteDialog({
       }
       toast.success(
         `${resourceType.toLocaleUpperCase()} "${resourceName}" ${
-          resourceStatus !== "DELETED" ? "eliminado" : "restaurado"
+          isNotDeleted ? "eliminado" : "restaurado"
         } correctamente.`
       );
       setOpen(false);
     } catch {
       toast.error(
         `Error al ${
-          resourceStatus !== "DELETED" ? "eliminar" : "restaurar"
+          isNotDeleted ? "eliminar" : "restaurar"
         } el recurso.`
       );
     } finally {
@@ -91,8 +92,11 @@ export default function ConfirmDeleteDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="destructive">
-          {resourceStatus !== "DELETED" ? "Eliminar" : "Restaurar"}
+        <Button
+          variant="outline"
+          className={`${isNotDeleted ? "bg-red-700 hover:bg-red-700/80" : "bg-green-700 hover:bg-green-700/80"} text-white hover:cursor-pointer hover:text-white font-bold`}
+        >
+          {isNotDeleted ? "Eliminar" : "Restaurar"}
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -100,18 +104,18 @@ export default function ConfirmDeleteDialog({
           <DialogTitle>
             {step === 1
               ? `¿${
-                  resourceStatus !== "DELETED" ? "Eliminar" : "Restaurar"
+                  isNotDeleted ? "Eliminar" : "Restaurar"
                 } ${resourceType} "${resourceName}"?`
               : `Escribí "${
-                  resourceStatus !== "DELETED" ? "eliminar" : "restaurar"
+                  isNotDeleted ? "eliminar" : "restaurar"
                 }" para confirmar`}
           </DialogTitle>
           <DialogDescription>
             {step === 1
-              ? resourceStatus !== "DELETED"
+              ? isNotDeleted
                 ? `Se borrará de manera permanente`
                 : "El recurso se restaurará"
-              : resourceStatus !== "DELETED"
+              : isNotDeleted
               ? `El recurso dejará de aparecer asociado a otros recursos que lo incluyan.`
               : "El recurso dejará de estár borrado y se archivará."}
           </DialogDescription>
@@ -122,7 +126,7 @@ export default function ConfirmDeleteDialog({
             value={confirmationText}
             onChange={(e) => setConfirmationText(e.target.value)}
             placeholder={
-              resourceStatus !== "DELETED"
+              isNotDeleted
                 ? "escribí: eliminar"
                 : "escribí: restaurar"
             }
@@ -132,21 +136,22 @@ export default function ConfirmDeleteDialog({
         )}
 
         <DialogFooter className="mt-4">
-          <Button variant="outline" onClick={handleCancel} disabled={loading}>
+          <Button variant="outline" onClick={handleCancel} disabled={loading} className="cursor-pointer">
             Cancelar
           </Button>
           <Button
-            variant="destructive"
+            variant="default"
             onClick={step === 1 ? handleFirstConfirm : handleFinalConfirm}
             disabled={loading}
+            className={`${isNotDeleted ? "bg-red-700 hover:bg-red-700/80" : "bg-green-700 hover:bg-green-700/80"} text-white hover:cursor-pointer hover:text-white font-bold`}
           >
             {loading
-              ? resourceStatus !== "DELETED"
+              ? isNotDeleted
                 ? "Eliminando..."
                 : "Restaurando..."
-              : resourceStatus !== "DELETED"
-              ? "Eliminar"
-              : "Restaurar"}
+              : isNotDeleted
+              ? step === 1 ? "Eliminar" : "Confirmar eliminción"
+              : step === 1 ? "Restaurar" : "Confirmar restaurción"}
           </Button>
         </DialogFooter>
       </DialogContent>

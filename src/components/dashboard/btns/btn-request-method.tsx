@@ -5,14 +5,18 @@ interface IMethodsBtns {
   children: ReactNode;
   selectedType: "search" | "create" | "update" | "delete" | "secondary";
   variant?: "default" | "secondary";
+  isDisabled?: boolean;
   onClickAct?: () => void;
+  extraClassName: string;
 }
 
 export default function MethodsBtns({
   children,
   selectedType,
   variant = "default",
+  isDisabled,
   onClickAct,
+  extraClassName,
 }: IMethodsBtns) {
   const btnTypeMap = {
     search: "bg-method-get text-white hover:bg-method-get/80",
@@ -28,8 +32,9 @@ export default function MethodsBtns({
       type="submit"
       variant={variant}
       color="primary"
+      disabled={isDisabled}
       onClick={onClickAct}
-      className={`${btnType} sm:max-w-80 m-auto font-bold cursor-pointer`}
+      className={`${btnType} sm:max-w-80 m-auto font-bold cursor-pointer ${extraClassName}`}
     >
       {children}
     </Button>

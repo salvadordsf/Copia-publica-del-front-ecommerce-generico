@@ -30,17 +30,19 @@ export default function ArchiveDialog({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const isArchived = resourceStatus === "ARCHIVED";
+
   const handleConfirm = async () => {
     setLoading(true);
     try {
-      if (resourceStatus === "ARCHIVED") {
+      if (isArchived) {
         await onConfirmAction({ status: "ACTIVE" });
-      } else if (resourceStatus === "ACTIVE") {
+      } else if (!isArchived) {
         await onConfirmAction({ status: "ARCHIVED" });
       }
       toast.success(
         `${resourceType.toLocaleUpperCase()} "${resourceName}" ${
-          resourceStatus !== "ARCHIVED"
+          !isArchived
             ? "archivado correctamente."
             : "desarchivado correctamente"
         }`
@@ -48,11 +50,7 @@ export default function ArchiveDialog({
       setOpen(false);
     } catch {
       toast.error(
-        `${
-          resourceStatus !== "ARCHIVED"
-            ? "Error al archivar."
-            : "Error al desarchivar"
-        }`
+        `${!isArchived ? "Error al archivar." : "Error al desarchivar"}`
       );
     } finally {
       setLoading(false);
@@ -66,33 +64,47 @@ export default function ArchiveDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">
-          {resourceStatus !== "ARCHIVED" ? "Archivar" : "Desarchivar"}
+        <Button
+          variant="outline"
+          className="bg-black text-white hover:bg-black/80 hover:cursor-pointer hover:text-white font-bold"
+        >
+          {!isArchived ? "Archivar" : "Desarchivar"}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
             {`${
-              resourceStatus !== "ARCHIVED" ? "¿Archivar" : "¿Desarchivar"
+              !isArchived ? "¿Archivar" : "¿Desarchivar"
             } ${resourceType} "${resourceName}"?`}
           </DialogTitle>
           <DialogDescription>
-            {resourceStatus !== "ARCHIVED"
+            {!isArchived
               ? "El recurso quedará archivado y se podrá desarchivar en cualquier momento."
               : "El recurso quedará desarchivado y se podrá archivar en cualquier momento."}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="mt-4">
-          <Button variant="outline" onClick={handleCancel} disabled={loading}>
+          <Button
+            variant="outline"
+            onClick={handleCancel}
+            disabled={loading}
+            className="cursor-pointer"
+          >
             Cancelar
           </Button>
-          <Button variant="default" onClick={handleConfirm} disabled={loading}>
+          <Button
+            variant="default"
+            onClick={handleConfirm}
+            disabled={loading}
+            className={`bg-black hover:bg-black/80
+             text-white hover:cursor-pointer hover:text-white font-bold`}
+          >
             {loading
-              ? resourceStatus !== "ARCHIVED"
+              ? !isArchived
                 ? "Archivando..."
                 : "Desarchivando..."
-              : resourceStatus !== "ARCHIVED"
+              : !isArchived
               ? "Archivar"
               : "Desarchivar"}
           </Button>

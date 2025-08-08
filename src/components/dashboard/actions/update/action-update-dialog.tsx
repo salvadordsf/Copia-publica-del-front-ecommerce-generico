@@ -95,7 +95,7 @@ export default function UpdateDialog({
         <Button
           disabled={isDisabled}
           variant="outline"
-          className="bg-method-put text-white hover:bg-method-put/90 hover:cursor-pointer hover:text-white"
+          className="bg-method-put text-white hover:bg-method-put/90 hover:cursor-pointer hover:text-white font-bold"
           onClick={() => setStep(1)}
         >
           Actualizar
@@ -130,8 +130,8 @@ export default function UpdateDialog({
                 <div className="flex justify-end gap-2 mt-4">
                   {step > 1 && (
                     <Button
-                      className="font-bold cursor-pointer bg-neutral-200"
-                      variant="secondary"
+                      className="cursor-pointer"
+                      variant="outline"
                       onClick={() => handleSteps("prev")}
                     >
                       Anterior
