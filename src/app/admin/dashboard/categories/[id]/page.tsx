@@ -24,7 +24,7 @@ export default function IdCategoryPage() {
   const { id } = useParams();
   const router = useRouter();
   const { data: category, isLoading, isError } = useCategoryById(id as string);
-  const updateCategory = useUpdateCategory(category.id);
+  const updateCategory = useUpdateCategory(id as string);
   const deleteCategory = useDeleteCategory();
 
   if (isLoading) {
