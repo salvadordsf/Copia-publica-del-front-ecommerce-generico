@@ -14,6 +14,7 @@ import { FormProvider, UseFormReturn } from "react-hook-form";
 import { GenericFormField } from "../../form/generic-create-form/generic-create-form.types";
 import { toastError } from "@/utils/toast-error-utility";
 import { ReactNode, useEffect, useState } from "react";
+import ActionStepCounter from "../action-step-counter";
 
 interface IUpdateDialog {
   useFormMethods: UseFormReturn<any>;
@@ -88,7 +89,7 @@ export default function UpdateDialog({
       }
     }
   };
-  console.log(useFormMethods.formState.isDirty)
+  console.log(useFormMethods.formState.isDirty);
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
@@ -157,9 +158,7 @@ export default function UpdateDialog({
                     </Button>
                   )}
                 </div>
-                <div className="mr-5 mt-1 text-sm text-neutral-400">
-                  Paso {step - 1} / {stepCount}
-                </div>
+                <ActionStepCounter step={step - 1} stepCount={stepCount} />
               </div>
             </>
           )}

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ActionStepCounter from "../action-step-counter";
 
 interface ConfirmDeleteDialogProps {
   resourceStatus: "ACTIVE" | "ARCHIVED" | "DELETED";
@@ -68,9 +69,7 @@ export default function ConfirmDeleteDialog({
       setOpen(false);
     } catch {
       toast.error(
-        `Error al ${
-          isNotDeleted ? "eliminar" : "restaurar"
-        } el recurso.`
+        `Error al ${isNotDeleted ? "eliminar" : "restaurar"} el recurso.`
       );
     } finally {
       setLoading(false);
@@ -94,7 +93,11 @@ export default function ConfirmDeleteDialog({
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className={`${isNotDeleted ? "bg-red-700 hover:bg-red-700/80" : "bg-green-700 hover:bg-green-700/80"} text-white hover:cursor-pointer hover:text-white font-bold`}
+          className={`${
+            isNotDeleted
+              ? "bg-red-700 hover:bg-red-700/80"
+              : "bg-green-700 hover:bg-green-700/80"
+          } text-white hover:cursor-pointer hover:text-white font-bold`}
         >
           {isNotDeleted ? "Eliminar" : "Restaurar"}
         </Button>
@@ -126,9 +129,7 @@ export default function ConfirmDeleteDialog({
             value={confirmationText}
             onChange={(e) => setConfirmationText(e.target.value)}
             placeholder={
-              isNotDeleted
-                ? "escribí: eliminar"
-                : "escribí: restaurar"
+              isNotDeleted ? "escribí: eliminar" : "escribí: restaurar"
             }
             className="mt-2"
             disabled={loading}
@@ -136,23 +137,42 @@ export default function ConfirmDeleteDialog({
         )}
 
         <DialogFooter className="mt-4">
-          <Button variant="outline" onClick={handleCancel} disabled={loading} className="cursor-pointer">
-            Cancelar
-          </Button>
-          <Button
-            variant="default"
-            onClick={step === 1 ? handleFirstConfirm : handleFinalConfirm}
-            disabled={loading}
-            className={`${isNotDeleted ? "bg-red-700 hover:bg-red-700/80" : "bg-green-700 hover:bg-green-700/80"} text-white hover:cursor-pointer hover:text-white font-bold`}
-          >
-            {loading
-              ? isNotDeleted
-                ? "Eliminando..."
-                : "Restaurando..."
-              : isNotDeleted
-              ? step === 1 ? "Eliminar" : "Confirmar eliminción"
-              : step === 1 ? "Restaurar" : "Confirmar restaurción"}
-          </Button>
+          <div className="flex flex-col content-end items-end">
+            <div className="flex justify-end gap-2 mt-4">
+              <Button
+                variant="outline"
+                onClick={handleCancel}
+                disabled={loading}
+                className="cursor-pointer"
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="default"
+                onClick={step === 1 ? handleFirstConfirm : handleFinalConfirm}
+                disabled={loading}
+                className={`${
+                  isNotDeleted
+                    ? "bg-red-700 hover:bg-red-700/80"
+                    : "bg-green-700 hover:bg-green-700/80"
+                } text-white hover:cursor-pointer hover:text-white font-bold`}
+              >
+                {loading
+                  ? isNotDeleted
+                    ? "Eliminando..."
+                    : "Restaurando..."
+                  : isNotDeleted
+                  ? step === 1
+                    ? "Eliminar"
+                    : "Confirmar eliminción"
+                  : step === 1
+                  ? "Restaurar"
+                  : "Confirmar restaurción"}
+              </Button>
+            </div>
+
+            <ActionStepCounter step={step + 1} stepCount={2} />
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
