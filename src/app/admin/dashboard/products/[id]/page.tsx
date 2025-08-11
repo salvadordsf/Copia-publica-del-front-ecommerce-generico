@@ -14,7 +14,7 @@ import ResourceActionsHandler from "@/components/dashboard/actions/actions-handl
 export default function IdProductPage() {
   const { id } = useParams();
   const { data: product, isLoading, isError } = useProductById(id as string);
-  const updateProduct = useUpdateProduct(product.id);
+  const updateProduct = useUpdateProduct(id as string);
   const deleteProduct = useDeleteProducts();
 
   if (isLoading) {

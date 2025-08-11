@@ -2,8 +2,6 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useParams } from "next/navigation";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
-import { useRouter } from "next/navigation";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 import { useUserById } from "@/features/users/services/users-querys";
 import {
@@ -11,15 +9,13 @@ import {
   useUpdateUser,
 } from "@/features/users/services/users-mutations";
 import UpdateUserDialog from "@/features/users/components/update/user-update-dialog";
-import ArchiveDialog from "@/components/dashboard/actions/archive/action-archive-action";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 
 export default function IdUserPage() {
   const { id } = useParams();
   const { data: user, isLoading, isError } = useUserById(id as string);
   const deleteUser = useDeleteUser();
-  const updateUser = useUpdateUser(String(id));
-  const router = useRouter();
+  const updateUser = useUpdateUser(id as string);
 
   if (isLoading) {
     return (

@@ -24,7 +24,7 @@ import ResourceActionsHandler from "@/components/dashboard/actions/actions-handl
 export default function IdTagPage() {
   const { id } = useParams();
   const { data: tag, isLoading, isError } = useTagById(id as string);
-  const updateTag = useUpdateTag(tag.id);
+  const updateTag = useUpdateTag(id as string);
   const deleteTag = useDeleteTag();
 
   if (isLoading) {
