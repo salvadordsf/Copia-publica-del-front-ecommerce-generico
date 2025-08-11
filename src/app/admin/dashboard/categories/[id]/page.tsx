@@ -19,6 +19,8 @@ import {
 import UpdateCategoryDialog from "@/features/categories/components/update/categories-update-dialog";
 import UiDivider from "@/components/dashboard/divider/divider";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
+import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
+import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 
 export default function IdCategoryPage() {
   const { id } = useParams();
@@ -40,21 +42,22 @@ export default function IdCategoryPage() {
     return <p className="pt-8">Error al cargar la categoría.</p>;
 
   return (
-    <div className="-translate-x-2 sm:-translate-0">
+    <>
       <div className="pt-5 space-y-6">
-        {/* Metacategory */}
-        <main>
-          <h1 className="text-2xl font-bold capitalize">{category.name}</h1>
-          <div className="flex flex-col italic text-sm text-muted-foreground">
-            <span>
-              Creada el: {new Date(category.createdAt).toLocaleString()}
-            </span>
-            <span>
-              Última actualización:{" "}
-              {new Date(category.updatedAt).toLocaleString()}
-            </span>
-          </div>
-        </main>
+        <ResourceNameDate resource={category} />
+
+        <ResourceProperties
+          properties={[
+            { key: "Cant. productos", value: category.products.length },
+            {
+              key: "Cant. subcategorías",
+              value: category.subcategories.length,
+            },
+          ]}
+          optionals={{
+            status: { include: true, resourceStatus: category.status },
+          }}
+        />
 
         {/* Action btns */}
         <ResourceActionsHandler
@@ -154,6 +157,6 @@ export default function IdCategoryPage() {
           )}
         </section>
       </div>
-    </div>
+    </>
   );
 }

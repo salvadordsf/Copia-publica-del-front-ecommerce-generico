@@ -10,6 +10,7 @@ import {
 } from "@/features/users/services/users-mutations";
 import UpdateUserDialog from "@/features/users/components/update/user-update-dialog";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
+import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 
 export default function IdUserPage() {
   const { id } = useParams();
@@ -25,7 +26,6 @@ export default function IdUserPage() {
       </div>
     );
   }
-  console.log(user);
 
   if (isError || !user)
     return <p className="pt-8">Error al cargar el usuario.</p>;
@@ -33,6 +33,8 @@ export default function IdUserPage() {
   return (
     <>
       <div className="pt-5 space-y-6">
+        <ResourceNameDate resource={user} />
+
         <ResourceProperties
           properties={[
             { key: "Nombre", value: user.name },
