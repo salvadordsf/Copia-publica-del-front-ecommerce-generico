@@ -1,6 +1,8 @@
 import { TResourceStatus } from "@/types/resources/resource-status.types";
 import ResourceStatus from "../resource-status/resource-status-resource";
 import ResourcePropertie from "./resource-properti";
+import { TUserRoles } from "@/types/roles/users-roles.types";
+import ResourceUserRole from "../resource-user-role/resource-user-role";
 
 interface IResourceProperties {
   properties: { key: string; value: string }[];
@@ -8,6 +10,10 @@ interface IResourceProperties {
     status?: {
       include: boolean;
       resourceStatus: TResourceStatus;
+    };
+    role?: {
+      include: boolean;
+      userRole: TUserRoles;
     };
     tags?: {
       include: boolean;
@@ -24,7 +30,11 @@ export default function ResourceProperties({
     <div className="flex flex-col gap-4 mt-4">
       {/*Resource properties*/}
       {properties.map((prop) => (
-        <ResourcePropertie key={prop.key} value={prop.value} resourcekey={prop.key}/>
+        <ResourcePropertie
+          key={prop.key}
+          value={prop.value}
+          resourcekey={prop.key}
+        />
       ))}
 
       {/*Tags*/}
@@ -45,6 +55,11 @@ export default function ResourceProperties({
             ))}
           </div>
         </div>
+      )}
+
+      {/*User Role*/}
+      {optionals && optionals.role && optionals.role?.include && (
+        <ResourceUserRole role={optionals.role.userRole} />
       )}
 
       {/*Status*/}

@@ -1,8 +1,6 @@
 import { TUserRoles } from "@/types/roles/users-roles.types";
 
-export default function ResourceUserRolePil({
-  role,
-}: {role: TUserRoles}) {
+export default function ResourceUserRolePil({ role }: { role: TUserRoles }) {
   const roleMap = {
     USER: {
       color: "border-neutral-400 text-neutral-600 bg-neutral-200",
@@ -21,7 +19,7 @@ export default function ResourceUserRolePil({
 
   return (
     <div
-      className={`px-3 w-30 border-1 shadow rounded-3xl text-center ${config.color}`}
+      className={`px-3 min-w-30 border-1 shadow rounded-3xl text-center ${config.color}`}
     >
       {config.text}
     </div>

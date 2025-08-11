@@ -37,9 +37,9 @@ export default function IdUserPage() {
           properties={[
             { key: "Nombre", value: user.name },
             { key: "Email", value: user.email },
-            { key: "Rol", value: user.role },
           ]}
           optionals={{
+            role: { include: true, userRole: user.role },
             status: { include: true, resourceStatus: user.status },
           }}
         />
