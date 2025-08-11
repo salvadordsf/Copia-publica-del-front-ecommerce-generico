@@ -27,14 +27,21 @@ export type ICreateProduct = z.infer<typeof CreateProductSchema>;
 export const UpdateProductSchema = CreateProductSchema.partial();
 export type IUpdateProduct = z.infer<typeof UpdateProductSchema>;
 
-export const ReassignProductsSchema = z.array(
-  z.object({
-    productId: UuidSchema,
-    categoryId: UuidSchema,
-    subcategoryId: UuidSchema,
-  })
-);
-export type IReassignProducts = z.infer<typeof ReassignProductsSchema>;
+export const ReassignProductsSchema = z.object({
+  items: z.array(
+    z.object({
+      productId: UuidSchema,
+      categoryId: UuidSchema,
+      subcategoryId: UuidSchema,
+    })
+  ),
+});
+
+export type IReassignProducts = {
+  productId: string;
+  categoryId: string;
+  subcategoryId: string;
+}[];
 
 export const GetProductsQuerySchema = z
   .object({

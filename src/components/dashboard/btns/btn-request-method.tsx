@@ -7,7 +7,7 @@ interface IMethodsBtns {
   variant?: "default" | "secondary";
   isDisabled?: boolean;
   onClickAct?: () => void;
-  extraClassName: string;
+  extraClassName?: string;
 }
 
 export default function MethodsBtns({
@@ -34,7 +34,7 @@ export default function MethodsBtns({
       color="primary"
       disabled={isDisabled}
       onClick={onClickAct}
-      className={`${btnType} sm:max-w-80 m-auto font-bold cursor-pointer ${extraClassName}`}
+      className={`${btnType} sm:max-w-80 m-auto font-bold cursor-pointer ${extraClassName && extraClassName}`}
     >
       {children}
     </Button>

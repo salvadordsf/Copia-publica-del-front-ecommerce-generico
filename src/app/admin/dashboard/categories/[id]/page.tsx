@@ -21,6 +21,7 @@ import UiDivider from "@/components/dashboard/divider/divider";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
+import MigrateProduct from "@/features/products/components/update/migration/products-update-migration-dialog";
 
 export default function IdCategoryPage() {
   const { id } = useParams();
@@ -157,6 +158,10 @@ export default function IdCategoryPage() {
           )}
         </section>
       </div>
+
+
+        {/* MIGRATION TEST FORM */}
+      {category && category.products?.length > 0 && <MigrateProduct products={category.products}/>}
     </>
   );
 }

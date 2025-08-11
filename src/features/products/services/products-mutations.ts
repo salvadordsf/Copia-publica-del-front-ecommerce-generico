@@ -36,6 +36,10 @@ export const useReassignProducts = () => {
     mutationFn: (data: IReassignProducts) => reassignProducts(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["category"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["subcategory"] });
+      queryClient.invalidateQueries({ queryKey: ["subcategories"] });
     },
   });
 };
