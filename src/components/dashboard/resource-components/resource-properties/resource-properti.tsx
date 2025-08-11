@@ -10,7 +10,7 @@ export default function ResourcePropertie({
   return (
     <div className={`flex ${value.length >= 100 && "flex-col"} wrap-normal`}>
       <h3 className="font-semibold">{resourcekey}</h3>
-      <p className="indent-4 italic">{value}</p>
+      <p className="max-w-lg wrap-anywhere indent-4 italic">{value}</p>
     </div>
   );
 }
