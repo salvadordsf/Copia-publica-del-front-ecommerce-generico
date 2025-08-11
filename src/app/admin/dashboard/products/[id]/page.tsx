@@ -10,6 +10,7 @@ import {
 import UpdateProductDialog from "@/features/products/components/update/products-update-dialog";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
+import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 
 export default function IdProductPage() {
   const { id } = useParams();
@@ -32,6 +33,7 @@ export default function IdProductPage() {
   return (
     <>
       <div className="pt-5 space-y-6">
+        <ResourceNameDate resource={product} />
         <ResourceProperties
           properties={[
             { key: "Nombre", value: product.name },

@@ -5,7 +5,7 @@ import { TUserRoles } from "@/types/roles/users-roles.types";
 import ResourceUserRole from "../resource-user-role/resource-user-role";
 
 interface IResourceProperties {
-  properties: { key: string; value: string }[];
+  properties?: { key: string; value: string }[];
   optionals?: {
     status?: {
       include: boolean;
@@ -29,7 +29,7 @@ export default function ResourceProperties({
   return (
     <div className="flex flex-col gap-4 mt-4">
       {/*Resource properties*/}
-      {properties.map((prop) => (
+      {properties && properties.map((prop) => (
         <ResourcePropertie
           key={prop.key}
           value={prop.value}

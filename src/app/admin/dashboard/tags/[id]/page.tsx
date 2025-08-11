@@ -20,6 +20,8 @@ import {
 import UiDivider from "@/components/dashboard/divider/divider";
 import ResourceStatus from "@/components/dashboard/resource-components/resource-status/resource-status-resource";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
+import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
+import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 
 export default function IdTagPage() {
   const { id } = useParams();
@@ -41,20 +43,13 @@ export default function IdTagPage() {
   return (
     <>
       <div className="pt-5 space-y-6">
-        {/* Metatag */}
-        <main>
-          <h1 className="text-2xl font-bold capitalize">{tag.name}</h1>
-          <div className="flex flex-col italic text-sm text-muted-foreground">
-            <span>
-              Creada el: {new Date(tag.createdAt).toLocaleDateString()}
-            </span>
-            <span>
-              Última actualización:{" "}
-              {new Date(tag.updatedAt).toLocaleDateString()}
-            </span>
-          </div>
-          <ResourceStatus status={tag.status} />
-        </main>
+        <ResourceNameDate resource={tag} />
+        <ResourceProperties
+          properties={[{ key: "Cant. productos", value: tag.products.length }]}
+          optionals={{
+            status: { include: true, resourceStatus: tag.status },
+          }}
+        />
 
         {/* Action btns */}
         <ResourceActionsHandler

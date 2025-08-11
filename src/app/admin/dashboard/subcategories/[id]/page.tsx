@@ -22,6 +22,8 @@ import {
 import Link from "next/link";
 import UpdateSubcategoryDialog from "@/features/subcategories/components/update/subcategories-update-dialog";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
+import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
+import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 
 export default function IdSubcategoryPage() {
   const { id } = useParams();
@@ -46,21 +48,19 @@ export default function IdSubcategoryPage() {
     return <p className="pt-8">Error al cargar la subcategoría.</p>;
 
   return (
-    <div className="-translate-x-2 sm:-translate-0">
+    <>
       <div className="pt-5 space-y-6">
-        {/* Metasubcategory */}
-        <main>
-          <h1 className="text-2xl font-bold capitalize">{subcategory.name}</h1>
-          <div className="flex flex-col italic text-sm text-muted-foreground">
-            <span>
-              Creada el: {new Date(subcategory.createdAt).toLocaleString()}
-            </span>
-            <span>
-              Última actualización:{" "}
-              {new Date(subcategory.updatedAt).toLocaleString()}
-            </span>
-          </div>
-        </main>
+        <ResourceNameDate resource={subcategory} />
+
+        <ResourceProperties
+          properties={[
+            { key: "Categoría", value: subcategory.category.name },
+            { key: "Cant. productos", value: subcategory.products.length },
+          ]}
+          optionals={{
+            status: { include: true, resourceStatus: subcategory.status },
+          }}
+        />
 
         {/* Action btns */}
         <ResourceActionsHandler
@@ -132,6 +132,6 @@ export default function IdSubcategoryPage() {
           )}
         </section>
       </div>
-    </div>
+    </>
   );
 }
