@@ -36,6 +36,7 @@ export const ReassignProductsSchema = z.object({
     })
   ),
 });
+export type ReassignProductsFormRes = z.infer<typeof ReassignProductsSchema>
 
 export type IReassignProducts = {
   productId: string;

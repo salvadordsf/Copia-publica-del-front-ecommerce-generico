@@ -1,167 +1,191 @@
-"use client";
-
-import { useForm, useFieldArray } from "react-hook-form";
+import { useCategories } from "@/features/categories/services/categories-querys";
+import {
+  ReassignProductsFormRes,
+  ReassignProductsSchema,
+} from "@/features/products/schemas/products-schemas";
+import { useReassignProducts } from "@/features/products/services/products-mutations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
-import {
-  IReassignProducts,
-  ReassignProductsSchema,
-} from "../../../schemas/products-schemas";
-import { useCategories } from "@/features/categories/services/categories-querys";
-import { useReassignProducts } from "@/features/products/services/products-mutations";
+import { useEffect } from "react";
 
-interface Props {
-  products: {
-    id: string;
-    name: string;
-    categoryId?: string;
-    subcategoryId?: string;
-  }[];
+interface IProductsObject {
+  id: string;
+  name: string;
+  categoryId?: string;
+  subcategoryId?: string;
 }
 
-type FormValues = {
-  items: {
-    productId: string;
-    categoryId: string;
-    subcategoryId: string;
-  }[];
-};
+interface IMigrateProductsProps {
+  products: IProductsObject[];
+}
 
-export default function MigrateProduct({ products }: Props) {
-  const { data: categories, isLoading: isLoadingCategories, isError: getCategoriesError } = useCategories({ subcategories: true });
+export default function MigrateProducts({ products }: IMigrateProductsProps) {
+  //Querys + mutations hooks
+  //Get categories
+  const {
+    data: categories,
+    isLoading: isLoadingCategories,
+    isError: getCategoriesError,
+  } = useCategories({ subcategories: true });
+  //get migration feature
   const { mutateAsync } = useReassignProducts();
 
-  // Initialize form default values with mapped products
-  const defaultValues: FormValues = {
-    items: products.map((p) => ({
-      productId: p.id,
-      categoryId: p.categoryId || (categories?.[0]?.id || ""),
-      subcategoryId: p.subcategoryId || "",
-    })),
+  //React hook form hooks + defaultValues
+  //React hook form default values for the first render
+  const defaultValues = {
+    items: products.map((product: IProductsObject) => {
+      return {
+        productId: product.id,
+        categoryId: product?.categoryId || "",
+        subcategoryId: product?.subcategoryId || "",
+      };
+    }),
   };
-
+  //React hook form useForm
   const {
-    control,
     register,
-    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
     watch,
     setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<FormValues>({
+    handleSubmit,
+    reset,
+  } = useForm({
     resolver: zodResolver(ReassignProductsSchema),
     defaultValues,
   });
-
-  // Manage dynamic array of products in the form
+  // Reset form values when products prop changes
+  useEffect(() => {
+    reset({
+      items: products.map((product) => ({
+        productId: product.id,
+        categoryId: product?.categoryId || "",
+        subcategoryId: product?.subcategoryId || "",
+      })),
+    });
+  }, [products, reset]);
+  //React hook form useFieldArray
   const { fields } = useFieldArray({
     control,
     name: "items",
   });
 
-  // Watch changes on the form items to update category-dependent subcategories
+  //Watch the fields changes for update avaliable subcategorys
   const watchedItems = watch("items");
 
-  const onSubmit = async (data: FormValues) => {
+  //On submit function
+  const onSubmit = async (data: ReassignProductsFormRes) => {
     try {
-      // Data is correctly formatted: array with productId, categoryId, subcategoryId
       await mutateAsync(data.items);
       toast.success("Products updated successfully.");
+      reset(defaultValues);
     } catch (error) {
       toastError(error as AxiosError, "general");
     }
   };
 
+  //Render loadings for getCategories
   if (isLoadingCategories) return <div>Loading categories...</div>;
   if (getCategoriesError) return <div>Error loading categories</div>;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-3xl mx-auto">
-      {fields.map((field, index) => {
-        const currentCategoryId = watchedItems?.[index]?.categoryId || "";
-        const currentSubcategories =
-          categories?.find((cat: any) => cat.id === currentCategoryId)?.subcategories || [];
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6 max-w-3xl mx-auto"
+    >
+      {fields.map((field, idx) => {
+        //Get the current field category id selected
+        const currentFieldCategoryId = watchedItems[idx]?.categoryId || "";
+        // Find the currently selected category in the categories array to get its subcategories
+        const avaliableFieldSubcategories =
+          categories.find(
+            (category: any) => category.id === currentFieldCategoryId
+          )?.subcategories || [];
 
         return (
           <div
             key={field.id}
             className="flex flex-col sm:flex-row sm:items-center gap-4 border-b border-gray-300 pb-4"
           >
-            {/* Product name */}
-            <div className="w-full sm:w-1/3 font-semibold">{products[index]?.name}</div>
-
-            {/* Category select */}
-            <div className="w-full sm:w-1/3 flex flex-col">
-              <label htmlFor={`items.${index}.categoryId`} className="text-sm text-gray-600 mb-1">
-                Category
-              </label>
-              <select
-                id={`items.${index}.categoryId`}
-                {...register(`items.${index}.categoryId` as const)}
-                className="border rounded px-2 py-1 text-sm"
-                onChange={(e) => {
-                  const newCatId = e.target.value;
-                  setValue(`items.${index}.categoryId`, newCatId);
-
-                  // When category changes, set subcategory to first child or empty
-                  const subs = categories?.find((c: any) => c.id === newCatId)?.subcategories || [];
-                  setValue(`items.${index}.subcategoryId`, subs.length > 0 ? subs[0].id : "");
-                }}
-              >
-                {categories?.map((cat: any) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
-              </select>
-              {errors.items?.[index]?.categoryId && (
-                <p className="text-red-600 text-xs mt-1">{errors.items[index].categoryId?.message}</p>
-              )}
+            {/*Product name*/}
+            <div className="w-full sm:w-1/3 font-semibold">
+              {products[idx]?.name}
             </div>
 
-            {/* Subcategory select */}
+            {/*Category*/}
             <div className="w-full sm:w-1/3 flex flex-col">
-              <label htmlFor={`items.${index}.subcategoryId`} className="text-sm text-gray-600 mb-1">
-                Subcategory
+              <label
+                htmlFor={`items.${idx}.categoryId`}
+                className="text-sm text-gray-600 mb-1"
+              >
+                Categoría
+                <select
+                  id={`items.${idx}.categoryId`}
+                  {...register(`items.${idx}.categoryId`)}
+                  onChange={(evt) => {
+                    const newCurrentFieldCategoryId = evt.target.value;
+                    setValue(
+                      `items.${idx}.categoryId`,
+                      newCurrentFieldCategoryId
+                    );
+
+                    // When category changes, set subcategory to first child or empty
+                    setValue(
+                      `items.${idx}.subcategoryId`,
+                      categories.find(
+                        (category: any) =>
+                          category.id === newCurrentFieldCategoryId
+                      ).subcategories[0]?.id || ""
+                    );
+                  }}
+                  className="border rounded px-2 py-1 text-sm"
+                >
+                  {categories.map((category: any) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            {/*Subcategory*/}
+            <div>
+              <label
+                htmlFor={`items.${idx}.subcategoryId`}
+                className="text-sm text-gray-600 mb-1"
+              >
+                Subcategoría
               </label>
               <select
-                id={`items.${index}.subcategoryId`}
-                {...register(`items.${index}.subcategoryId` as const)}
+                id={`items.${idx}.subcategoryId`}
+                {...register(`items.${idx}.subcategoryId`)}
+                disabled={avaliableFieldSubcategories.length === 0}
                 className="border rounded px-2 py-1 text-sm"
-                disabled={currentSubcategories.length === 0}
               >
-                {currentSubcategories.length > 0 ? (
-                  currentSubcategories.map((sub: any) => (
-                    <option key={sub.id} value={sub.id}>
-                      {sub.name}
+                {avaliableFieldSubcategories.length > 0 ? (
+                  avaliableFieldSubcategories.map((subcategory: any) => (
+                    <option key={subcategory.id} value={subcategory.id}>
+                      {subcategory.name}
                     </option>
                   ))
                 ) : (
-                  <option value="">No subcategories</option>
+                  <option value="">No hay subcategoría</option>
                 )}
               </select>
-              {errors.items?.[index]?.subcategoryId && (
-                <p className="text-red-600 text-xs mt-1">{errors.items[index].subcategoryId?.message}</p>
-              )}
             </div>
-
-            {/* Hidden input for productId */}
-            <input
-              type="hidden"
-              {...register(`items.${index}.productId` as const)}
-              value={field.productId}
-            />
           </div>
         );
       })}
-
       <button
         type="submit"
-        disabled={isSubmitting}
         className="px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+        disabled={isSubmitting}
       >
-        Save changes
+        Completar migración
       </button>
     </form>
   );
