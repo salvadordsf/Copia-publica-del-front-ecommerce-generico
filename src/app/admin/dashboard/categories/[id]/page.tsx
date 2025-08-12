@@ -160,8 +160,8 @@ export default function IdCategoryPage() {
       </div>
 
 
-        {/* MIGRATION TEST FORM */}
-      {category && category.products?.length > 0 && <MigrateProducts products={category.products}/>}
+        {/* MIGRATION TEST FORM
+      {category && category.products?.length > 0 && <MigrateProducts products={category.products}/>} */}
     </>
   );
 }
