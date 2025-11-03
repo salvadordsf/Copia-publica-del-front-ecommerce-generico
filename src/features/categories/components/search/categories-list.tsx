@@ -22,7 +22,7 @@ export default function CategoryList({ query }: Props) {
   const router = useRouter();
 
   const {
-    data: categories,
+    data: { success, data: categories} = {},
     isLoading,
     isError,
   } = useCategories({
@@ -30,7 +30,7 @@ export default function CategoryList({ query }: Props) {
     subcategories: query.subcategories ? query.subcategories : undefined,
     products: query.products ? query.products : undefined,
   });
-
+  
   if (isLoading) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -64,7 +64,7 @@ export default function CategoryList({ query }: Props) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {categories.map((category: any) => (
+        {success && categories.map((category: any) => (
           <TableRow
             key={category.id}
             onClick={() =>

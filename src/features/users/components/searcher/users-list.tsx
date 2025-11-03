@@ -13,7 +13,11 @@ export default function UserList() {
 
   const router = useRouter();
 
-  const { data: users, isLoading, isError } = useUsers(filters);
+  const {
+    data: { success, data: users } = {},
+    isLoading,
+    isError,
+  } = useUsers(filters);
 
   if (isLoading) {
     return (

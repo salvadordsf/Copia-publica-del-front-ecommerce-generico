@@ -14,7 +14,11 @@ import ResourceNameDate from "@/components/dashboard/resource-components/resourc
 
 export default function IdProductPage() {
   const { id } = useParams();
-  const { data: product, isLoading, isError } = useProductById(id as string);
+  const {
+    data: { success, data: product } = {},
+    isLoading,
+    isError,
+  } = useProductById(id as string);
   const updateProduct = useUpdateProduct(id as string);
   const deleteProduct = useDeleteProducts();
 

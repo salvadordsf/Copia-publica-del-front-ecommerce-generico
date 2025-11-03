@@ -21,7 +21,7 @@ interface Props {
 
 export default function UpdateProductDialog({ product }: Props) {
   const {
-    data: categories,
+    data: { success, data: categories} = {},
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });

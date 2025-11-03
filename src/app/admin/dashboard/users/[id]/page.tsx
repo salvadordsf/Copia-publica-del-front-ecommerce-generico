@@ -14,7 +14,11 @@ import ResourceNameDate from "@/components/dashboard/resource-components/resourc
 
 export default function IdUserPage() {
   const { id } = useParams();
-  const { data: user, isLoading, isError } = useUserById(id as string);
+  const {
+    data: { success, data: user } = {},
+    isLoading,
+    isError,
+  } = useUserById(id as string);
   const deleteUser = useDeleteUser();
   const updateUser = useUpdateUser(id as string);
 

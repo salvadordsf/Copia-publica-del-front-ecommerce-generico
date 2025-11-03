@@ -14,7 +14,7 @@ export default function ProductSearchFilters() {
   const { setFilters, resetFilters } = useProductsSearchFilters();
 
   const {
-    data: categories,
+    data: { success, data: categories} = {},
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });

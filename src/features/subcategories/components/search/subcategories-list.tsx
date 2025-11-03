@@ -22,7 +22,7 @@ export default function SubcategoryList({ query }: Props) {
   const router = useRouter();
 
   const {
-    data: subcategory,
+    data: { success, data: subcategory} = {},
     isLoading,
     isError,
   } = useSubcategories({

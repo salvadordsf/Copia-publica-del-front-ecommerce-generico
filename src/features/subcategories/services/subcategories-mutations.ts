@@ -8,6 +8,7 @@ export const useCreateSubcategory = () => {
     mutationFn: (data: ICreateSubcategory) => createSubcategory(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["subcategories"] });
     },
   });
 };

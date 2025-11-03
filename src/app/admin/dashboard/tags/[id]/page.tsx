@@ -25,7 +25,11 @@ import ResourceProperties from "@/components/dashboard/resource-components/resou
 
 export default function IdTagPage() {
   const { id } = useParams();
-  const { data: tag, isLoading, isError } = useTagById(id as string);
+  const {
+    data: { success, data: tag } = {},
+    isLoading,
+    isError,
+  } = useTagById(id as string);
   const updateTag = useUpdateTag(id as string);
   const deleteTag = useDeleteTag();
 

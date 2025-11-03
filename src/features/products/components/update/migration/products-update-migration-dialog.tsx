@@ -26,7 +26,7 @@ export default function MigrateProducts({ products }: IMigrateProductsProps) {
   //Querys + mutations hooks
   //Get categories
   const {
-    data: categories,
+    data: { success, data: categories} = {},
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });

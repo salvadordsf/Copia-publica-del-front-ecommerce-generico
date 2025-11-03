@@ -14,7 +14,7 @@ import { CreateProductSchema, ICreateProduct } from "../../schemas/products-sche
 export default function CreateProductForm() {
   
   const {
-    data: categories,
+    data: { success, data: categories},
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({subcategories: true});

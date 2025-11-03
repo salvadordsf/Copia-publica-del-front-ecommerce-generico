@@ -29,7 +29,7 @@ export default function UpdateSubcategoryDialog({
 }: Props) {
   //Get categories for select
   let {
-    data: categories,
+    data: { success, data: categories} = {},
     isLoading,
     isError: isErrorGetCategories,
   } = useCategories({});

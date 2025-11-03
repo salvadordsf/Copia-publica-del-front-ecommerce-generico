@@ -22,7 +22,11 @@ export default function ProductList() {
 
   const router = useRouter();
 
-  const { data: products, isLoading, isError } = useProducts(filters);
+  const {
+    data: { success, data: products } = {},
+    isLoading,
+    isError,
+  } = useProducts(filters);
 
   if (isLoading) {
     return (

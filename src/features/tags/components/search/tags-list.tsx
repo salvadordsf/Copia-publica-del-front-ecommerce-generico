@@ -22,7 +22,7 @@ export default function TagList({ query }: Props) {
   const router = useRouter();
 
   const {
-    data: tags,
+    data: { success, data: tags} = {},
     isLoading,
     isError,
   } = useTags({

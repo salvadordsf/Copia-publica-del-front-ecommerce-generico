@@ -13,7 +13,7 @@ import { AxiosError } from "axios";
 export default function CreateSubcategoryForm() {
   
   const {
-    data: categories,
+    data: { success, data: categories} = {},
     isLoading,
     isError: getCategoryError,
   } = useCategories({});
@@ -59,8 +59,7 @@ export default function CreateSubcategoryForm() {
           },
         ]}
         submitButtonText="Crear subcategoría"
-        submitButtonBgColor="method-post"
-				submitButtonTextColor="neutral-700"
+        submitButtonType="create"
         onSubmitAction={onSubmit}
         isError={isError}
         serverError={error}

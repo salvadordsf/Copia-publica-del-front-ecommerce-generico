@@ -26,7 +26,11 @@ import MigrateProducts from "@/features/products/components/update/migration/pro
 export default function IdCategoryPage() {
   const { id } = useParams();
   const router = useRouter();
-  const { data: category, isLoading, isError } = useCategoryById(id as string);
+  const {
+    data: { success, data: category } = {},
+    isLoading,
+    isError,
+  } = useCategoryById(id as string);
   const updateCategory = useUpdateCategory(id as string);
   const deleteCategory = useDeleteCategory();
 

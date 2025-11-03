@@ -28,7 +28,7 @@ import ResourceProperties from "@/components/dashboard/resource-components/resou
 export default function IdSubcategoryPage() {
   const { id } = useParams();
   const {
-    data: subcategory,
+    data: { success, data: subcategory } = {},
     isLoading,
     isError,
   } = useSubcategoryById(id as string);
