@@ -1,7 +1,10 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useDeleteTag, useToggleCreateTag } from "../../services/tags-mutations";
+import {
+  useDeleteTag,
+  useToggleCreateTag,
+} from "../../services/tags-mutations";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { toastError } from "@/utils/toast-error-utility";
@@ -20,7 +23,6 @@ export default function ToggleCreateTagInput({
   value,
   onChangeAction,
 }: IToggleCreateTag) {
-
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [tagValues, setTagValues] = useState<any[]>(initialValue);
@@ -35,34 +37,58 @@ export default function ToggleCreateTagInput({
       { name },
       {
         onSettled(data) {
-          const { success, data: tag } = data;
+          const {
+            success,
+            data: { tag, prev_status },
+          } = data;
+          console.log("DATA: ", data)
+          console.log("DATA.DATA.TAG: ", tag)
+          console.log("DATA.DATA.PREV: ", prev_status)
           if (tag._count.products > 0) {
-            if (tag.status === "ARCHIVED") {
-              toast.warning("Atención ⚠️: Etiqueta desarchivada con productos", {
-                description: `La etiqueta "${tag.name}" estaba archivada y se desarchivo. Recuerde gestionar los productos ya asociados con anterioridad.`,
-                action: {
-                  label: "Gestionar",
-                  onClick: () => window.open(`/tags/${tag.id}`, "_blank", "noopener,noreferrer"),
-                },
-                duration: 8000,
-              });
-            } else if (tag.status === "DELETED") {
-              toast.warning("Atención ⚠️: Etiqueta reestablecida con productos", {
-                description: `La etiqueta "${tag.name}" estaba eliminada y se reestableció. Recuerde gestionar los productos ya asociados con anterioridad.`,
-                action: {
-                  label: "Gestionar",
-                  onClick: () => window.open(`/tags/${tag.id}`, "_blank", "noopener,noreferrer"),
-                },
-                duration: 8000,
-              });
+            if (prev_status === "ARCHIVED") {
+              toast.warning(
+                "Atención ⚠️: Etiqueta desarchivada con productos",
+                {
+                  description: `La etiqueta "${tag.name}" estaba ARCHIVADA y se DESARCHIVÓ. Recuerde gestionar los productos ya asociados con anterioridad.`,
+                  action: {
+                    label: "Gestionar",
+                    onClick: () =>
+                      window.open(
+                        `/admin/dashboard/tags/${tag.id}`,
+                        "_blank",
+                        "noopener,noreferrer"
+                      ),
+                  },
+                  duration: 8000,
+                }
+              );
+            } else if (prev_status === "DELETED") {
+              toast.warning(
+                "Atención ⚠️: Etiqueta reestablecida con productos",
+                {
+                  description: `La etiqueta "${tag.name}" estaba ELIMINADA y se REESTABLECIÓ. Recuerde gestionar los productos ya asociados con anterioridad.`,
+                  action: {
+                    label: "Gestionar",
+                    onClick: () =>
+                      window.open(
+                        `/admin/dashboard/tags/${tag.id}`,
+                        "_blank",
+                        "noopener,noreferrer"
+                      ),
+                  },
+                  duration: 8000,
+                }
+              );
             }
-
           }
         },
         onSuccess: (data) => {
-          const { success, data: tag } = data;
-          console.log(tag)
-          const exists = tagValues.some(t => t.id === tag.id);
+          const {
+            success,
+            data: { tag, prev_status },
+          } = data;
+          console.log(tag);
+          const exists = tagValues.some((t) => t.id === tag.id);
           if (exists) {
             toast.info(`La etiqueta "${tag.name}" ya está en uso.`);
             return;
@@ -72,9 +98,10 @@ export default function ToggleCreateTagInput({
           onChangeAction([...value, tag.id]);
           setTagValues((prev) => [...prev, tag]);
           setInputValue("");
-          console.log(value, tagValues)
+          console.log(value, tagValues);
         },
         onError: (e) => {
+          console.error(e);
           toastError(e as AxiosError, "general");
         },
       }
@@ -82,10 +109,10 @@ export default function ToggleCreateTagInput({
   };
 
   const removeTag = (tagToRemove: any) => {
-    console.log(tagToRemove)
+    console.log(tagToRemove);
     onChangeAction(value.filter((tagId) => tagId !== tagToRemove.id));
-    setTagValues(prev => prev.filter((tag) => tag.id !== tagToRemove.id))
-    if (tagToRemove._count.products <= 1) {
+    setTagValues((prev) => prev.filter((tag) => tag.id !== tagToRemove.id));
+    if (tagToRemove._count.products <= 0) {
       deleteMutate(tagToRemove.id);
     }
   };
@@ -101,31 +128,33 @@ export default function ToggleCreateTagInput({
           aria-label="Nombre de la etiqueta"
         />
         <Button
-        type="button"
-        className="cursor-pointer"
-        disabled={isLoading}
-        onClick={() => {
-          setIsLoading(true);
-          addTag(inputValue).finally(() => setIsLoading(false));
-        }}
+          type="button"
+          className="cursor-pointer"
+          disabled={isLoading}
+          onClick={() => {
+            setIsLoading(true);
+            addTag(inputValue).finally(() => setIsLoading(false));
+          }}
         >
           {isLoading ? "Agregando..." : "Agregar etiqueta"}
         </Button>
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {tagValues && tagValues.length > 0 && tagValues.map((tag) => (
-          <div
-            key={tag.id}
-            className="bg-gray-200 px-2 py-1 rounded flex items-center gap-1"
-          >
-            <span>{tag.name}</span>
-            <X
-              onClick={() => removeTag(tag)}
-              className="w-4 h-4 cursor-pointer"
-            />
-          </div>
-        ))}
+        {tagValues &&
+          tagValues.length > 0 &&
+          tagValues.map((tag) => (
+            <div
+              key={tag.id}
+              className="bg-gray-200 px-2 py-1 rounded flex items-center gap-1"
+            >
+              <span>{tag.name}</span>
+              <X
+                onClick={() => removeTag(tag)}
+                className="w-4 h-4 cursor-pointer"
+              />
+            </div>
+          ))}
       </div>
     </div>
   );
