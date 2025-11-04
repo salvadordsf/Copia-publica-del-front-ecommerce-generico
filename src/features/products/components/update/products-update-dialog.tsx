@@ -21,7 +21,7 @@ interface Props {
 
 export default function UpdateProductDialog({ product }: Props) {
   const {
-    data: { success, data: categories} = {},
+    data: { success, data: categories } = {},
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
@@ -49,7 +49,6 @@ export default function UpdateProductDialog({ product }: Props) {
       stock: product.stock,
       categoryId: product.categoryId,
       subcategoryId: product.subcategoryId,
-      tagsAry: product.tagsAry,
       relevance: product.relevance,
     },
   });
@@ -65,7 +64,7 @@ export default function UpdateProductDialog({ product }: Props) {
       setOpen(false);
     }
   };
-  console.log(product.tags);
+
   if (isLoadingCategories) return <div>Loading categories...</div>;
   if (getCategoriesError) return <div>Error al obtener categorías</div>;
   return (
@@ -136,13 +135,6 @@ export default function UpdateProductDialog({ product }: Props) {
           }),
           defaultValue: product.subcategoryId,
           className: "col-start-2 row-start-4",
-        },
-        {
-          name: "tagsAry",
-          label: "Agregar etiquetas",
-          type: "toggle tag",
-          className: "col-start-1 col-end-3 row-start-5",
-          defaultValue: product.tags,
         },
         {
           name: "relevance",

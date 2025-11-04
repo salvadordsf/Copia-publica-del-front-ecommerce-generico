@@ -11,6 +11,7 @@ import UpdateProductDialog from "@/features/products/components/update/products-
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
+import ProductTagsManager from "@/features/products/components/update/product-tags-manager";
 
 export default function IdProductPage() {
   const { id } = useParams();
@@ -61,6 +62,10 @@ export default function IdProductPage() {
           updateResourceDialog={<UpdateProductDialog product={product} />}
           updateResourceAction={updateProduct.mutateAsync}
           deleteResourceAction={deleteProduct.mutateAsync}
+        />
+        <ProductTagsManager
+          product={product}
+          initialTags={product.tags.map((t: any) => t.id)}
         />
       </div>
     </>
