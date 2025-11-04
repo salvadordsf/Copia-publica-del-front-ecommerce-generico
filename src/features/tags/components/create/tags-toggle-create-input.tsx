@@ -35,22 +35,23 @@ export default function ToggleCreateTagInput({
       { name },
       {
         onSettled(data) {
-          if (data._count.products > 0) {
-            if (data.status === "ARCHIVED") {
+          const { success, data: tag } = data;
+          if (tag._count.products > 0) {
+            if (tag.status === "ARCHIVED") {
               toast.warning("Atención ⚠️: Etiqueta desarchivada con productos", {
-                description: `La etiqueta "${data.name}" estaba archivada y se desarchivo. Recuerde gestionar los productos ya asociados con anterioridad.`,
+                description: `La etiqueta "${tag.name}" estaba archivada y se desarchivo. Recuerde gestionar los productos ya asociados con anterioridad.`,
                 action: {
                   label: "Gestionar",
-                  onClick: () => window.open(`/tags/${data.id}`, "_blank", "noopener,noreferrer"),
+                  onClick: () => window.open(`/tags/${tag.id}`, "_blank", "noopener,noreferrer"),
                 },
                 duration: 8000,
               });
-            } else if (data.status === "DELETED") {
+            } else if (tag.status === "DELETED") {
               toast.warning("Atención ⚠️: Etiqueta reestablecida con productos", {
-                description: `La etiqueta "${data.name}" estaba eliminada y se reestableció. Recuerde gestionar los productos ya asociados con anterioridad.`,
+                description: `La etiqueta "${tag.name}" estaba eliminada y se reestableció. Recuerde gestionar los productos ya asociados con anterioridad.`,
                 action: {
                   label: "Gestionar",
-                  onClick: () => window.open(`/tags/${data.id}`, "_blank", "noopener,noreferrer"),
+                  onClick: () => window.open(`/tags/${tag.id}`, "_blank", "noopener,noreferrer"),
                 },
                 duration: 8000,
               });
@@ -58,7 +59,8 @@ export default function ToggleCreateTagInput({
 
           }
         },
-        onSuccess: (tag) => {
+        onSuccess: (data) => {
+          const { success, data: tag } = data;
           console.log(tag)
           const exists = tagValues.some(t => t.id === tag.id);
           if (exists) {
@@ -80,9 +82,10 @@ export default function ToggleCreateTagInput({
   };
 
   const removeTag = (tagToRemove: any) => {
+    console.log(tagToRemove)
     onChangeAction(value.filter((tagId) => tagId !== tagToRemove.id));
     setTagValues(prev => prev.filter((tag) => tag.id !== tagToRemove.id))
-    if (tagToRemove._count.products <= 0) {
+    if (tagToRemove._count.products <= 1) {
       deleteMutate(tagToRemove.id);
     }
   };

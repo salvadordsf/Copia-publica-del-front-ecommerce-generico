@@ -103,7 +103,7 @@ export default function UpdateDialog({
         </Button>
       </DialogTrigger>
       {!isDisabled && (
-        <DialogContent>
+        <DialogContent className="max-h-[80vh] overflow-y-scroll">
           <DialogHeader>
             <DialogTitle>{dialogConfig.title}</DialogTitle>
             <DialogDescription>{dialogConfig.desc}</DialogDescription>
