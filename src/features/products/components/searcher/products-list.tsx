@@ -112,7 +112,7 @@ export default function ProductList() {
                   router.push(`/admin/dashboard/products/${product.id}`),
                 rowCells: [
                   { type: "body", text: product.name },
-                  { type: "body", text: product.price },
+                  { type: "body", text: `$${product.price}` },
                   { type: "body", text: product.stock },
                   { type: "body", text: product.category.name },
                   { type: "body", text: product.subcategory.name },

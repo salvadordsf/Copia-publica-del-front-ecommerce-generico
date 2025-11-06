@@ -3,16 +3,11 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTags } from "../../services/tags-querys";
 import { IGetTagQuery } from "../../schemas/tags-schema";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { useRouter } from "next/navigation";
+import { statusTranslate } from "@/utils/status-translate";
+import { stringToDateToString } from "@/utils/date-to-string-utility";
+import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
+import UiTable from "@/components/dashboard/table/table";
 
 interface Props {
   query: IGetTagQuery;
@@ -53,28 +48,74 @@ export default function TagList({ query }: Props) {
     );
   }
   return (
-    <Table>
-      <TableCaption>Listado de tags</TableCaption>
-      <TableHeader>
-        <TableRow className="text-lg font-bold">
-          <TableHead className="font-bold">Nombre</TableHead>
-          <TableHead className="font-bold text-center">
-            Cantidad de productos
-          </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {tags.map((tag: any) => (
-          <TableRow
-            key={tag.id}
-            onClick={() => router.push(`/admin/dashboard/tags/${tag.id}`)}
-            className="cursor-pointer"
-          >
-            <TableCell className="capitalize italic">{tag.name}</TableCell>
-            <TableCell className="text-center">{tag._count.products}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <UiTable
+          caption="Listado de etiquetas"
+          rows={{
+            headerRow: [
+              {
+                type: "header",
+                text: "Nombre",
+              },
+              {
+                type: "header",
+                text: "Cantidad de productos",
+              },
+              {
+                type: "header",
+                text: "Estado",
+              },
+              {
+                type: "header",
+                text: "Creado",
+              },
+              {
+                type: "header",
+                text: "Actualizado",
+              },
+              {
+                type: "header",
+                text: "Archivado",
+              },
+              {
+                type: "header",
+                text: "Eliminado",
+              },
+            ],
+            bodyRows:
+              tags &&
+              tags.map((tag: any) => {
+                return {
+                  onClickAction: () =>
+                    router.push(`/admin/dashboard/tags/${tag.id}`),
+                  rowCells: [
+                    { type: "body", text: tag.name },
+                    { type: "body", text: tag._count.products },
+                    { type: "body", text: statusTranslate(tag.status, "fem") },
+                    {
+                      type: "body",
+                      text: stringToDateToString(tag.createdAt),
+                    },
+                    {
+                      type: "body",
+                      text: stringToDateToString(tag.updatedAt),
+                    },
+                    {
+                      type: "body",
+                      text:
+                        tag.archivedAt &&
+                        stringToDateToString(tag.archivedAt),
+                    },
+                    {
+                      type: "body",
+                      text:
+                        tag.deletedAt &&
+                        stringToDateToString(tag.deletedAt),
+                    },
+                  ],
+                  className: statusRowClassGenerator(tag)
+                };
+              }),
+          }}
+        />
   );
 }
