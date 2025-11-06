@@ -112,6 +112,40 @@ export default function UiSidebar({ title }: ISidebarProps) {
       ],
     },
     {
+      type: "group",
+      label: "Acciones en lote",
+      items: [
+        {
+          type: "item",
+          icon: ShoppingBasket,
+          title: "Productos - Acciones en lote",
+          url: "/admin/dashboard/bulk/products",
+          isActive: pathname === "/admin/dashboard/bulk/products",
+        },
+        {
+          type: "item",
+          icon: Folder,
+          title: "Categorías - Acciones en lote",
+          url: "/admin/dashboard/bulk/categories",
+          isActive: pathname === "/admin/dashboard/bulk/categories",
+        },
+        {
+          type: "item",
+          icon: FolderTree,
+          title: "Subcategorías - Acciones en lote",
+          url: "/admin/dashboard/bulk/subcategories",
+          isActive: pathname === "/admin/dashboard/bulk/subcategories",
+        },
+        {
+          type: "item",
+          icon: Tag,
+          title: "Tags - Acciones en lote",
+          url: "/admin/dashboard/bulk/tags",
+          isActive: pathname === "/admin/dashboard/bulk/tags",
+        },
+      ],
+    },
+    {
       type: "item",
       icon: ChartSpline,
       title: "Ventas",
@@ -143,7 +177,7 @@ export default function UiSidebar({ title }: ISidebarProps) {
               <SidebarGroup>
                 <SidebarGroupLabel asChild>
                   <CollapsibleTrigger>
-                    {obj.label}
+                    <span className="text-sm font-semibold">{obj.label}</span>
                     <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                   </CollapsibleTrigger>
                 </SidebarGroupLabel>
