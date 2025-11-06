@@ -16,6 +16,8 @@ import UiPagination from "@/components/dashboard/pagination/pagination";
 import { useProductsSearchFilters } from "../../stores/products-search-filters-store";
 import UiTable from "@/components/dashboard/table/table";
 import { stringToDateToString } from "@/utils/date-to-string-utility";
+import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
+import { statusTranslate } from "@/utils/status-translate";
 
 export default function ProductList() {
   const { filters, setFilters } = useProductsSearchFilters();
@@ -115,17 +117,13 @@ export default function ProductList() {
                   { type: "body", text: product.category.name },
                   { type: "body", text: product.subcategory.name },
                   { type: "body", text: product.relevance },
-                  { type: "body", text: product.status },
+                  { type: "body", text: statusTranslate(product.status, "masc") },
                   { type: "body", text: stringToDateToString(product.createdAt) },
                   { type: "body", text: stringToDateToString(product.updatedAt) },
                   { type: "body", text: product.archivedAt && stringToDateToString(product.archivedAt) },
                   { type: "body", text: product.deletedAt && stringToDateToString(product.deletedAt) },
                 ],
-                className: `${
-                  product.status === "ARCHIVED"
-                    ? "bg-neutral-200 opacity-70"
-                    : product.status === "DELETED" && "bg-red-200"
-                } cursor-pointer`,
+                className: statusRowClassGenerator(product),
               };
             }),
         }}

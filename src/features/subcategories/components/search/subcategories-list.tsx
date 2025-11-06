@@ -13,16 +13,20 @@ import {
 import { useRouter } from "next/navigation";
 import { IGetSubcategoryQuery } from "../../schemas/subcategories-schema";
 import { useSubcategories } from "../../services/subcategories-querys";
+import UiTable from "@/components/dashboard/table/table";
+import { stringToDateToString } from "@/utils/date-to-string-utility";
+import { statusTranslate } from "@/utils/status-translate";
+import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
 
 interface Props {
-  query: IGetSubcategoryQuery
+  query: IGetSubcategoryQuery;
 }
 
 export default function SubcategoryList({ query }: Props) {
   const router = useRouter();
 
   const {
-    data: { success, data: subcategory} = {},
+    data: { success, data: subcategories } = {},
     isLoading,
     isError,
   } = useSubcategories({
@@ -44,7 +48,7 @@ export default function SubcategoryList({ query }: Props) {
   }
 
   if (isError) return <p>Error al cargar subcategorías.</p>;
-  if (!subcategory?.length) {
+  if (!subcategories?.length) {
     return !query.name ? (
       <p>No se encontraron subcategorías.</p>
     ) : (
@@ -56,34 +60,79 @@ export default function SubcategoryList({ query }: Props) {
   }
 
   return (
-    <Table>
-      <TableCaption>Listado de subcategorías</TableCaption>
-      <TableHeader>
-        <TableRow className="text-lg font-bold">
-          <TableHead className="font-bold">Nombre</TableHead>
-          <TableHead className="font-bold text-center">Categoría</TableHead>
-          <TableHead className="font-bold text-center">Productos</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {subcategory.map((subcategory: any) => (
-          <TableRow
-            key={subcategory.id}
-            onClick={() =>
-              router.push(`/admin/dashboard/subcategories/${subcategory.id}`)
-            }
-            className="cursor-pointer"
-          >
-            <TableCell className="capitalize italic">{subcategory.name}</TableCell>
-            <TableCell className="text-center capitalize italic">
-              {subcategory.category.name}
-            </TableCell>
-            <TableCell className="text-center">
-              {subcategory._count.products}
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <UiTable
+      caption="Listado de subcategorías"
+      rows={{
+        headerRow: [
+          {
+            type: "header",
+            text: "Nombre",
+          },
+          {
+            type: "header",
+            text: "Categoría",
+          },
+          {
+            type: "header",
+            text: "Productos",
+          },
+          {
+            type: "header",
+            text: "Estado",
+          },
+          {
+            type: "header",
+            text: "Creado",
+          },
+          {
+            type: "header",
+            text: "Actualizado",
+          },
+          {
+            type: "header",
+            text: "Archivado",
+          },
+          {
+            type: "header",
+            text: "Eliminado",
+          },
+        ],
+        bodyRows:
+          subcategories &&
+          subcategories.map((subcategory: any) => {
+            return {
+              onClickAction: () =>
+                router.push(`/admin/dashboard/subcategories/${subcategory.id}`),
+              rowCells: [
+                { type: "body", text: subcategory.name },
+                { type: "body", text: subcategory.category.name },
+                { type: "body", text: subcategory._count.products },
+                { type: "body", text: statusTranslate(subcategory.status, "fem") },
+                {
+                  type: "body",
+                  text: stringToDateToString(subcategory.createdAt),
+                },
+                {
+                  type: "body",
+                  text: stringToDateToString(subcategory.updatedAt),
+                },
+                {
+                  type: "body",
+                  text:
+                    subcategory.archivedAt &&
+                    stringToDateToString(subcategory.archivedAt),
+                },
+                {
+                  type: "body",
+                  text:
+                    subcategory.deletedAt &&
+                    stringToDateToString(subcategory.deletedAt),
+                },
+              ],
+              className: statusRowClassGenerator(subcategory)
+            };
+          }),
+      }}
+    />
   );
 }
