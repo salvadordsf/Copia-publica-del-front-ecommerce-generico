@@ -1,8 +1,10 @@
 import axiosInstance from "@/lib/axios/axios";
 import {
   ICreateProduct,
+  IFilterBulkProductsQuery,
   IGetProductsQuery,
   IReassignProducts,
+  IUpdateBulkProducts,
   IUpdateProduct,
 } from "../schemas/products-schemas";
 
@@ -40,6 +42,7 @@ export const getProducts = async (data: IGetProductsQuery) => {
   console.log(res);
   return res.data;
 };
+
 export const getProductById = async (id: string) => {
   const res = await axiosInstance.get(`/products/${id}`);
   console.log(res);
@@ -68,6 +71,35 @@ export const reassignProducts = async (data: IReassignProducts) => {
 
 export const deleteProduct = async (id: string) => {
   const res = await axiosInstance.delete(`/products/${id}`);
+  console.log(res);
+  return res.data;
+};
+
+export const updateManyProducts = async (
+  filter: IFilterBulkProductsQuery,
+  data: IUpdateBulkProducts
+) => {
+  const params: IFilterBulkProductsQuery = {
+    ...(filter?.name && { name: filter?.name }),
+    ...(filter?.search && { search: filter?.search }),
+
+    ...(filter?.priceMin && { priceMin: filter?.priceMin }),
+    ...(filter?.priceMax && { priceMax: filter?.priceMax }),
+
+    ...(filter?.relevance && { relevance: filter?.relevance }),
+    ...(filter?.status && { status: filter?.status }),
+
+    ...(filter?.categoryId && { categoryId: filter?.categoryId }),
+    ...(filter?.subcategoryId && { subcategoryId: filter?.subcategoryId }),
+  };
+
+  const update: IUpdateBulkProducts = {
+    ...(data?.status && { status: data.status }),
+    ...(data?.relevance && { relevance: data.relevance }),
+  };
+
+  const res = await axiosInstance.put("/products", update, { params });
+
   console.log(res);
   return res.data;
 };
