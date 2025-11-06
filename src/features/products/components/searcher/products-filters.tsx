@@ -11,10 +11,10 @@ import { useCategories } from "@/features/categories/services/categories-querys"
 import { useProductsSearchFilters } from "../../stores/products-search-filters-store";
 
 export default function ProductSearchFilters() {
-  const { setFilters, resetFilters } = useProductsSearchFilters();
+  const { filters, setFilters, resetFilters } = useProductsSearchFilters();
 
   const {
-    data: { success, data: categories} = {},
+    data: { success, data: categories } = {},
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
@@ -24,9 +24,24 @@ export default function ProductSearchFilters() {
   });
 
   const onSubmit = (data: IGetProductsQuery) => {
-    setFilters({
+    const newFilters = {
       ...data,
-      relevance: data.relevance ? (Number(data.relevance) > 0 ? data.relevance : undefined) : undefined,
+      relevance:
+        data.relevance && Number(data.relevance) > 0
+          ? data.relevance
+          : undefined,
+    };
+
+    // Compare if filters change exept page
+    const filtersChanged = Object.entries(newFilters).some(([key, value]) => {
+      if (key === "page") return false;
+      return filters[key as keyof IGetProductsQuery] !== value;
+    });
+
+    //Reset the page to "1" if some filter change exept page change
+    setFilters({
+      ...newFilters,
+      page: filtersChanged ? "1" : filters.page,
     });
   };
 

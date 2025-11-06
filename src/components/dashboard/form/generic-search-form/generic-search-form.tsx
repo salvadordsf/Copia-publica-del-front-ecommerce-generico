@@ -29,7 +29,7 @@ export default function GenericSearchForm({
 
   //toggle open filters
   const [openFilters, setOpenFilters] = useState<boolean>(false);
-  console.log(filtersFields)
+  console.log(filtersFields);
   return (
     <form
       onSubmit={handleSubmit(onSubmitAction)}
