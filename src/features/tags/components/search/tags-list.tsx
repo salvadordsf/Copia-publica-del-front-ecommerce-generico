@@ -49,73 +49,69 @@ export default function TagList({ query }: Props) {
   }
   return (
     <UiTable
-          caption="Listado de etiquetas"
-          rows={{
-            headerRow: [
-              {
-                type: "header",
-                text: "Nombre",
-              },
-              {
-                type: "header",
-                text: "Cantidad de productos",
-              },
-              {
-                type: "header",
-                text: "Estado",
-              },
-              {
-                type: "header",
-                text: "Creado",
-              },
-              {
-                type: "header",
-                text: "Actualizado",
-              },
-              {
-                type: "header",
-                text: "Archivado",
-              },
-              {
-                type: "header",
-                text: "Eliminado",
-              },
-            ],
-            bodyRows:
-              tags &&
-              tags.map((tag: any) => {
-                return {
-                  onClickAction: () =>
-                    router.push(`/admin/dashboard/tags/${tag.id}`),
-                  rowCells: [
-                    { type: "body", text: tag.name },
-                    { type: "body", text: tag._count.products },
-                    { type: "body", text: statusTranslate(tag.status, "fem") },
-                    {
-                      type: "body",
-                      text: stringToDateToString(tag.createdAt),
-                    },
-                    {
-                      type: "body",
-                      text: stringToDateToString(tag.updatedAt),
-                    },
-                    {
-                      type: "body",
-                      text:
-                        tag.archivedAt &&
-                        stringToDateToString(tag.archivedAt),
-                    },
-                    {
-                      type: "body",
-                      text:
-                        tag.deletedAt &&
-                        stringToDateToString(tag.deletedAt),
-                    },
-                  ],
-                  className: statusRowClassGenerator(tag)
-                };
-              }),
-          }}
-        />
+      caption="Listado de etiquetas"
+      rows={{
+        headerRow: [
+          {
+            type: "header",
+            text: "Nombre",
+          },
+          {
+            type: "header",
+            text: "Cantidad de productos",
+          },
+          {
+            type: "header",
+            text: "Estado",
+          },
+          {
+            type: "header",
+            text: "Creado",
+          },
+          {
+            type: "header",
+            text: "Actualizado",
+          },
+          {
+            type: "header",
+            text: "Archivado",
+          },
+          {
+            type: "header",
+            text: "Eliminado",
+          },
+        ],
+        bodyRows:
+          tags &&
+          tags.map((tag: any) => {
+            return {
+              onClickAction: () =>
+                router.push(`/admin/dashboard/tags/${tag.id}`),
+              rowCells: [
+                { type: "body", text: tag.name },
+                { type: "body", text: tag._count.products },
+                { type: "body", text: statusTranslate(tag.status, "fem") },
+                {
+                  type: "body",
+                  text: stringToDateToString(tag.createdAt),
+                },
+                {
+                  type: "body",
+                  text: stringToDateToString(tag.updatedAt),
+                },
+                {
+                  type: "body",
+                  text: tag.archivedAt && stringToDateToString(tag.archivedAt),
+                },
+                {
+                  type: "body",
+                  text: tag.deletedAt && stringToDateToString(tag.deletedAt),
+                },
+              ],
+              className: statusRowClassGenerator(tag),
+            };
+          }),
+      }}
+    />
   );
 }

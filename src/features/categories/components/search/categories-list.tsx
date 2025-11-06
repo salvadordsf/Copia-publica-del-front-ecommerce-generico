@@ -13,6 +13,10 @@ import {
 import { useRouter } from "next/navigation";
 import { IGetCategoryQuery } from "../../schemas/categories-schema";
 import { useCategories } from "../../services/categories-querys";
+import UiTable from "@/components/dashboard/table/table";
+import { statusTranslate } from "@/utils/status-translate";
+import { stringToDateToString } from "@/utils/date-to-string-utility";
+import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
 
 interface Props {
   query: IGetCategoryQuery;
@@ -22,7 +26,7 @@ export default function CategoryList({ query }: Props) {
   const router = useRouter();
 
   const {
-    data: { success, data: categories} = {},
+    data: { success, data: categories } = {},
     isLoading,
     isError,
   } = useCategories({
@@ -31,7 +35,7 @@ export default function CategoryList({ query }: Props) {
     subcategories: query.subcategories ? query.subcategories : undefined,
     products: query.products ? query.products : undefined,
   });
-  
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -55,34 +59,80 @@ export default function CategoryList({ query }: Props) {
   }
 
   return (
-    <Table>
-      <TableCaption>Listado de categorías</TableCaption>
-      <TableHeader>
-        <TableRow className="text-lg font-bold">
-          <TableHead className="font-bold">Nombre</TableHead>
-          <TableHead className="font-bold text-center">Subcategorías</TableHead>
-          <TableHead className="font-bold text-center">Productos</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {success && categories.map((category: any) => (
-          <TableRow
-            key={category.id}
-            onClick={() =>
-              router.push(`/admin/dashboard/categories/${category.id}`)
-            }
-            className="cursor-pointer"
-          >
-            <TableCell className="capitalize italic">{category.name}</TableCell>
-            <TableCell className="text-center">
-              {category._count.subcategories}
-            </TableCell>
-            <TableCell className="text-center">
-              {category._count.products}
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <UiTable
+      caption="Listado de categorías"
+      rows={{
+        headerRow: [
+          {
+            type: "header",
+            text: "Nombre",
+          },
+          {
+            type: "header",
+            text: "Subcategorías",
+          },
+          {
+            type: "header",
+            text: "Productos",
+          },
+
+          {
+            type: "header",
+            text: "Estado",
+          },
+          {
+            type: "header",
+            text: "Creado",
+          },
+          {
+            type: "header",
+            text: "Actualizado",
+          },
+          {
+            type: "header",
+            text: "Archivado",
+          },
+          {
+            type: "header",
+            text: "Eliminado",
+          },
+        ],
+        bodyRows:
+          categories &&
+          categories.map((category: any) => {
+            return {
+              onClickAction: () =>
+                router.push(`/admin/dashboard/categories/${category.id}`),
+              rowCells: [
+                { type: "body", text: category.name },
+                { type: "body", text: category._count.subcategories },
+                { type: "body", text: category._count.products },
+                { type: "body", text: statusTranslate(category.status, "fem") },
+                {
+                  type: "body",
+                  text: stringToDateToString(category.createdAt),
+                },
+                {
+                  type: "body",
+                  text: stringToDateToString(category.updatedAt),
+                },
+                {
+                  type: "body",
+                  text:
+                    category.archivedAt &&
+                    stringToDateToString(category.archivedAt),
+                },
+                {
+                  type: "body",
+                  text:
+                    category.deletedAt &&
+                    stringToDateToString(category.deletedAt),
+                },
+              ],
+              className: statusRowClassGenerator(category),
+            };
+          }),
+      }}
+    />
   );
 }
