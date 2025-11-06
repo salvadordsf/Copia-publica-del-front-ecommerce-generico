@@ -207,3 +207,7 @@ export const FilterBulkProductsQuerySchema =  z
     subcategoryId: UuidSchema.optional(),
   })
   .strict();
+
+  export type IFilterBulkProductsQuerySchema = z.input<
+  typeof FilterBulkProductsQuerySchema
+>;
