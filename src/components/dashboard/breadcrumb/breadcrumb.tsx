@@ -32,7 +32,7 @@ export default function UiBreadcrumb({items}: IBreadcrumbProps) {
   const middleItems = items.slice(1, items.length - 1);
 
   return (
-    <Breadcrumb className="w-[90%] sm:w-full">
+    <Breadcrumb className="w-[90%] sm:w-full italic">
       <BreadcrumbList>
         {/* First item */}
         <BreadcrumbItem>
