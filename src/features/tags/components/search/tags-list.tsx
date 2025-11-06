@@ -28,6 +28,7 @@ export default function TagList({ query }: Props) {
   } = useTags({
     name: query.name ? query.name : undefined,
     products: query.products ? query.products : undefined,
+    status: query.status && query.status !== "false" ? query.status : undefined,
   });
 
   if (isLoading) {
@@ -51,7 +52,6 @@ export default function TagList({ query }: Props) {
       </p>
     );
   }
-
   return (
     <Table>
       <TableCaption>Listado de tags</TableCaption>

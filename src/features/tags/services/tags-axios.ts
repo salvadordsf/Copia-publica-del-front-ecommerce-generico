@@ -4,6 +4,7 @@ import { ICreateTagSchema, IGetTagQuery } from "../schemas/tags-schema";
 export const getTags = async (data: IGetTagQuery) => {
   const params: any = {
     name: data.name,
+    status: data.status,
   };
 
   if (data.products) {
@@ -16,6 +17,7 @@ export const getTags = async (data: IGetTagQuery) => {
   console.log(res);
   return res.data;
 };
+
 export const getTagById = async (id: string) => {
   const res = await axiosInstance.get(`/tags/${id}`);
   console.log(res);

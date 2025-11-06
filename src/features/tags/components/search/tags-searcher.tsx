@@ -5,43 +5,68 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { GetTagQuerySchema, IGetTagQuery } from "../../schemas/tags-schema";
 import { Search } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TagList from "./tags-list";
+import GenericSearchForm from "@/components/dashboard/form/generic-search-form/generic-search-form";
 
 export default function TagSearcher() {
-  const [query, setQuery] = useState<IGetTagQuery>({
+  const defaultFilters: IGetTagQuery = {
     name: "",
     products: false,
-  });
-  const { handleSubmit, register } = useForm<IGetTagQuery>({
+    status: "false",
+  };
+
+  const [query, setQuery] = useState<IGetTagQuery>(defaultFilters);
+
+  const methods = useForm<IGetTagQuery>({
     resolver: zodResolver(GetTagQuerySchema),
-    defaultValues: {
-      name: "",
-      products: false,
-    },
+    defaultValues: defaultFilters,
   });
 
+  const resetFilters = () => methods.reset();
+
   const onSubmit = (data: IGetTagQuery) => {
+    console.log(data)
     setQuery(data);
+    console.log(query)
   };
 
   return (
     <div className="space-y-6">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-wrap gap-6 items-end justify-between"
-      >
-        <div className="flex items-end gap-2 flex-1 min-w-[250px]">
-          <div className="flex flex-col gap-1 w-full">
-            <label className="text-sm font-medium">Buscar por nombre</label>
-            <Input {...register("name")} placeholder="Ej: ropa, navidad..." />
-          </div>
-          <Button type="submit" className="cursor-pointer bg-method-get hover:bg-method-get/90">
-            <Search />
-          </Button>
+      <FormProvider {...methods}>
+        <div className="space-y-6">
+          <GenericSearchForm
+            onSubmitAction={onSubmit}
+            resetFiltersAction={resetFilters}
+            className="sm:grid sm:grid-cols-4 gap-3 pb-4 max-w-2xl"
+            defaultFields={[
+              {
+                type: "search bar",
+                name: "name",
+                label: "Buscar por nombre",
+                placeholder: "Ej: buzzo, algodón, verano...",
+                className: "sm:col-span-4",
+              },
+              {
+                type: "status",
+                name: "status",
+                label: "Estado del producto",
+                placeholder: "Todos",
+                className: "sm:row-start-2 sm:col-start-3 sm:col-span-2 w-full",
+                options: [
+                  { value: "false", label: "Todos" },
+                  { value: "ACTIVE", label: "Activos" },
+                  { value: "ARCHIVED", label: "Archivados" },
+                  { value: "DELETED", label: "Eliminados" },
+                ],
+                defaultValue: "false",
+              },
+            ]}
+            filtersFields={[]}
+          />
         </div>
-      </form>
+      </FormProvider>
 
       <TagList query={query} />
     </div>
