@@ -49,7 +49,7 @@ export default function TagSearcher() {
               {
                 type: "status",
                 name: "status",
-                label: "Estado del producto",
+                label: "Estado de la etiqueta",
                 placeholder: "Todos",
                 className: "sm:row-start-1 sm:col-start-4 sm:col-span-2 sm:w-[70%]",
                 options: [

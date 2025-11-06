@@ -1,8 +1,10 @@
+import { StatusEnum } from "@/schemas/enums-schema";
 import { z } from "zod";
 
 export const GetCategoryQuerySchema = z
   .object({
     name: z.string().optional(),
+    status: StatusEnum.optional(),
     subcategories: z.boolean().optional(),
     products: z.boolean().optional(),
   })

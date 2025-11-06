@@ -4,29 +4,34 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   GetCategoryQuerySchema,
   IGetCategoryQuery,
 } from "../../schemas/categories-schema";
 import CategoryList from "./categories-list";
+import GenericSearchForm from "@/components/dashboard/form/generic-search-form/generic-search-form";
 
 export default function CategorySearcher() {
   const [query, setQuery] = useState<IGetCategoryQuery>({
     name: "",
+    status: "false",
     subcategories: false,
     products: false,
   });
 
-  const { handleSubmit, register } = useForm<IGetCategoryQuery>({
+  const methods = useForm<IGetCategoryQuery>({
     resolver: zodResolver(GetCategoryQuerySchema),
     defaultValues: {
       name: "",
+      status: "false",
       subcategories: false,
       products: false,
     },
   });
+
+  const resetFilters = () => methods.reset();
 
   const onSubmit = (data: IGetCategoryQuery) => {
     setQuery(data);
@@ -34,23 +39,40 @@ export default function CategorySearcher() {
 
   return (
     <div className="space-y-6">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-wrap gap-6 items-end justify-between"
-      >
-        <div className="flex items-end gap-2 flex-1 min-w-[250px]">
-          <div className="flex flex-col gap-1 w-full">
-            <label className="text-sm font-medium">Buscar por nombre</label>
-            <Input {...register("name")} placeholder="Ej: ropa, navidad..." />
-          </div>
-          <Button
-            type="submit"
-            className="cursor-pointer bg-method-get hover:bg-method-get/90"
-          >
-            <Search />
-          </Button>
+      <FormProvider {...methods}>
+        <div className="space-y-6">
+          <GenericSearchForm
+            onSubmitAction={onSubmit}
+            resetFiltersAction={resetFilters}
+            className="sm:grid sm:grid-cols-5 gap-3 pb-4 max-w-2xl"
+            defaultFields={[
+              {
+                type: "search bar",
+                name: "name",
+                label: "Buscar por nombre",
+                placeholder: "Ej: ropa, navidad...",
+                className: "sm:col-span-3",
+              },
+              {
+                type: "status",
+                name: "status",
+                label: "Estado de la categoría",
+                placeholder: "Todos",
+                className:
+                  "sm:row-start-1 sm:col-start-4 sm:col-span-2 sm:w-[70%]",
+                options: [
+                  { value: "false", label: "Todos" },
+                  { value: "ACTIVE", label: "Activos" },
+                  { value: "ARCHIVED", label: "Archivados" },
+                  { value: "DELETED", label: "Eliminados" },
+                ],
+                defaultValue: "false",
+              },
+            ]}
+            filtersFields={[]}
+          />
         </div>
-      </form>
+      </FormProvider>
 
       <CategoryList query={query} />
     </div>
