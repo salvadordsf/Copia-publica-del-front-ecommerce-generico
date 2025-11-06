@@ -53,7 +53,6 @@ export default function ProductBulkFilters() {
               placeholder: "Ej: buzzo, algodón, verano...",
               className: "sm:col-span-4",
             },
-
             {
               type: "status",
               name: "status",
