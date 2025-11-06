@@ -27,6 +27,8 @@ export default function SubcategoryList({ query }: Props) {
     isError,
   } = useSubcategories({
     name: query.name,
+    status: query.status && query.status !== "false" ? query.status : undefined,
+    categoryId: query.categoryId ? query.categoryId : undefined,
     category: query.category ? query.category : undefined,
     products: query.products ? query.products : undefined,
   });

@@ -4,6 +4,8 @@ import { ICreateSubcategory, IGetSubcategoryQuery, IUpdateSubcategory } from "..
 export const getSubcategories = async (data: IGetSubcategoryQuery) => {
   const params: any = {
     name: data.name,
+    status: data.status,
+    categoryId: data.categoryId,
   };
 
   if (data.category) {
