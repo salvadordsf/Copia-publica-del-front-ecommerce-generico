@@ -27,9 +27,7 @@ export default function TagSearcher() {
   const resetFilters = () => methods.reset();
 
   const onSubmit = (data: IGetTagQuery) => {
-    console.log(data)
     setQuery(data);
-    console.log(query)
   };
 
   return (
@@ -39,21 +37,21 @@ export default function TagSearcher() {
           <GenericSearchForm
             onSubmitAction={onSubmit}
             resetFiltersAction={resetFilters}
-            className="sm:grid sm:grid-cols-4 gap-3 pb-4 max-w-2xl"
+            className="sm:grid sm:grid-cols-5 gap-3 pb-4 max-w-2xl"
             defaultFields={[
               {
                 type: "search bar",
                 name: "name",
                 label: "Buscar por nombre",
                 placeholder: "Ej: buzzo, algodón, verano...",
-                className: "sm:col-span-4",
+                className: "sm:col-span-3",
               },
               {
                 type: "status",
                 name: "status",
                 label: "Estado del producto",
                 placeholder: "Todos",
-                className: "sm:row-start-2 sm:col-start-3 sm:col-span-2 w-full",
+                className: "sm:row-start-1 sm:col-start-4 sm:col-span-2 sm:w-[70%]",
                 options: [
                   { value: "false", label: "Todos" },
                   { value: "ACTIVE", label: "Activos" },
