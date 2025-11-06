@@ -137,3 +137,73 @@ export type IGetProductsQueryFilters = Omit<
   IGetProductsQuery,
   "page" | "pageSize"
 >;
+
+export const FilterBulkProductsQuerySchema =  z
+  .object({
+    name: z.string().optional(),
+    search: z.string().optional(),
+    priceMin: z
+      .string()
+      .optional()
+      .refine(
+        (val) => {
+          if (val !== undefined) {
+            const parsed = parseInt(val);
+            if (isNaN(parsed)) {
+              val = undefined;
+              return true;
+            }
+            if (parsed >= 0 && parsed <= 999999998) return true;
+            return false;
+          } else return true;
+        },
+        {
+          message: "Fuera de rango",
+        }
+      ),
+    priceMax: z
+      .string()
+      .optional()
+      .refine(
+        (val) => {
+          if (val !== undefined) {
+            const parsed = parseInt(val);
+            if (isNaN(parsed)) {
+              val = undefined;
+              return true;
+            }
+            if (parsed >= 0 && parsed <= 999999998) return true;
+            return false;
+          } else return true;
+        },
+        {
+          message: "Fuera de rango",
+        }
+      ),
+    relevance: z
+      .string()
+      .optional()
+      .refine(
+        (val) => {
+          if (val !== undefined) {
+            const parsed = parseInt(val);
+            if (isNaN(parsed) || parsed <= 0) {
+              val = undefined;
+              return true;
+            }
+
+            if (parsed > 0 && parsed <= 6) return true;
+            return false;
+          } else return true;
+        },
+        {
+          message: "Fuera de rango",
+        }
+      ),
+    status: StatusEnum.optional().transform((val) =>
+      val === "false" ? undefined : val
+    ),
+    categoryId: UuidSchema.optional(),
+    subcategoryId: UuidSchema.optional(),
+  })
+  .strict();
