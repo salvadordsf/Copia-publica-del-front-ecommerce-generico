@@ -36,7 +36,7 @@ export const ReassignProductsSchema = z.object({
     })
   ),
 });
-export type ReassignProductsFormRes = z.infer<typeof ReassignProductsSchema>
+export type ReassignProductsFormRes = z.infer<typeof ReassignProductsSchema>;
 
 export type IReassignProducts = {
   productId: string;
@@ -138,7 +138,7 @@ export type IGetProductsQueryFilters = Omit<
   "page" | "pageSize"
 >;
 
-export const FilterBulkProductsQuerySchema =  z
+export const FilterBulkProductsQuerySchema = z
   .object({
     name: z.string().optional(),
     search: z.string().optional(),
@@ -208,6 +208,20 @@ export const FilterBulkProductsQuerySchema =  z
   })
   .strict();
 
-  export type IFilterBulkProductsQuerySchema = z.input<
+export type IFilterBulkProductsQuery = z.input<
   typeof FilterBulkProductsQuerySchema
+>;
+
+export const UpdateBulkProductsSchema = z.object({
+  relevance: z
+    .number()
+    .int()
+    .min(1, "La relevancia tiene que ser un valor entre 1 y 6")
+    .max(6, "La relevancia tiene que ser un valor entre 1 y 6")
+    .optional(),
+  status: StatusEnum.optional(),
+});
+
+export type IUpdateBulkProducts = z.input<
+  typeof UpdateBulkProductsSchema
 >;
