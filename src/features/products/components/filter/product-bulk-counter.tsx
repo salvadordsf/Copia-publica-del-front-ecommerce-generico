@@ -7,6 +7,7 @@ import { stringToDateToString } from "@/utils/date-to-string-utility";
 import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
 import UiTable from "@/components/dashboard/table/table";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function ProductBulkFiltersResults() {
   const { filters } = useProductsBulkFilters();
@@ -51,23 +52,38 @@ export default function ProductBulkFiltersResults() {
 
   return (
     <>
-      <div>
+      <div className="flex flex-col gap-5">
         <p>
-          Productos afectados: <strong>{total}</strong>
+          Productos filtrados para modificar: <strong>{total}</strong>
         </p>
+
+        <div className="flex flex-col sm:flex-row gap-5">
+          <Button
+            onClick={() => console.log("Actualizar")}
+            className="bg-blue-500 hover:bg-blue-400 cursor-pointer"
+          >
+            Actualizar productos
+          </Button>
+
+          <Button
+            onClick={() => console.log("Eliminar")}
+            className="hover:bg-red-500 cursor-pointer"
+            variant="destructive"
+          >
+            Eliminar productos
+          </Button>
+        </div>
+      {total > 0 && !showPreview && (
+        <Button onClick={() => setShowPreview(true)} className="cursor-pointer sm:w-82">
+          Ver previsualización (listar {total} productos)
+        </Button>
+      )}
       </div>
 
-      {total > 0 && !showPreview && (
-        <button
-          onClick={() => setShowPreview(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md"
-        >
-          Ver previsualización
-        </button>
-      )}
       {isLoadingFull && <div>Cargando listado completo...</div>}
       {showPreview && fullData && (
         <UiTable
+        className="mt-5"
           caption={`Listado de los ${total} productos seleccionados con los filtros.`}
           rows={{
             headerRow: [
