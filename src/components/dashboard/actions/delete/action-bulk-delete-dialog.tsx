@@ -78,7 +78,7 @@ export default function ConfirmBulkDeleteDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="hover:bg-red-500 cursor-pointer"
+          className="hover:bg-red-500 cursor-pointer font-bold"
           variant="destructive"
         >
           Eliminar productos

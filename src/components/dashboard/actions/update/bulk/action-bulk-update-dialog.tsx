@@ -103,8 +103,7 @@ export default function BulkUpdateDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button
-          onClick={() => console.log("Actualizar")}
-          className="bg-blue-500 hover:bg-blue-400 cursor-pointer"
+          className="bg-blue-500 hover:bg-blue-400 cursor-pointer font-bold"
         >
           Actualizar productos
         </Button>

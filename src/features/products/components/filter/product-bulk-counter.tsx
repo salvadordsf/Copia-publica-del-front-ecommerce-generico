@@ -85,7 +85,7 @@ export default function ProductBulkFiltersResults() {
       </div>
 
       {isLoadingFull && <div>Cargando listado completo...</div>}
-      {showPreview && fullData && (
+      {showPreview && fullData && total > 0 && (
         <UiTable
           className="mt-5"
           caption={`Listado de los ${total} productos seleccionados con los filtros.`}

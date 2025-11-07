@@ -141,7 +141,6 @@ export type IGetProductsQueryFilters = Omit<
 export const FilterBulkProductsQuerySchema = z
   .object({
     name: z.string().optional(),
-    search: z.string().optional(),
     priceMin: z
       .string()
       .optional()

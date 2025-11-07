@@ -48,8 +48,8 @@ export default function ProductBulkFilters() {
           defaultFields={[
             {
               type: "search bar",
-              name: "search",
-              label: "Buscar por nombre, palabra clave o etiqueta",
+              name: "name",
+              label: "Buscar por nombre",
               placeholder: "Ej: buzzo, algodón, verano...",
               className: "sm:col-span-4",
             },

@@ -8,7 +8,7 @@ interface IProductFilters {
 }
 
 const defaultFilters: IFilterBulkProductsQuery = {
-  search: "",
+  name: "",
   priceMin: undefined,
   priceMax: undefined,
   relevance: undefined,
