@@ -7,7 +7,7 @@ import UiSlider from "../inputs/slider/form-input-slider";
 import { IGenericSearchFormProps } from "./generic-search-form.types";
 import { RotateCcw, Search } from "lucide-react";
 import { Funnel, FunnelX } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import UiRadioGroup from "../inputs/radio-group/form-input-radio-group";
 
 export default function GenericSearchForm({
@@ -27,7 +27,7 @@ export default function GenericSearchForm({
     setValue,
   } = useFormContext();
 
-  //toggle open filters
+  //toggle open extra filters
   const [openFilters, setOpenFilters] = useState<boolean>(false);
   console.log(filtersFields);
   return (
@@ -189,11 +189,15 @@ export default function GenericSearchForm({
         return (
           <div
             key={`${field.name}-${i}`}
+            aria-hidden={!openFilters}
+            tabIndex={!openFilters ? -1 : 1}
             className={`${
               openFilters
-                ? "opacity-100 translate-y max-h-[1000px]"
-                : "opacity-0 -translate-y-[20%] max-h-0"
-            } ${field.className ? field.className : ""} transition-all`}
+                ? "opacity-100 translate-y max-h-[1000px] pointer-events-auto"
+                : "opacity-0 -translate-y-[20%] max-h-0 pointer-events-none"
+            } ${
+              field.className ? field.className : ""
+            } transition-all ease-in-out duration-300  overflow-hidden`}
           >
             <label
               className={`flex flex-col gap-0.5 mt-1 text-sm text-gray-700 ${
@@ -208,7 +212,6 @@ export default function GenericSearchForm({
                     color="green"
                     className="cursor-pointer hover:-rotate-45 transition-all"
                     onClick={() => {
-                      let fieldName = field.name;
                       switch (field.name) {
                         case "price":
                           setValue("priceMin", undefined);
@@ -217,8 +220,23 @@ export default function GenericSearchForm({
                         case "relevance":
                           setValue("relevance", "0");
                           break;
+                        case "categoryId":
+                          setValue("subcategoryId", undefined, {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                          });
+                          setValue("categoryId", undefined, {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                          });
+                          break;
+                        case "subcategoryId":
+                          setValue("subcategoryId", undefined, {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                          });
+                          break;
                         default:
-                          console.log(field.name, field.defaultValue);
                           setValue(field.name, undefined);
                           break;
                       }
@@ -241,7 +259,7 @@ export default function GenericSearchForm({
                         label: option.label,
                         disabled: false,
                       }))}
-                      disabled={isDisabled}
+                      disabled={isDisabled || !openFilters}
                     />
                   )}
                 />
@@ -280,7 +298,7 @@ export default function GenericSearchForm({
                     type="number"
                     {...register("priceMin")}
                     placeholder="Mínimo"
-                    disabled={isDisabled}
+                    disabled={isDisabled || !openFilters}
                     min={0}
                     max={999999998}
                   />
@@ -289,7 +307,7 @@ export default function GenericSearchForm({
                     type="number"
                     {...register("priceMax")}
                     placeholder="Máximo"
-                    disabled={isDisabled}
+                    disabled={isDisabled || !openFilters}
                     min={1}
                     max={999999999}
                   />
@@ -302,7 +320,7 @@ export default function GenericSearchForm({
                     field.type === "number" ? { valueAsNumber: true } : {}
                   )}
                   placeholder={field.placeholder}
-                  disabled={isDisabled}
+                  disabled={isDisabled || !openFilters}
                   min={field.min}
                   max={field.max}
                 />

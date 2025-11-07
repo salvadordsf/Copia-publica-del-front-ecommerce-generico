@@ -32,10 +32,9 @@ export default function UiSelect({
   return (
     <div className={className}>
       <Select
-        value={field.value}
+        value={field.value ?? ""}
         onValueChange={field.onChange}
         disabled={disabled}
-        defaultValue={defaultValue}
       >
         <SelectTrigger className="w-full">
           <SelectValue placeholder={placeholder} />
