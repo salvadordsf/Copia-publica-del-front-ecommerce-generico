@@ -25,6 +25,7 @@ export default function GenericSearchForm({
     formState: { errors },
     control,
     setValue,
+    resetField,
   } = useFormContext();
 
   //toggle open extra filters
@@ -70,6 +71,36 @@ export default function GenericSearchForm({
                       e.preventDefault();
                       if (openFilters) {
                         resetFiltersAction();
+                        filtersFields.map((filter) => {
+                          switch (filter.name) {
+                            case "price":
+                              setValue("priceMin", undefined);
+                              setValue("priceMax", undefined);
+                              break;
+                            case "relevance":
+                              setValue("relevance", "0");
+                              break;
+                            case "categoryId":
+                              setValue("subcategoryId", undefined, {
+                                shouldValidate: true,
+                                shouldDirty: true,
+                              });
+                              setValue("categoryId", undefined, {
+                                shouldValidate: true,
+                                shouldDirty: true,
+                              });
+                              break;
+                            case "subcategoryId":
+                              setValue("subcategoryId", undefined, {
+                                shouldValidate: true,
+                                shouldDirty: true,
+                              });
+                              break;
+                            default:
+                              setValue(field.name, undefined);
+                              break;
+                          }
+                        });
                       }
                       setOpenFilters((prev) => !prev);
                     }}
