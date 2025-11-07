@@ -2,13 +2,17 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/react-query/query-client";
 import {
   ICreateProduct,
+  IFilterBulkProductsQuery,
   IReassignProducts,
+  IUpdateBulkProducts,
   IUpdateProduct,
 } from "../schemas/products-schemas";
 import {
   createProduct,
+  deleteManyProducts,
   deleteProduct,
   reassignProducts,
+  updateManyProducts,
   updateProduct,
 } from "./products-axios";
 
@@ -48,6 +52,31 @@ export const useReassignProducts = () => {
 export const useDeleteProducts = () => {
   return useMutation({
     mutationFn: (id: string) => deleteProduct(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+};
+
+export const useDeleteManyProducts = () => {
+  return useMutation({
+    mutationFn: (filters: IFilterBulkProductsQuery) =>
+      deleteManyProducts(filters),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+};
+
+export const useUpdateManyProducts = () => {
+  return useMutation({
+    mutationFn: ({
+      filters,
+      data,
+    }: {
+      filters: IFilterBulkProductsQuery;
+      data: IUpdateBulkProducts;
+    }) => updateManyProducts(filters, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
