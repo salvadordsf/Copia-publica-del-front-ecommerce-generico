@@ -151,9 +151,9 @@ export default function GenericForm({
       })}
       <div className={btnClassName}>
         <div className="flex justify-between space-x-4">
-          <MethodsBtns selectedType={submitButtonType}>
+          { submitButtonText && <MethodsBtns selectedType={submitButtonType}>
             {submitButtonText}
-          </MethodsBtns>
+          </MethodsBtns>}
         </div>
       </div>
     </form>

@@ -9,11 +9,12 @@ import UiTable from "@/components/dashboard/table/table";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ConfirmBulkDeleteDialog from "@/components/dashboard/actions/delete/action-bulk-delete-dialog";
-import { useDeleteManyProducts } from "../../services/products-mutations";
+import { useDeleteManyProducts, useUpdateManyProducts } from "../../services/products-mutations";
+import { BulkUpdateDialogComponent } from "@/components/dashboard/actions/update/bulk/action-bulk-update-dialog-comp";
 
 export default function ProductBulkFiltersResults() {
   const { filters } = useProductsBulkFilters();
-  const { mutateAsync } = useDeleteManyProducts();
+  const { mutateAsync: deleteProducts } = useDeleteManyProducts();
   const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
@@ -60,20 +61,19 @@ export default function ProductBulkFiltersResults() {
           Productos filtrados para modificar: <strong>{total}</strong>
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-5">
-          <Button
-            onClick={() => console.log("Actualizar")}
-            className="bg-blue-500 hover:bg-blue-400 cursor-pointer"
-          >
-            Actualizar productos
-          </Button>
+        {total > 0 && (
+          <div className="flex flex-col sm:flex-row gap-5">
+            <BulkUpdateDialogComponent
+              totalResources={total}
+            />
 
-          <ConfirmBulkDeleteDialog
-            totalResources={total}
-            resourceType="productos"
-            onConfirmActions={[() => mutateAsync(filters)]}
-          />
-        </div>
+            <ConfirmBulkDeleteDialog
+              totalResources={total}
+              resourceType="productos"
+              onConfirmActions={[() => deleteProducts(filters)]}
+            />
+          </div>
+        )}
         {total > 0 && !showPreview && (
           <Button
             onClick={() => setShowPreview(true)}

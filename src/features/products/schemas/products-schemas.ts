@@ -219,7 +219,7 @@ export const UpdateBulkProductsSchema = z.object({
     .min(1, "La relevancia tiene que ser un valor entre 1 y 6")
     .max(6, "La relevancia tiene que ser un valor entre 1 y 6")
     .optional(),
-  status: StatusEnum.optional(),
+  status: z.enum(["ACTIVE", "ARCHIVED"]).optional(),
 });
 
 export type IUpdateBulkProducts = z.input<

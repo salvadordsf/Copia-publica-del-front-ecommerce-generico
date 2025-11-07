@@ -14,7 +14,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ActionStepCounter from "../action-step-counter";
-import { useProductsBulkFilters } from "@/features/products/stores/products-bulk-filters";
 
 interface ConfirmBulkDeleteDialogProps {
   totalResources: number;
@@ -49,10 +48,13 @@ export default function ConfirmBulkDeleteDialog({
     setLoading(true);
     try {
       const res = await onConfirmActions[0]();
-      if (res) {
+      if (res.success) {
         toast.success(
           `${totalResources} ${resourceType} eliminados correctamente.`
         );
+      } else if (!res.success) {
+        console.error(res.error);
+        toast.error(`Error al eliminar los ${totalResources} ${resourceType}.`);
       }
     } catch (e) {
       console.error(e);
