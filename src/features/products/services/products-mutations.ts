@@ -60,8 +60,7 @@ export const useDeleteProducts = () => {
 
 export const useDeleteManyProducts = () => {
   return useMutation({
-    mutationFn: (filters: IFilterBulkProductsQuery) =>
-      deleteManyProducts(filters),
+    mutationFn: (filters: IFilterBulkProductsQuery) => deleteManyProducts(filters),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },

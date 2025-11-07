@@ -8,9 +8,12 @@ import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
 import UiTable from "@/components/dashboard/table/table";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import ConfirmBulkDeleteDialog from "@/components/dashboard/actions/delete/action-bulk-delete-dialog";
+import { useDeleteManyProducts } from "../../services/products-mutations";
 
 export default function ProductBulkFiltersResults() {
   const { filters } = useProductsBulkFilters();
+  const { mutateAsync } = useDeleteManyProducts();
   const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
@@ -65,25 +68,26 @@ export default function ProductBulkFiltersResults() {
             Actualizar productos
           </Button>
 
-          <Button
-            onClick={() => console.log("Eliminar")}
-            className="hover:bg-red-500 cursor-pointer"
-            variant="destructive"
-          >
-            Eliminar productos
-          </Button>
+          <ConfirmBulkDeleteDialog
+            totalResources={total}
+            resourceType="productos"
+            onConfirmActions={[() => mutateAsync(filters)]}
+          />
         </div>
-      {total > 0 && !showPreview && (
-        <Button onClick={() => setShowPreview(true)} className="cursor-pointer sm:w-82">
-          Ver previsualización (listar {total} productos)
-        </Button>
-      )}
+        {total > 0 && !showPreview && (
+          <Button
+            onClick={() => setShowPreview(true)}
+            className="cursor-pointer sm:w-82"
+          >
+            Ver previsualización (listar {total} productos)
+          </Button>
+        )}
       </div>
 
       {isLoadingFull && <div>Cargando listado completo...</div>}
       {showPreview && fullData && (
         <UiTable
-        className="mt-5"
+          className="mt-5"
           caption={`Listado de los ${total} productos seleccionados con los filtros.`}
           rows={{
             headerRow: [

@@ -25,7 +25,6 @@ export default function GenericSearchForm({
     formState: { errors },
     control,
     setValue,
-    resetField,
   } = useFormContext();
 
   //toggle open extra filters
