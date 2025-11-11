@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import GenericForm from "../../../form/generic-create-form/generic-create-form";
 import { GenericFormField } from "../../../form/generic-create-form/generic-create-form.types";
 import ActionStepCounter from "../../action-step-counter";
+import { toast } from "sonner";
 
 interface IBulkUpdateDialog {
   useFormMethods: UseFormReturn<any>;
@@ -70,9 +71,19 @@ export default function BulkUpdateDialog({
     setLoading(true);
     try {
       await onSubmitAction(formData);
+      toast.success(
+        `Se ${
+          totalResources === 1 ? "actualizó" : "actualizaron"
+        } correctamente ${totalResources} ${
+          totalResources === 1 ? resourceType.slice(0, -1) : resourceType
+        }.`
+      );
       setOpen(false);
       useFormMethods.reset();
       setStep(1);
+    } catch (e) {
+      console.error(e);
+      toast.error(`Error al actualizar ${resourceType}.`);
     } finally {
       setLoading(false);
     }
@@ -102,9 +113,7 @@ export default function BulkUpdateDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button
-          className="bg-blue-500 hover:bg-blue-400 cursor-pointer font-bold"
-        >
+        <Button className="bg-blue-500 hover:bg-blue-400 cursor-pointer font-bold">
           Actualizar {resourceType}
         </Button>
       </DialogTrigger>
@@ -215,7 +224,7 @@ export default function BulkUpdateDialog({
 
             {/* Step Counter */}
             <div className="mr-3">
-              <ActionStepCounter step={ step + 1 } stepCount={2} />
+              <ActionStepCounter step={step + 1} stepCount={2} />
             </div>
           </div>
         </DialogContent>
