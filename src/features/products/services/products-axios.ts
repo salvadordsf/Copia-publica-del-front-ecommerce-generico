@@ -81,7 +81,6 @@ export const updateManyProducts = async (
 ) => {
   const params: IFilterBulkProductsQuery = {
     ...(filter?.name && { name: filter?.name }),
-    ...(filter?.search && { search: filter?.search }),
 
     ...(filter?.priceMin && { priceMin: filter?.priceMin }),
     ...(filter?.priceMax && { priceMax: filter?.priceMax }),
@@ -107,7 +106,6 @@ export const updateManyProducts = async (
 export const deleteManyProducts = async (filter: IFilterBulkProductsQuery) => {
   const params: IFilterBulkProductsQuery = {
     ...(filter?.name && { name: filter?.name }),
-    ...(filter?.search && { search: filter?.search }),
 
     ...(filter?.priceMin && { priceMin: filter?.priceMin }),
     ...(filter?.priceMax && { priceMax: filter?.priceMax }),
