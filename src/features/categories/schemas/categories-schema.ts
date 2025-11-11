@@ -32,7 +32,7 @@ export const FilterBulkCategoryQuerySchema = z
   })
   .strict();
 
-export type IFilterBulkCategoryQuery = z.output<typeof FilterBulkCategoryQuerySchema>;
+export type IFilterBulkCategoryQuery = z.input<typeof FilterBulkCategoryQuerySchema>;
 
 export const UpdateBulkCategoriesSchema = z
   .object({
