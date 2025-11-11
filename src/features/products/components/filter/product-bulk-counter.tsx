@@ -68,6 +68,9 @@ export default function ProductBulkFiltersResults() {
         {total > 0 && (
           <div className="flex flex-col sm:flex-row gap-5">
             <BulkUpdateDialogComponent
+              resourceType={"productos"}
+              resourceGenre={"masc"}
+              fields={["status", "relevance"]}
               totalResources={total}
               useResourceBulkFiltersStore={useProductsBulkFilters}
               useUpdateManyResources={useUpdateManyProducts}
@@ -78,6 +81,7 @@ export default function ProductBulkFiltersResults() {
             <ConfirmBulkDeleteDialog
               totalResources={total}
               resourceType="productos"
+              resourceGenre="masc"
               onConfirmActions={[() => deleteProducts(filters)]}
             />
           </div>
