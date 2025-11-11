@@ -32,10 +32,10 @@ export const FilterBulkCategoryQuerySchema = z
 
 export type IFilterBulkCategoryQuery = z.output<typeof FilterBulkCategoryQuerySchema>;
 
-export const UpdateBulkProductsSchema = z
+export const UpdateBulkCategoriesSchema = z
   .object({
     status: StatusEnum.optional(),
   })
   .strict();
 
-export type IUpdateBulkCategories = z.output<typeof UpdateBulkProductsSchema>;
+export type IUpdateBulkCategories = z.output<typeof UpdateBulkCategoriesSchema>;
