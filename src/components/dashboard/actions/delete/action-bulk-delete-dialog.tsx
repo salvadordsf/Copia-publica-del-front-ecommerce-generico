@@ -19,17 +19,20 @@ interface ConfirmBulkDeleteDialogProps {
   totalResources: number;
   resourceType: string;
   onConfirmActions: Array<() => Promise<any> | any>;
+  resourceGenre: "fem" | "masc"
 }
 
 export default function ConfirmBulkDeleteDialog({
   totalResources,
   resourceType,
   onConfirmActions,
+  resourceGenre,
 }: ConfirmBulkDeleteDialogProps) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
   const [confirmationText, setConfirmationText] = useState("");
   const [loading, setLoading] = useState(false);
+  const aux = resourceGenre === "fem" ? "a" : "o";
 
   const handleCancel = () => {
     setOpen(false);
@@ -50,15 +53,15 @@ export default function ConfirmBulkDeleteDialog({
       const res = await onConfirmActions[0]();
       if (res.success) {
         toast.success(
-          `${totalResources} ${resourceType} eliminados correctamente.`
+          `${totalResources} ${resourceType} eliminad${aux}s correctamente.`
         );
       } else if (!res.success) {
         console.error(res.error);
-        toast.error(`Error al eliminar los ${totalResources} ${resourceType}.`);
+        toast.error(`Error al eliminar l${aux}s ${totalResources} ${resourceType}.`);
       }
     } catch (e) {
       console.error(e);
-      toast.error(`Error al eliminar los ${totalResources} ${resourceType}.`);
+      toast.error(`Error al eliminar l${aux}s ${totalResources} ${resourceType}.`);
     } finally {
       setLoading(false);
       setOpen(false);
@@ -81,7 +84,7 @@ export default function ConfirmBulkDeleteDialog({
           className="hover:bg-red-500 cursor-pointer font-bold"
           variant="destructive"
         >
-          Eliminar productos
+          Eliminar {resourceType}
         </Button>
       </DialogTrigger>
 
@@ -95,7 +98,7 @@ export default function ConfirmBulkDeleteDialog({
 
           <DialogDescription>
             {step === 1
-              ? `Esta acción eliminará los ${resourceType} seleccionados.`
+              ? `Esta acción eliminará l${aux}s ${resourceType} seleccionad${aux}s.`
               : `Para confirmar, escribe "eliminar" en el campo a continuación.`}
           </DialogDescription>
         </DialogHeader>
