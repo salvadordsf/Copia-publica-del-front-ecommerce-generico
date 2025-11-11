@@ -26,7 +26,9 @@ export type IUpdateCategory = z.output<typeof UpdateCategorySchema>;
 export const FilterBulkCategoryQuerySchema = z
   .object({
     name: z.string().optional(),
-    status: StatusEnum.optional(),
+    status: StatusEnum.optional().transform((val) =>
+      val === "false" ? undefined : val
+    ),
   })
   .strict();
 
