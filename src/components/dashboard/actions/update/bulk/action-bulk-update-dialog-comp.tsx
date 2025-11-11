@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import BulkUpdateDialog from "./action-bulk-update-dialog";
 import { useState } from "react";
 import { ZodSchema } from "zod";
+import { GenericFormField } from "@/components/dashboard/form/generic-create-form/generic-create-form.types";
 
 interface IBulkUpdateDialogProps {
   useResourceBulkFiltersStore: () => { filters: any };
@@ -14,16 +15,22 @@ interface IBulkUpdateDialogProps {
     error: unknown;
   };
   totalResources: number;
+  resourceType: string;
+  resourceGenre: "fem" | "masc";
   updateBulkResourceSchema: ZodSchema;
   defaultUpdateValues: any;
+  fields: ("status" | "relevance")[];
 }
 
 export const BulkUpdateDialogComponent = ({
   totalResources,
+  resourceType,
+  resourceGenre,
   useResourceBulkFiltersStore,
   useUpdateManyResources,
   updateBulkResourceSchema,
   defaultUpdateValues,
+  fields,
 }: IBulkUpdateDialogProps) => {
   const { filters } = useResourceBulkFiltersStore();
   const {
@@ -38,41 +45,46 @@ export const BulkUpdateDialogComponent = ({
     defaultValues: defaultUpdateValues,
   });
 
+  const updateFields = [
+    fields.includes("status") && {
+      name: "status",
+      label:
+        resourceGenre === "fem"
+          ? `Estado de las ${resourceType}`
+          : `Estado de los ${resourceType}`,
+      type: "select",
+      placeholder: "Seleccionar nuevo estado",
+      className: "sm:col-start-0 sm:col-span-2 w-full",
+      options: [
+        { value: "ACTIVE", label: "Activos" },
+        { value: "ARCHIVED", label: "Archivados" },
+      ],
+    },
+    fields.includes("relevance") && {
+      name: "relevance",
+      label: "Relevancia de los productos [1 - 6]",
+      type: "slider",
+      min: 1,
+      max: 6,
+      step: 1,
+      ux: {
+        uxMinMax: false,
+        uxSteps: true,
+      },
+      className: "col-start-2 row-start-6",
+    },
+  ].filter(Boolean) as GenericFormField[];
+
   return (
     <BulkUpdateDialog
       useFormMethods={methods}
       openState={[isBulkOpen, setIsBulkOpen]}
-      fields={[
-        {
-          name: "status",
-          label: "Estado del producto",
-          type: "select",
-          placeholder: "Seleccionar nuevo estado",
-          className: "sm:col-start-0 sm:col-span-2 w-full",
-          options: [
-            { value: "ACTIVE", label: "Activos" },
-            { value: "ARCHIVED", label: "Archivados" },
-          ],
-        },
-        {
-          name: "relevance",
-          label: "Relevancia del producto [1 - 6]",
-          type: "slider",
-          min: 1,
-          max: 6,
-          step: 1,
-          ux: {
-            uxMinMax: false,
-            uxSteps: true,
-          },
-          className: "col-start-2 row-start-6",
-        },
-      ]}
+      fields={updateFields}
       onSubmitAction={(data) => updateManyAction({ filters, data })}
       isError={isError}
       serverError={error}
       totalResources={totalResources}
-      resourceType="productos"
+      resourceType={resourceType}
     />
   );
 };
