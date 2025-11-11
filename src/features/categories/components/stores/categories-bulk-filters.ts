@@ -12,7 +12,7 @@ const defaultFilters: IFilterBulkCategoryQuery = {
   status: undefined,
 };
 
-export const useProductsBulkFilters = create<ICategoriesFilters>((set) => ({
+export const useCategoriesBulkFilters = create<ICategoriesFilters>((set) => ({
   filters: defaultFilters,
   setFilters: (newFilters) =>
     set((state) => ({
