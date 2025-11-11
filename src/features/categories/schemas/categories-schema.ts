@@ -22,3 +22,20 @@ export type ICreateCategory = z.output<typeof CreateCategorySchema>;
 export const UpdateCategorySchema = CreateCategorySchema.partial();
 
 export type IUpdateCategory = z.output<typeof UpdateCategorySchema>;
+
+export const FilterBulkCategoryQuerySchema = z
+  .object({
+    name: z.string().optional(),
+    status: StatusEnum.optional(),
+  })
+  .strict();
+
+export type IFilterBulkCategoryQuery = z.output<typeof FilterBulkCategoryQuerySchema>;
+
+export const UpdateBulkProductsSchema = z
+  .object({
+    status: StatusEnum.optional(),
+  })
+  .strict();
+
+export type IUpdateBulkCategories = z.output<typeof UpdateBulkProductsSchema>;
