@@ -9,8 +9,12 @@ import UiTable from "@/components/dashboard/table/table";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ConfirmBulkDeleteDialog from "@/components/dashboard/actions/delete/action-bulk-delete-dialog";
-import { useDeleteManyProducts, useUpdateManyProducts } from "../../services/products-mutations";
+import {
+  useDeleteManyProducts,
+  useUpdateManyProducts,
+} from "../../services/products-mutations";
 import { BulkUpdateDialogComponent } from "@/components/dashboard/actions/update/bulk/action-bulk-update-dialog-comp";
+import { UpdateBulkProductsSchema } from "../../schemas/products-schemas";
 
 export default function ProductBulkFiltersResults() {
   const { filters } = useProductsBulkFilters();
@@ -65,6 +69,10 @@ export default function ProductBulkFiltersResults() {
           <div className="flex flex-col sm:flex-row gap-5">
             <BulkUpdateDialogComponent
               totalResources={total}
+              useResourceBulkFiltersStore={useProductsBulkFilters}
+              useUpdateManyResources={useUpdateManyProducts}
+              updateBulkResourceSchema={UpdateBulkProductsSchema}
+              defaultUpdateValues={{ status: undefined, relevance: undefined }}
             />
 
             <ConfirmBulkDeleteDialog
