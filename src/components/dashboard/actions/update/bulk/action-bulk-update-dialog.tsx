@@ -82,7 +82,7 @@ export default function BulkUpdateDialog({
     if (open) useFormMethods.reset();
   }, [open]);
 
-  // Traducción de claves y valores al español
+  // keys values Translate
   const translateKey = (key: string) => {
     const map: Record<string, string> = {
       status: "Estado",

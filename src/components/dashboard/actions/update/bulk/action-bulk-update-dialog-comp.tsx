@@ -1,29 +1,41 @@
 "use client";
 
-import { UpdateBulkProductsSchema } from "@/features/products/schemas/products-schemas";
-import { useUpdateManyProducts } from "@/features/products/services/products-mutations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import BulkUpdateDialog from "./action-bulk-update-dialog";
 import { useState } from "react";
-import { useProductsBulkFilters } from "@/features/products/stores/products-bulk-filters";
+import { ZodSchema } from "zod";
+
+interface IBulkUpdateDialogProps {
+  useResourceBulkFiltersStore: () => { filters: any };
+  useUpdateManyResources: () => {
+    mutateAsync: ({ filters, data }: { filters: any; data: any }) => void;
+    isError: boolean;
+    error: unknown;
+  };
+  totalResources: number;
+  updateBulkResourceSchema: ZodSchema;
+  defaultUpdateValues: any;
+}
 
 export const BulkUpdateDialogComponent = ({
   totalResources,
-}: {
-  totalResources: number;
-}) => {
-  const { filters } = useProductsBulkFilters();
+  useResourceBulkFiltersStore,
+  useUpdateManyResources,
+  updateBulkResourceSchema,
+  defaultUpdateValues,
+}: IBulkUpdateDialogProps) => {
+  const { filters } = useResourceBulkFiltersStore();
   const {
-    mutateAsync: updateProducts,
+    mutateAsync: updateManyAction,
     isError,
     error,
-  } = useUpdateManyProducts();
+  } = useUpdateManyResources();
   const [isBulkOpen, setIsBulkOpen] = useState(false);
 
   const methods = useForm({
-    resolver: zodResolver(UpdateBulkProductsSchema),
-    defaultValues: { status: undefined, relevance: undefined },
+    resolver: zodResolver(updateBulkResourceSchema),
+    defaultValues: defaultUpdateValues,
   });
 
   return (
@@ -56,7 +68,7 @@ export const BulkUpdateDialogComponent = ({
           className: "col-start-2 row-start-6",
         },
       ]}
-      onSubmitAction={(data) => updateProducts({ filters, data })}
+      onSubmitAction={(data) => updateManyAction({ filters, data })}
       isError={isError}
       serverError={error}
       totalResources={totalResources}
