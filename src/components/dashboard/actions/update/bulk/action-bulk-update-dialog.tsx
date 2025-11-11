@@ -36,7 +36,7 @@ export default function BulkUpdateDialog({
   isDisabled = false,
   isError,
   serverError,
-  resourceType = "productos",
+  resourceType = "recursos",
   totalResources = 0,
 }: IBulkUpdateDialog) {
   const [open, setOpen] = openState;
@@ -105,13 +105,13 @@ export default function BulkUpdateDialog({
         <Button
           className="bg-blue-500 hover:bg-blue-400 cursor-pointer font-bold"
         >
-          Actualizar productos
+          Actualizar {resourceType}
         </Button>
       </DialogTrigger>
 
       {!isDisabled && (
         <DialogContent className="max-h-[80vh] overflow-y-auto flex flex-col justify-between">
-          {/* Contenido principal */}
+          {/* main content */}
           <div>
             <DialogHeader>
               <DialogTitle>
