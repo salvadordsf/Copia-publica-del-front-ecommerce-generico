@@ -6,6 +6,7 @@ import BulkUpdateDialog from "./action-bulk-update-dialog";
 import { useState } from "react";
 import { ZodSchema } from "zod";
 import { GenericFormField } from "@/components/dashboard/form/generic-create-form/generic-create-form.types";
+import { useCategories } from "@/features/categories/services/categories-querys";
 
 interface IBulkUpdateDialogProps {
   useResourceBulkFiltersStore: () => { filters: any };
@@ -19,7 +20,7 @@ interface IBulkUpdateDialogProps {
   resourceGenre: "fem" | "masc";
   updateBulkResourceSchema: ZodSchema;
   defaultUpdateValues: any;
-  fields: ("status" | "relevance")[];
+  fields: ("status" | "relevance" | "categoryId")[];
 }
 
 export const BulkUpdateDialogComponent = ({
@@ -38,6 +39,13 @@ export const BulkUpdateDialogComponent = ({
     isError,
     error,
   } = useUpdateManyResources();
+
+  const {
+    data: { success, data: categories } = {},
+    isLoading: isLoadingCategories,
+    isError: getCategoriesError,
+  } = useCategories({ subcategories: true });
+
   const [isBulkOpen, setIsBulkOpen] = useState(false);
 
   const methods = useForm({
@@ -72,6 +80,17 @@ export const BulkUpdateDialogComponent = ({
         uxSteps: true,
       },
       className: "col-start-2 row-start-6",
+    },
+    fields.includes("categoryId") && {
+      name: "categoryId",
+      label: "Categoría",
+      selectLabel: "Categorías",
+      placeholder: "Seleccionar categoría",
+      type: "select",
+      options: categories.map((category: any) => {
+        return { value: category.id, label: category.name };
+      }),
+      className: "sm:col-span-2 sm:row-start-3",
     },
   ].filter(Boolean) as GenericFormField[];
 

@@ -26,7 +26,7 @@ export default function SubcategoriesBulkFiltersResults() {
   }, [filters]);
 
   const {
-    data: { success, data: subs },
+    data: { success, data: subs = [] } = {},
     isLoading: isLoadingSubcategories,
     isError: getSubcategoriesError,
   } = useSubcategories({ category: true });
@@ -52,8 +52,8 @@ export default function SubcategoriesBulkFiltersResults() {
           <div className="flex flex-col sm:flex-row gap-5">
             <BulkUpdateDialogComponent
               resourceType={"subcategorías"}
-              resourceGenre={"masc"}
-              fields={["status", "relevance"]}
+              resourceGenre={"fem"}
+              fields={["status", "categoryId"]}
               totalResources={total}
               useResourceBulkFiltersStore={useSubcategoriesBulkFilters}
               useUpdateManyResources={useUpdateManySubcategories}
@@ -79,7 +79,7 @@ export default function SubcategoriesBulkFiltersResults() {
         )}
       </div>
 
-      {subcategories && <div>Cargando listado completo...</div>}
+      {isLoadingSubcategories && <div>Cargando listado completo...</div>}
       {showPreview && subcategories && total > 0 && (
         <UiTable
           className="mt-5"
