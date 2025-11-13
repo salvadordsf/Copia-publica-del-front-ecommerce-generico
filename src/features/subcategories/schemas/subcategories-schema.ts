@@ -26,3 +26,26 @@ export type ICreateSubcategory = z.infer<typeof CreateSubcategorySchema>;
 export const UpdateSubcategorySchema = CreateSubcategorySchema.partial();
 
 export type IUpdateSubcategory = z.infer<typeof UpdateSubcategorySchema>;
+
+export const FilterBulkSubcategoriesQuerySchema = z
+  .object({
+    name: z.string().optional(),
+    status: StatusEnum.optional().transform((val) =>
+      val === "false" ? undefined : val
+    ),
+    categoryId: UuidSchema.optional(),
+  })
+  .strict();
+
+export type IFilterBulkSubcategoriesQuery = z.input<
+  typeof FilterBulkSubcategoriesQuerySchema
+>;
+
+export const UpdateBulkSubcategoriesSchema = z.object({
+  categoryId: UuidSchema.optional(),
+  status: z.enum(["ACTIVE", "ARCHIVED"]).optional(),
+});
+
+export type IUpdateBulkSubcategories = z.input<
+  typeof UpdateBulkSubcategoriesSchema
+>;
