@@ -80,10 +80,11 @@ export default function GenericSearchForm({
                               setValue("relevance", "0");
                               break;
                             case "categoryId":
-                              setValue("subcategoryId", undefined, {
-                                shouldValidate: true,
-                                shouldDirty: true,
-                              });
+                              if (watch("subcategoryId") !== undefined)
+                                setValue("subcategoryId", undefined, {
+                                  shouldValidate: true,
+                                  shouldDirty: true,
+                                });
                               setValue("categoryId", undefined, {
                                 shouldValidate: true,
                                 shouldDirty: true,
@@ -251,10 +252,11 @@ export default function GenericSearchForm({
                           setValue("relevance", "0");
                           break;
                         case "categoryId":
-                          setValue("subcategoryId", undefined, {
-                            shouldValidate: true,
-                            shouldDirty: true,
-                          });
+                          if (watch("subcategoryId") !== undefined)
+                            setValue("subcategoryId", undefined, {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                            });
                           setValue("categoryId", undefined, {
                             shouldValidate: true,
                             shouldDirty: true,
