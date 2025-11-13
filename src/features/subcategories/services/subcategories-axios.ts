@@ -1,5 +1,11 @@
 import axiosInstance from "@/lib/axios/axios";
-import { ICreateSubcategory, IGetSubcategoryQuery, IUpdateSubcategory } from "../schemas/subcategories-schema";
+import {
+  ICreateSubcategory,
+  IFilterBulkSubcategoriesQuery,
+  IGetSubcategoryQuery,
+  IUpdateBulkSubcategories,
+  IUpdateSubcategory,
+} from "../schemas/subcategories-schema";
 
 export const getSubcategories = async (data: IGetSubcategoryQuery) => {
   const params: any = {
@@ -34,7 +40,10 @@ export const createSubcategory = async (data: ICreateSubcategory) => {
   return res.data;
 };
 
-export const updateSubcategory = async (id: string, data: IUpdateSubcategory) => {
+export const updateSubcategory = async (
+  id: string,
+  data: IUpdateSubcategory
+) => {
   const res = await axiosInstance.put(`/subcategories/${id}`, data);
   console.log(data);
   console.log(res);
@@ -43,6 +52,42 @@ export const updateSubcategory = async (id: string, data: IUpdateSubcategory) =>
 
 export const deleteSubcategory = async (id: string) => {
   const res = await axiosInstance.delete(`/subcategories/${id}`);
+  console.log(res);
+  return res.data;
+};
+
+export const updateManySubcategories = async (
+  filter: IFilterBulkSubcategoriesQuery,
+  data: IUpdateBulkSubcategories
+) => {
+  const params: IFilterBulkSubcategoriesQuery = {
+    ...(filter?.name && { name: filter?.name }),
+    ...(filter?.status && { status: filter?.status }),
+    ...(filter?.categoryId && { categoryId: filter?.categoryId }),
+  };
+
+  const update: IUpdateBulkSubcategories = {
+    ...(data?.status && { status: data.status }),
+    ...(data?.categoryId && { categoryId: data.categoryId }),
+  };
+
+  const res = await axiosInstance.put("/subcategories", update, { params });
+
+  console.log(res);
+  return res.data;
+};
+
+export const deleteManySubcategories = async (
+  filter: IFilterBulkSubcategoriesQuery
+) => {
+  const params: IFilterBulkSubcategoriesQuery = {
+    ...(filter?.name && { name: filter?.name }),
+    ...(filter?.status && { status: filter?.status }),
+    ...(filter?.categoryId && { categoryId: filter?.categoryId }),
+  };
+
+  const res = await axiosInstance.delete("/subcategories", { params });
+
   console.log(res);
   return res.data;
 };
