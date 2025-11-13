@@ -8,13 +8,13 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import ConfirmBulkDeleteDialog from "@/components/dashboard/actions/delete/action-bulk-delete-dialog";
 import { BulkUpdateDialogComponent } from "@/components/dashboard/actions/update/bulk/action-bulk-update-dialog-comp";
-import { useSubcategoriesBulkFilters } from "../../store/categories-bulk-filters";
 import {
   useDeleteManySubcategories,
   useUpdateManySubcategories,
 } from "../../services/subcategories-mutations";
 import { useSubcategories } from "../../services/subcategories-querys";
 import { UpdateBulkSubcategoriesSchema } from "../../schemas/subcategories-schema";
+import { useSubcategoriesBulkFilters } from "../../store/subcategories-bulk-filters";
 
 export default function SubcategoriesBulkFiltersResults() {
   const { filters } = useSubcategoriesBulkFilters();
@@ -29,13 +29,17 @@ export default function SubcategoriesBulkFiltersResults() {
     data: { success, data: subs = [] } = {},
     isLoading: isLoadingSubcategories,
     isError: getSubcategoriesError,
-  } = useSubcategories({ category: true });
+  } = useSubcategories(filters);
 
   const total = subs.length ?? 0;
 
-  const subcategories = subs ?? [];
+  const {
+    data: { data: subcategoriesWithCats = [] } = {},
+    isLoading: isLoadingFull,
+    isError: isErrorFull,
+  } = useSubcategories(showPreview ? { category: true, ...filters } : {});
 
-  console.log(filters);
+  console.log("asd", filters);
 
   if (isLoadingSubcategories) return <div>Loading subcategories...</div>;
   if (getSubcategoriesError)
@@ -45,7 +49,7 @@ export default function SubcategoriesBulkFiltersResults() {
     <>
       <div className="flex flex-col gap-5">
         <p>
-          Subcategorías filtrados para modificar: <strong>{total}</strong>
+          Subcategorías filtradas para modificar: <strong>{total}</strong>
         </p>
 
         {total > 0 && (
@@ -79,8 +83,8 @@ export default function SubcategoriesBulkFiltersResults() {
         )}
       </div>
 
-      {isLoadingSubcategories && <div>Cargando listado completo...</div>}
-      {showPreview && subcategories && total > 0 && (
+      {isLoadingFull && <div>Cargando listado completo...</div>}
+      {showPreview && subcategoriesWithCats && total > 0 && (
         <UiTable
           className="mt-5"
           caption={`Listado de las ${total} subcategorías seleccionadas con los filtros.`}
@@ -120,16 +124,16 @@ export default function SubcategoriesBulkFiltersResults() {
               },
             ],
             bodyRows:
-              subcategories &&
-              subcategories.map((subcategory: any) => {
+              subcategoriesWithCats &&
+              subcategoriesWithCats.map((subcategory: any) => {
                 return {
                   rowCells: [
                     { type: "body", text: subcategory.name },
-                    { type: "body", text: `$${subcategory.category.name}` },
+                    { type: "body", text: `${subcategory.category.name}` },
                     { type: "body", text: subcategory._count.products },
                     {
                       type: "body",
-                      text: statusTranslate(subcategory.status, "masc"),
+                      text: statusTranslate(subcategory.status, "fem"),
                     },
                     {
                       type: "body",

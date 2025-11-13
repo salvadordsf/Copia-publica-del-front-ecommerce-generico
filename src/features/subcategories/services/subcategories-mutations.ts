@@ -62,6 +62,7 @@ export const useUpdateManySubcategories = () => {
       data: IUpdateBulkSubcategories;
     }) => updateManySubcategories(filters, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
       queryClient.invalidateQueries({ queryKey: ["subcategories"] });
     },
   });

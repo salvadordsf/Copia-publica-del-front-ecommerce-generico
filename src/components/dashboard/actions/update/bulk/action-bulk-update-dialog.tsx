@@ -98,6 +98,7 @@ export default function BulkUpdateDialog({
     const map: Record<string, string> = {
       status: "Estado",
       relevance: "Relevancia",
+      categoryid: "Categoría"
     };
     return map[key.toLowerCase()] || key;
   };

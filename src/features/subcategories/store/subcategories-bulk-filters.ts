@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { IFilterBulkSubcategoriesQuery } from "../schemas/subcategories-schema";
 
-interface IProductFilters {
+interface ISubcategoriesFiltersStore {
   filters: IFilterBulkSubcategoriesQuery;
   setFilters: (filters: Partial<IFilterBulkSubcategoriesQuery>) => void;
   resetFilters: () => void;
@@ -13,14 +13,10 @@ const defaultFilters: IFilterBulkSubcategoriesQuery = {
   status: undefined,
 };
 
-export const useSubcategoriesBulkFilters = create<IProductFilters>((set) => ({
-  filters: defaultFilters,
-  setFilters: (newFilters) =>
-    set((state) => ({
-      filters: {
-        ...state.filters,
-        ...newFilters,
-      },
-    })),
-  resetFilters: () => set({ filters: defaultFilters }),
-}));
+export const useSubcategoriesBulkFilters = create<ISubcategoriesFiltersStore>(
+  (set) => ({
+    filters: defaultFilters,
+    setFilters: (filters) => set({ filters: { ...filters } }),
+    resetFilters: () => set({ filters: { ...defaultFilters } }),
+  })
+);

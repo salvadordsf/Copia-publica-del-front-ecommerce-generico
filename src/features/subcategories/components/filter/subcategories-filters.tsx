@@ -4,17 +4,17 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import GenericSearchForm from "@/components/dashboard/form/generic-search-form/generic-search-form";
 import { useCategories } from "@/features/categories/services/categories-querys";
-import { useSubcategoriesBulkFilters } from "../../store/categories-bulk-filters";
 import {
   FilterBulkSubcategoriesQuerySchema,
   IFilterBulkSubcategoriesQuery,
 } from "../../schemas/subcategories-schema";
+import { useSubcategoriesBulkFilters } from "../../store/subcategories-bulk-filters";
 
 export default function SubcategoryBulkFilters() {
   const { setFilters, resetFilters } = useSubcategoriesBulkFilters();
 
   const {
-    data: { success, data: categories } = {},
+    data: { success, data: categories = [] } = {},
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });

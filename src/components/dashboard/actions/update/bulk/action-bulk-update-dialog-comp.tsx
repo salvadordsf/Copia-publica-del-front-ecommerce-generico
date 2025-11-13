@@ -85,7 +85,7 @@ export const BulkUpdateDialogComponent = ({
       name: "categoryId",
       label: "Categoría",
       selectLabel: "Categorías",
-      placeholder: "Seleccionar categoría",
+      placeholder: "Seleccionar nueva categoría",
       type: "select",
       options: categories.map((category: any) => {
         return { value: category.id, label: category.name };
