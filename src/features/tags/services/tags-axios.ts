@@ -8,8 +8,8 @@ import {
 
 export const getTags = async (data: IGetTagQuery) => {
   const params: any = {
-    name: data.name,
-    status: data.status,
+    ...(data?.name && { name: data?.name }),
+    ...(data?.status && { status: data?.status }),
   };
 
   if (data.products) {
@@ -62,6 +62,7 @@ export const updateManyTags = async (
 ) => {
   const params: IFilterBulkTagsQuery = {
     ...(filter?.name && { name: filter?.name }),
+    ...(filter?.status && { status: filter?.status }),
   };
 
   const update: IUpdateBulkTags = {
@@ -77,6 +78,7 @@ export const updateManyTags = async (
 export const deleteManyTags = async (filter: IFilterBulkTagsQuery) => {
   const params: IFilterBulkTagsQuery = {
     ...(filter?.name && { name: filter?.name }),
+    ...(filter?.status && { status: filter?.status }),
   };
 
   const res = await axiosInstance.delete("/tags", { params });

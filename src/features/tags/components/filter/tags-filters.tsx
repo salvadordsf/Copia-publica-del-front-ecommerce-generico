@@ -4,7 +4,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import GenericSearchForm from "@/components/dashboard/form/generic-search-form/generic-search-form";
 import { useTagsBulkFilters } from "../../stores/tags-bulk-filters";
-import { useTags } from "../../services/tags-querys";
 import {
   FilterBulkTagsQuerySchema,
   IFilterBulkTagsQuery,
@@ -13,12 +12,6 @@ import {
 export default function TagsBulkFilters() {
   const { setFilters, resetFilters } = useTagsBulkFilters();
 
-  const {
-    data: { success, data: tags } = {},
-    isLoading: isLoadingTags,
-    isError: getTagsError,
-  } = useTags({});
-
   const methods = useForm<IFilterBulkTagsQuery>({
     resolver: zodResolver(FilterBulkTagsQuerySchema),
   });
@@ -26,9 +19,6 @@ export default function TagsBulkFilters() {
   const onSubmit = (data: IFilterBulkTagsQuery) => {
     setFilters(data);
   };
-
-  if (isLoadingTags) return <div>Loading tags...</div>;
-  if (getTagsError) return <div>Error al obtener etiquetas</div>;
 
   return (
     <FormProvider {...methods}>

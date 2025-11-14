@@ -57,6 +57,7 @@ export const updateManyCategories = async (
 ) => {
   const params: IFilterBulkCategoryQuery = {
     ...(filter?.name && { name: filter?.name }),
+    ...(filter?.status && { status: filter?.status }),
   };
 
   const update: IUpdateBulkCategories = {
@@ -74,6 +75,7 @@ export const deleteManyCategories = async (
 ) => {
   const params: IFilterBulkCategoryQuery = {
     ...(filter?.name && { name: filter?.name }),
+    ...(filter?.status && { status: filter?.status }),
   };
 
   const res = await axiosInstance.delete("/categories", { params });

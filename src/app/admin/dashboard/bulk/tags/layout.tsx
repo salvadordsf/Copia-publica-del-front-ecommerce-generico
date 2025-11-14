@@ -1,6 +1,6 @@
 import UiBreadcrumb from "@/components/dashboard/breadcrumb/breadcrumb";
 import UiDivider from "@/components/dashboard/divider/divider";
-import { Folder } from 'lucide-react';
+import { Tag } from 'lucide-react';
 
 export default function AdminDashboardLayout({
   children,
@@ -18,7 +18,7 @@ export default function AdminDashboardLayout({
           ]}
         />
         <h1 className="flex items-center gap-2 text-3xl m-2">
-          <Folder />
+          <Tag />
           Etiquetas - Acciones en lote
         </h1>
       </header>

@@ -1,7 +1,6 @@
 "use client";
 
 import { FormProvider, useForm } from "react-hook-form";
-import { useCategories } from "../../services/categories-querys";
 import { useCategoriesBulkFilters } from "../../stores/categories-bulk-filters";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -13,12 +12,6 @@ import GenericSearchForm from "@/components/dashboard/form/generic-search-form/g
 export default function CategoriesBulkFilters() {
   const { setFilters, resetFilters } = useCategoriesBulkFilters();
 
-  const {
-    data: { success, data: categories } = {},
-    isLoading: isLoadingCategories,
-    isError: getCategoriesError,
-  } = useCategories({ subcategories: true });
-
   const methods = useForm<IFilterBulkCategoryQuery>({
     resolver: zodResolver(FilterBulkCategoryQuerySchema),
   });
@@ -26,9 +19,6 @@ export default function CategoriesBulkFilters() {
   const onSubmit = (data: IFilterBulkCategoryQuery) => {
     setFilters(data);
   };
-
-  if (isLoadingCategories) return <div>Loading categories...</div>;
-  if (getCategoriesError) return <div>Error al obtener categorías</div>;
 
   return (
     <FormProvider {...methods}>
