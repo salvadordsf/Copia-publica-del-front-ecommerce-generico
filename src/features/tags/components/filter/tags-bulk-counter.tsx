@@ -1,12 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useCategoriesBulkFilters } from "../../stores/categories-bulk-filters";
-import {
-  useDeleteManyCategories,
-  useUpdateManyCategories,
-} from "../../services/categories-mutations";
-import { useCategories } from "../../services/categories-querys";
 import ConfirmBulkDeleteDialog from "@/components/dashboard/actions/delete/action-bulk-delete-dialog";
 import { Button } from "@/components/ui/button";
 import UiTable from "@/components/dashboard/table/table";
@@ -14,11 +8,17 @@ import { statusTranslate } from "@/utils/status-translate";
 import { stringToDateToString } from "@/utils/date-to-string-utility";
 import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
 import { BulkUpdateDialogComponent } from "@/components/dashboard/actions/update/bulk/action-bulk-update-dialog-comp";
-import { UpdateBulkCategoriesSchema } from "../../schemas/categories-schema";
+import { useTagsBulkFilters } from "../../stores/tags-bulk-filters";
+import {
+  useDeleteManyTags,
+  useUpdateManyTags,
+} from "../../services/tags-mutations";
+import { useTags } from "../../services/tags-querys";
+import { UpdateBulkTagsSchema } from "../../schemas/tags-schema";
 
-export default function CategoriesBulkFiltersResults() {
-  const { filters } = useCategoriesBulkFilters();
-  const { mutateAsync: deleteCategories } = useDeleteManyCategories();
+export default function TagsBulkFiltersResults() {
+  const { filters } = useTagsBulkFilters();
+  const { mutateAsync: deleteTags } = useDeleteManyTags();
   const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
@@ -26,50 +26,43 @@ export default function CategoriesBulkFiltersResults() {
   }, [filters]);
 
   const {
-    data: { success, data: categories } = {},
-    isLoading: isLoadingCategories,
-    isError: getCategoriesError,
-  } = useCategories(filters);
+    data: { success, data: tags } = {},
+    isLoading: isLoadingTags,
+    isError: getTagsError,
+  } = useTags(filters);
 
-  const total = categories?.length ?? 0;
-
-  const {
-    data: { data: categoriesWithSub = [] } = {},
-    isLoading: isLoadingFull,
-    isError: isErrorFull,
-  } = useCategories(showPreview ? { subcategories: true, ...filters } : {});
+  const total = tags?.length ?? 0;
 
   console.log(filters);
 
-  if (isLoadingCategories) return <div>Loading categories...</div>;
-  if (getCategoriesError)
-    return <div>Error al obtener categorias filtradas</div>;
+  if (isLoadingTags) return <div>Loading Tags...</div>;
+  if (getTagsError) return <div>Error al obtener etiquetas filtradas</div>;
 
   return (
     <>
       <div className="flex flex-col gap-5">
         <p>
-          Categorías filtradas para modificar: <strong>{total}</strong>
+          Etiquetas filtradas para modificar: <strong>{total}</strong>
         </p>
 
         {total > 0 && (
           <div className="flex flex-col sm:flex-row gap-5">
             <BulkUpdateDialogComponent
-              resourceType={"categorías"}
+              resourceType={"etiquetas"}
               resourceGenre={"fem"}
               fields={["status"]}
               totalResources={total}
-              useResourceBulkFiltersStore={useCategoriesBulkFilters}
-              useUpdateManyResources={useUpdateManyCategories}
-              updateBulkResourceSchema={UpdateBulkCategoriesSchema}
+              useResourceBulkFiltersStore={useTagsBulkFilters}
+              useUpdateManyResources={useUpdateManyTags}
+              updateBulkResourceSchema={UpdateBulkTagsSchema}
               defaultUpdateValues={{ status: undefined }}
             />
 
             <ConfirmBulkDeleteDialog
               totalResources={total}
-              resourceType="categorías"
+              resourceType="etiquetas"
               resourceGenre="fem"
-              onConfirmActions={[() => deleteCategories(filters)]}
+              onConfirmActions={[() => deleteTags(filters)]}
             />
           </div>
         )}
@@ -78,25 +71,21 @@ export default function CategoriesBulkFiltersResults() {
             onClick={() => setShowPreview(true)}
             className="cursor-pointer sm:w-82"
           >
-            Ver previsualización (listar {total} categorías)
+            Ver previsualización (listar {total} etiquetas)
           </Button>
         )}
       </div>
 
-      {isLoadingFull && <div>Cargando listado completo...</div>}
-      {showPreview && categoriesWithSub && total > 0 && (
+      {isLoadingTags && <div>Cargando listado completo...</div>}
+      {showPreview && tags && total > 0 && (
         <UiTable
           className="mt-5"
-          caption={`Listado de las ${total} categorías seleccionadas con los filtros.`}
+          caption={`Listado de las ${total} etiquetas seleccionadas con los filtros.`}
           rows={{
             headerRow: [
               {
                 type: "header",
                 text: "Nombre",
-              },
-              {
-                type: "header",
-                text: "Subcategorías",
               },
               {
                 type: "header",
@@ -124,39 +113,36 @@ export default function CategoriesBulkFiltersResults() {
               },
             ],
             bodyRows:
-              categoriesWithSub &&
-              categoriesWithSub.map((category: any) => {
+              tags &&
+              tags.map((tag: any) => {
                 return {
                   rowCells: [
-                    { type: "body", text: category.name },
-                    { type: "body", text: `$${category._count.subcategories}` },
-                    { type: "body", text: category._count.products },
+                    { type: "body", text: tag.name },
+                    { type: "body", text: tag._count.products },
                     {
                       type: "body",
-                      text: statusTranslate(category.status, "fem"),
+                      text: statusTranslate(tag.status, "fem"),
                     },
                     {
                       type: "body",
-                      text: stringToDateToString(category.createdAt),
+                      text: stringToDateToString(tag.createdAt),
                     },
                     {
                       type: "body",
-                      text: stringToDateToString(category.updatedAt),
-                    },
-                    {
-                      type: "body",
-                      text:
-                        category.archivedAt &&
-                        stringToDateToString(category.archivedAt),
+                      text: stringToDateToString(tag.updatedAt),
                     },
                     {
                       type: "body",
                       text:
-                        category.deletedAt &&
-                        stringToDateToString(category.deletedAt),
+                        tag.archivedAt && stringToDateToString(tag.archivedAt),
+                    },
+                    {
+                      type: "body",
+                      text:
+                        tag.deletedAt && stringToDateToString(tag.deletedAt),
                     },
                   ],
-                  className: statusRowClassGenerator(category),
+                  className: statusRowClassGenerator(tag),
                 };
               }),
           }}

@@ -1,34 +1,34 @@
 "use client";
 
 import { FormProvider, useForm } from "react-hook-form";
-import { useCategories } from "../../services/categories-querys";
-import { useCategoriesBulkFilters } from "../../stores/categories-bulk-filters";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  FilterBulkCategoryQuerySchema,
-  IFilterBulkCategoryQuery,
-} from "../../schemas/categories-schema";
 import GenericSearchForm from "@/components/dashboard/form/generic-search-form/generic-search-form";
+import { useTagsBulkFilters } from "../../stores/tags-bulk-filters";
+import { useTags } from "../../services/tags-querys";
+import {
+  FilterBulkTagsQuerySchema,
+  IFilterBulkTagsQuery,
+} from "../../schemas/tags-schema";
 
-export default function CategoriesBulkFilters() {
-  const { setFilters, resetFilters } = useCategoriesBulkFilters();
+export default function TagsBulkFilters() {
+  const { setFilters, resetFilters } = useTagsBulkFilters();
 
   const {
-    data: { success, data: categories } = {},
-    isLoading: isLoadingCategories,
-    isError: getCategoriesError,
-  } = useCategories({ subcategories: true });
+    data: { success, data: tags } = {},
+    isLoading: isLoadingTags,
+    isError: getTagsError,
+  } = useTags({});
 
-  const methods = useForm<IFilterBulkCategoryQuery>({
-    resolver: zodResolver(FilterBulkCategoryQuerySchema),
+  const methods = useForm<IFilterBulkTagsQuery>({
+    resolver: zodResolver(FilterBulkTagsQuerySchema),
   });
 
-  const onSubmit = (data: IFilterBulkCategoryQuery) => {
+  const onSubmit = (data: IFilterBulkTagsQuery) => {
     setFilters(data);
   };
 
-  if (isLoadingCategories) return <div>Loading categories...</div>;
-  if (getCategoriesError) return <div>Error al obtener categorías</div>;
+  if (isLoadingTags) return <div>Loading tags...</div>;
+  if (getTagsError) return <div>Error al obtener etiquetas</div>;
 
   return (
     <FormProvider {...methods}>
