@@ -16,3 +16,22 @@ export const GetTagQuerySchema = z.object({
 });
 
 export type IGetTagQuery = z.infer<typeof GetTagQuerySchema>;
+
+export const FilterBulkTagsQuerySchema = z
+  .object({
+    name: z.string().optional(),
+    status: StatusEnum.optional().transform((val) =>
+      val === "false" ? undefined : val
+    ),
+  })
+  .strict();
+
+export type IFilterBulkTagsQuery = z.input<typeof FilterBulkTagsQuerySchema>;
+
+export const UpdateBulkTagsSchema = z
+  .object({
+    status: StatusEnum.optional(),
+  })
+  .strict();
+
+export type IUpdateBulkTags = z.output<typeof UpdateBulkTagsSchema>;
