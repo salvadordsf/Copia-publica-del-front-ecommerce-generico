@@ -21,7 +21,7 @@ import UiDivider from "@/components/dashboard/divider/divider";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
-import MigrateProducts from "@/features/products/components/update/migration/products-update-migration-dialog";
+import ResourceMigrateDialog from "@/features/products/components/update/migration/products-update-migrate-dialog";
 
 export default function IdCategoryPage() {
   const { id } = useParams();
@@ -77,6 +77,15 @@ export default function IdCategoryPage() {
           updateResourceAction={updateCategory.mutateAsync}
           deleteResourceAction={deleteCategory.mutateAsync}
         />
+        {category && category.products?.length > 0 && (
+          <ResourceMigrateDialog
+            resourceName={category.name}
+            resourceToUpdateType="products"
+            resourcesToUpdate={category.products}
+          />
+        )}
+        
+        <UiDivider />
 
         {/* Subcategories list */}
         <section className="space-y-2">
@@ -162,10 +171,6 @@ export default function IdCategoryPage() {
           )}
         </section>
       </div>
-
-
-        {/* MIGRATION TEST FORM
-      {category && category.products?.length > 0 && <MigrateProducts products={category.products}/>} */}
     </>
   );
 }
