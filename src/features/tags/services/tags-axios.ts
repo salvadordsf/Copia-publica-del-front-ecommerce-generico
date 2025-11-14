@@ -1,5 +1,10 @@
 import axiosInstance from "@/lib/axios/axios";
-import { ICreateTagSchema, IGetTagQuery } from "../schemas/tags-schema";
+import {
+  ICreateTagSchema,
+  IFilterBulkTagsQuery,
+  IGetTagQuery,
+  IUpdateBulkTags,
+} from "../schemas/tags-schema";
 
 export const getTags = async (data: IGetTagQuery) => {
   const params: any = {
@@ -47,6 +52,35 @@ export const updateTag = async (id: string, data: ICreateTagSchema) => {
 
 export const deleteTag = async (id: string) => {
   const res = await axiosInstance.delete(`/tags/${id}`);
+  console.log(res);
+  return res.data;
+};
+
+export const updateManyTags = async (
+  filter: IFilterBulkTagsQuery,
+  data: IUpdateBulkTags
+) => {
+  const params: IFilterBulkTagsQuery = {
+    ...(filter?.name && { name: filter?.name }),
+  };
+
+  const update: IUpdateBulkTags = {
+    ...(data?.status && { status: data.status }),
+  };
+
+  const res = await axiosInstance.put("/tags", update, { params });
+
+  console.log(res);
+  return res.data;
+};
+
+export const deleteManyTags = async (filter: IFilterBulkTagsQuery) => {
+  const params: IFilterBulkTagsQuery = {
+    ...(filter?.name && { name: filter?.name }),
+  };
+
+  const res = await axiosInstance.delete("/tags", { params });
+
   console.log(res);
   return res.data;
 };
