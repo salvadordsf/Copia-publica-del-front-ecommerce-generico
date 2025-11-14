@@ -9,8 +9,8 @@ import {
 
 export const getCategories = async (data: IGetCategoryQuery) => {
   const params: any = {
-    name: data.name,
-    status: data.status,
+    ...(data?.name && { name: data?.name }),
+    ...(data?.status && { status: data?.status }),
   };
   if (data.subcategories) {
     params.subcategories = true;
