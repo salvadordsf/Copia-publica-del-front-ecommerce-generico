@@ -27,7 +27,7 @@ export default function ResourceActionsHandler({
   const router = useRouter();
 
   return (
-    <section className="flex gap-4">
+    <section className="flex flex-col gap-2 max-w-80 sm:flex-row sm:gap-4">
       {resource.status !== "DELETED" && (
         <>
           {updateResourceDialog}

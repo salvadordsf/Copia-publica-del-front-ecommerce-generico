@@ -41,7 +41,7 @@ export default function ResourceMigrateDialog({
   return (
     <Dialog open={open} onOpenChange={(v) => setOpen(v)}>
       <DialogTrigger asChild>
-        <Button className="font-bold cursor-pointer">
+        <Button className="font-bold cursor-pointer  max-w-80">
           Migrar{" "}
           {resourceToUpdateType === "products" ? "productos" : "subcategorías"}
         </Button>

@@ -77,14 +77,7 @@ export default function IdCategoryPage() {
           updateResourceAction={updateCategory.mutateAsync}
           deleteResourceAction={deleteCategory.mutateAsync}
         />
-        {category && category.products?.length > 0 && (
-          <ResourceMigrateDialog
-            resourceName={category.name}
-            resourceToUpdateType="products"
-            resourcesToUpdate={category.products}
-          />
-        )}
-        
+
         <UiDivider />
 
         {/* Subcategories list */}
@@ -131,10 +124,21 @@ export default function IdCategoryPage() {
             </Table>
           )}
         </section>
+
         <UiDivider />
+
         {/* Products list */}
         <section className="space-y-2">
-          <h2 className="text-xl font-semibold">Productos asociados</h2>
+          <div className="flex flex-col gap-1 sm:flex-row sm:gap-10">
+            <h2 className="text-xl font-semibold">Productos asociados</h2>
+            {category && category.products?.length > 0 && (
+              <ResourceMigrateDialog
+                resourceName={category.name}
+                resourceToUpdateType="products"
+                resourcesToUpdate={category.products}
+              />
+            )}
+          </div>
 
           {!category.products?.length ? (
             <p className="text-muted-foreground">Sin productos asociados.</p>
