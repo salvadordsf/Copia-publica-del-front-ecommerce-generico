@@ -111,9 +111,10 @@ export default function MigrateProductsForm({
       className="space-y-6 max-w-3xl mx-auto overflow-y-auto rounded-none"
     >
       {/*Status filters*/}
-      <div className="flex items-center gap-6 mb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6 sm:mb-4">
         <label className="flex items-center gap-2 cursor-pointer">
           <Input
+            className="w-3"
             type="checkbox"
             checked={active}
             onChange={() => setActive((prev) => !prev)}
@@ -123,6 +124,7 @@ export default function MigrateProductsForm({
 
         <label className="flex items-center gap-2 cursor-pointer">
           <Input
+            className="w-3"
             type="checkbox"
             checked={archived}
             onChange={() => setArchived((prev) => !prev)}
@@ -132,6 +134,7 @@ export default function MigrateProductsForm({
 
         <label className="flex items-center gap-2 cursor-pointer">
           <Input
+            className="w-3"
             type="checkbox"
             checked={deleted}
             onChange={() => setDeleted((prev) => !prev)}

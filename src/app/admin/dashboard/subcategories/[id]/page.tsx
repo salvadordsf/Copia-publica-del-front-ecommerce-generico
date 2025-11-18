@@ -24,6 +24,7 @@ import UpdateSubcategoryDialog from "@/features/subcategories/components/update/
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
+import ResourceMigrateDialog from "@/features/products/components/update/migration/products-update-migrate-dialog";
 
 export default function IdSubcategoryPage() {
   const { id } = useParams();
@@ -92,10 +93,21 @@ export default function IdSubcategoryPage() {
             </Button>
           </Link>
         </section>
+
         <UiDivider />
+
         {/* Products list */}
         <section className="space-y-2">
-          <h2 className="text-xl font-semibold">Productos asociados</h2>
+          <div className="flex flex-col gap-1 sm:flex-row sm:gap-10">
+            <h2 className="text-xl font-semibold">Productos asociados</h2>
+            {subcategory && subcategory.products?.length > 0 && (
+              <ResourceMigrateDialog
+                resourceName={subcategory.name}
+                resourceToUpdateType="products"
+                resourcesToUpdate={subcategory.products}
+              />
+            )}
+          </div>
 
           {!subcategory.products?.length ? (
             <p className="text-muted-foreground">Sin productos asociados.</p>
