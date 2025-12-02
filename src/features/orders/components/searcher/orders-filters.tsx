@@ -59,7 +59,7 @@ export default function OrdersSearchFilters() {
               options: [
                 { value: "createdAt", label: "Creación" },
                 { value: "user", label: "Nombre de usuario" },
-                { value: "totalAmount", label: "Costo total" },
+                { value: "totalAmount", label: "Monto total" },
                 { value: "updatedAt", label: "Actualización" },
               ],
               defaultValue: "createdAt",

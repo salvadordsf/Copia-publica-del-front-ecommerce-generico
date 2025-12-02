@@ -12,7 +12,7 @@ export const GetOrdersQuerySchema = z
     page: z.string().optional(),
     pageSize: z.string().optional(),
 
-    userId: UuidSchema.optional(),
+    userId:  z.union([UuidSchema, z.literal(""), z.undefined()]),
     search: z.string().optional(),
     status: OrderStatusEnum.optional(),
 
