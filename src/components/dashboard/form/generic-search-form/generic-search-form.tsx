@@ -157,27 +157,33 @@ export default function GenericSearchForm({
                   />
                 </label>
               </div>
+            ) : field.type === "status" ? (
+              <Controller
+                name={field.name}
+                control={control}
+                render={({ field: controllerField }) => (
+                  <UiSelect
+                    field={controllerField}
+                    placeholder={field.placeholder}
+                    label={field.selectLabel as string}
+                    items={field.options?.map((option) => ({
+                      value: option.value,
+                      label: option.label,
+                      disabled: false,
+                    }))}
+                    disabled={false}
+                    defaultValue={field.defaultValue}
+                  />
+                )}
+              />
             ) : (
-              field.type === "status" && (
-                <Controller
-                  name={field.name}
-                  control={control}
-                  render={({ field: controllerField }) => (
-                    <UiSelect
-                      field={controllerField}
-                      placeholder={field.placeholder}
-                      label={field.selectLabel as string}
-                      items={field.options?.map((option) => ({
-                        value: option.value,
-                        label: option.label,
-                        disabled: false,
-                      }))}
-                      disabled={false}
-                      defaultValue={field.defaultValue}
-                    />
-                  )}
-                />
-              )
+              <Input
+                type="text"
+                {...register(field.name)}
+                placeholder={field.placeholder}
+                min={field.min}
+                max={field.max}
+              />
             )}
           </label>
         </div>

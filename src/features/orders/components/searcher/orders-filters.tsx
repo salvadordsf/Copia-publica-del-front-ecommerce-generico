@@ -46,7 +46,7 @@ export default function OrdersSearchFilters() {
               className: "sm:col-span-4",
             },
             {
-              type: "search bar",
+              type: "text",
               name: "userId",
               label: "Buscar por ID de usuario",
               placeholder: "Ej: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
