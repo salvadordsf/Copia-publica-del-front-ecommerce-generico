@@ -25,6 +25,7 @@ export const RegisterSchema = z
   .object({
     name: z
       .string()
+      .trim()
       .min(6, { message: AUTH_ERRORS.NAME_MIN })
       .max(30, { message: AUTH_ERRORS.NAME_MAX }),
     email: z.string().email({ message: AUTH_ERRORS.EMAIL }),
