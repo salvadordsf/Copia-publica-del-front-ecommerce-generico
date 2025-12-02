@@ -8,7 +8,7 @@ interface IOrdersFilters {
 }
 
 const defaultFilters: IGetOrderQuery = {
-  userId: undefined,
+  userId: "",
   status: undefined,
   products: false,
   search: "",
