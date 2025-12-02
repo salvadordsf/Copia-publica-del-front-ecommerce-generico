@@ -3,15 +3,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { useProducts } from "../../services/products-querys";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import UiPagination from "@/components/dashboard/pagination/pagination";
 import { useProductsSearchFilters } from "../../stores/products-search-filters-store";
 import UiTable from "@/components/dashboard/table/table";
