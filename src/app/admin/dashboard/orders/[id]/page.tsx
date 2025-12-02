@@ -41,10 +41,19 @@ export default function IdOrderPage() {
         <ResourceProperties
           properties={[
             { key: "Número de orden", value: order.orderNumber },
-            { key: "Usuario", value: order.user.name, link: `/admin/dashboard/users/${order.user.id}` },
+            {
+              key: "Usuario",
+              value: order.user.name,
+              link: `/admin/dashboard/users/${order.user.id}`,
+            },
             { key: "Monto total", value: `$${order.totalAmount}` },
             { key: "Estado", value: order.status },
             { key: "Cantidad de productos", value: order._count.products },
+            {
+              key: "Info. de envío:",
+              value: `${order.shippingCountry} > ${order.shippingProvince} > ${order.shippingCity} (${order.shippingPostal}) > ${order.shippingStreet}`,
+            },
+            { key: "Notas de envío", value: order.shippingNotes || "No tiene" },
           ]}
         />
 

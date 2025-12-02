@@ -17,7 +17,7 @@ export default function ResourcePropertie({
   const hasLink = link?.enabled && link.to;
 
   return (
-    <div className={`flex ${value.length >= 100 && "flex-col"} wrap-normal`}>
+    <div className={`flex flex-col sm:flex-row  wrap-normal`}>
       <h3 className="font-semibold">{resourcekey}</h3>
 
       {hasLink ? (
