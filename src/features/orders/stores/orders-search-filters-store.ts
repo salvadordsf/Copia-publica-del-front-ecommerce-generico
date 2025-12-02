@@ -1,0 +1,29 @@
+import { create } from "zustand";
+import { IGetOrderQuery } from "../schemas/orders-schema";
+
+interface IOrdersFilters {
+  filters: IGetOrderQuery;
+  setFilters: (filter: Partial<IGetOrderQuery>) => void;
+  resetFilters: () => void;
+}
+
+const defaultFilters: IGetOrderQuery = {
+  userId: undefined,
+  status: undefined,
+  products: false,
+  search: "",
+  sortBy: "createdAt",
+  sortOrder: "desc",
+};
+
+export const useOrdersSearchFilters = create<IOrdersFilters>((set) => ({
+  filters: defaultFilters,
+  setFilters: (newFilters) =>
+    set((state) => ({
+      filters: {
+        ...state.filters,
+        ...newFilters,
+      },
+    })),
+  resetFilters: () => set({ filters: defaultFilters }),
+}));
