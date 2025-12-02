@@ -31,26 +31,45 @@ export default function ResourceActionsHandler({
       {resource.status !== "DELETED" && (
         <>
           {updateResourceDialog}
-          <ArchiveDialog
+          {resourceType !== "orders" && (
+            <ArchiveDialog
+              resourceStatus={resource.status}
+              resourceType={resourceEsName}
+              resourceName={resource.name}
+              onConfirmAction={updateResourceAction}
+            />
+          )}
+        </>
+      )}
+      {resourceType === "orders" ? (
+        resource.status === "CANCELLED" && (
+          <ConfirmDeleteDialog
             resourceStatus={resource.status}
             resourceType={resourceEsName}
             resourceName={resource.name}
-            onConfirmAction={updateResourceAction}
+            onConfirmActions={[
+              () => {
+                deleteResourceAction(resource.id);
+                router.push(`/admin/dashboard/${resourceType}`);
+              },
+              updateResourceAction,
+            ]}
           />
-        </>
+        )
+      ) : (
+        <ConfirmDeleteDialog
+          resourceStatus={resource.status}
+          resourceType={resourceEsName}
+          resourceName={resource.orderNumber}
+          onConfirmActions={[
+            () => {
+              deleteResourceAction(resource.id);
+              router.push(`/admin/dashboard/${resourceType}`);
+            },
+            updateResourceAction,
+          ]}
+        />
       )}
-      <ConfirmDeleteDialog
-        resourceStatus={resource.status}
-        resourceType={resourceEsName}
-        resourceName={resource.name}
-        onConfirmActions={[
-          () => {
-            deleteResourceAction(resource.id);
-            router.push(`/admin/dashboard/${resourceType}`);
-          },
-          updateResourceAction,
-        ]}
-      />
     </section>
   );
 }
