@@ -4,6 +4,7 @@ import {
   IGetUserQuery,
   IUpdateUser,
 } from "../schemas/user-schemas";
+import { IUser } from "@/types/resources/user-type";
 
 export const getUsers = async (data: IGetUserQuery) => {
   const params: any = {
@@ -31,7 +32,7 @@ export const getUsers = async (data: IGetUserQuery) => {
   return res.data;
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: string): Promise<IUser> => {
   const res = await axiosInstance.get(`/users/${id}`);
   console.log(res);
   return res.data;

@@ -11,6 +11,7 @@ import {
   useDeleteOrder,
   useUpdateOrder,
 } from "@/features/orders/services/orders-mutations";
+import UpdateOrderDialog from "@/features/orders/components/update/orders-update-dialog";
 
 export default function IdOrderPage() {
   const { id } = useParams();
@@ -61,10 +62,7 @@ export default function IdOrderPage() {
         <ResourceActionsHandler
           resource={order}
           resourceType="orders"
-          updateResourceDialog={
-            // <UpdateOrderDialog order={order} />
-            <></>
-          }
+          updateResourceDialog={<UpdateOrderDialog order={order} />}
           updateResourceAction={updateOrder.mutateAsync}
           deleteResourceAction={deleteOrder.mutateAsync}
         />

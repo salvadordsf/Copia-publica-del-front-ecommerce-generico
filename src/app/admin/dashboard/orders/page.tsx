@@ -10,12 +10,12 @@ export default function ProductsPage() {
         <OrderSearcher />
       </section>
 
-      <UiDivider />
+      {/* <UiDivider />
 
       <section>
         <h2 className="text-2xl font-bold">Crear orden</h2>
         
-      </section>
+      </section> */}
     </main>
   );
 }

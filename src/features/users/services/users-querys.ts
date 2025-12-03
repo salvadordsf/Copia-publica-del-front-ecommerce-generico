@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { IGetUserQuery } from "../schemas/user-schemas";
 import { getUserById, getUsers } from "./users-axios";
+import { authClient } from "@/lib/auth-client";
 
 
 export const useUsers = (query: IGetUserQuery) => {
@@ -17,3 +18,10 @@ export const useUserById = (id: string, enabled = true) => {
     enabled: !!id && enabled,
   });
 };
+
+export const useGetSession = () => {
+  return useQuery({
+    queryKey: ["session"],
+    queryFn: () => authClient.getSession().then((res) => res.data),
+  });
+}
