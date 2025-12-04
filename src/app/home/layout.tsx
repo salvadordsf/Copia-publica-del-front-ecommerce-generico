@@ -8,10 +8,8 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
-      {/* Mobile drawer sidebar */}
+    <SidebarProvider defaultOpen={false}>
       <PublicSidebar />
-
       <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
         <MainHeader />
         <main className="flex-1 w-full overflow-x-hidden">{children}</main>
