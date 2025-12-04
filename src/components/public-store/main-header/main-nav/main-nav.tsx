@@ -2,8 +2,8 @@
 
 import { ShoppingCart, User } from "lucide-react";
 import { MainNavLogo } from "./main-nav-logo";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { CustomSidebarTrigger } from "../../sidebar/public-sidebar-toggle";
+import { MainSearcher } from "../searcher/main-searcher";
 
 export const MainNav = () => {
   return (
@@ -17,9 +17,9 @@ export const MainNav = () => {
           <MainNavLogo />
         </div>
 
-        {/* CENTER: Search input (solo desktop) */}
-        <div className="hidden lg:flex flex-1 justify-center px-4">
-          <div className="w-full max-w-md h-10 bg-neutral-300 rounded-md" />
+
+        <div className="lg:flex flex-1 justify-center px-4">
+          <MainSearcher />
         </div>
 
         {/* RIGHT: Icons */}

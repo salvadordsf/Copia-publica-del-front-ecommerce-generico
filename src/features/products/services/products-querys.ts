@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { IGetProductsQuery } from "../schemas/products-schemas";
-import { getProductById, getProducts } from "./products-axios";
-
+import {
+  getProductById,
+  getProducts,
+  getSearchProducts,
+} from "./products-axios";
 
 export const useProducts = (query: IGetProductsQuery) => {
   return useQuery({
@@ -15,5 +18,12 @@ export const useProductById = (id: string, enabled = true) => {
     queryKey: ["product", id],
     queryFn: () => getProductById(id),
     enabled: !!id && enabled,
+  });
+};
+
+export const useSearchProducts = () => {
+  return useQuery({
+    queryKey: ["searchProducts"],
+    queryFn: () => getSearchProducts(),
   });
 };

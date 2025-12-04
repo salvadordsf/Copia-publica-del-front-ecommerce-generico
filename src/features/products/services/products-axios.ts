@@ -7,6 +7,7 @@ import {
   IUpdateBulkProducts,
   IUpdateProduct,
 } from "../schemas/products-schemas";
+import { IProductWithAll } from "@/types/resources/product-type";
 
 export const getProducts = async (data: IGetProductsQuery) => {
   const params: any = {
@@ -121,4 +122,31 @@ export const deleteManyProducts = async (filter: IFilterBulkProductsQuery) => {
 
   console.log(res);
   return res.data;
+};
+
+export const getSearchProducts = async () => {
+  const params = {
+    pageSize: 10000,
+    status: "ACTIVE",
+
+    category: true,
+    subcategory: true,
+    tags: true,
+  };
+
+  const res = await axiosInstance.get("/products", {
+    params,
+  });
+
+  const searchProducts = res.data.data.data.map((p: IProductWithAll) => ({
+    id: p.id,
+    name: p.name,
+    description: p.description ?? "",
+    category: p.category?.name ?? "",
+    subcategory: p.subcategory?.name ?? "",
+    tags: p.tags?.map((t) => t.name).join(" ") ?? "",
+  }));
+
+  console.log(searchProducts);
+  return searchProducts;
 };
