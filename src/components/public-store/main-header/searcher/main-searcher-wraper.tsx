@@ -1,6 +1,8 @@
 import { useMiniSearch } from "react-minisearch";
 import { SearchEmpty } from "./empty-search";
 import { useState } from "react";
+import Link from "next/link";
+import { slugify } from "@/utils/slugify";
 
 export const MiniSearchWrapper = ({
   products,
@@ -49,17 +51,22 @@ export const MiniSearchWrapper = ({
         <div className="absolute left-0 right-0 mt-2 bg-white shadow-lg rounded-xl p-3 z-50">
           <ul className="divide-y">
             {searchResults &&
-              searchResults.slice(0, 8).map((res) => (
-                <li
-                  key={res.id}
-                  className="py-2 cursor-pointer hover:bg-neutral-100 px-2 rounded"
-                >
-                  <span className="font-medium">{res.name}</span>
-                  <div className="text-xs opacity-60">
-                    {res.category} • {res.subcategory}
-                  </div>
-                </li>
-              ))}
+              [...searchResults]
+                .sort((a, b) => (b.relevance ?? 0) - (a.relevance ?? 0))
+                .slice(0, 8)
+                .map((res) => (
+                  <Link
+                    key={res.id}
+                    href={`/home/productos/${slugify(res.name)}`}
+                  >
+                    <li className="py-2 cursor-pointer hover:bg-neutral-100 px-2 rounded">
+                      <span className="font-medium">{res.name}</span>
+                      <div className="text-xs opacity-60">
+                        {res.category} • {res.subcategory}
+                      </div>
+                    </li>
+                  </Link>
+                ))}
           </ul>
         </div>
       ) : (
