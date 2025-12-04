@@ -23,9 +23,6 @@ import {
 import {
   Home,
   ShoppingBasket,
-  Folder,
-  FolderTree,
-  Tag,
   ChevronDown,
   HelpCircle,
   Phone,
@@ -39,29 +36,9 @@ import UiAdminFooterSidebar from "@/features/dashboard/components/layout/sidebar
 import { slugify } from "@/utils/slugify";
 import { useCategories } from "@/features/categories/services/categories-querys";
 
-//Mock
-const CATEGORIES = [
-  {
-    name: "Ropa",
-    subcategories: [
-      { name: "Camperas frío" },
-      { name: "Pantalones" },
-      { name: "Remeras" },
-    ],
-  },
-  {
-    name: "Electrónica",
-    subcategories: [{ name: "Celulares" }, { name: "Auriculares" }],
-  },
-  {
-    name: "Hogar",
-    subcategories: [{ name: "Muebles" }, { name: "Cocina" }],
-  },
-];
-
 export default function PublicSidebar() {
   const pathname = usePathname();
-  const { data, isLoading } = useCategories({ subcategories: true });
+  const { data, isLoading, isError } = useCategories({ subcategories: true });
 
   const isActive = (url: string) => pathname === url;
 
@@ -90,7 +67,7 @@ export default function PublicSidebar() {
         </SidebarMenu>
 
         {/* Categories*/}
-        {!isLoading && (
+        {!isLoading && !isError && (
           <Collapsible className="group/collapsible">
             <SidebarGroup>
               <SidebarGroupLabel asChild>
@@ -131,15 +108,17 @@ export default function PublicSidebar() {
                               </Link>
                             </SidebarMenuButton>
 
-                            <ChevronDown
-                              className="
+                            {cat.subcategories.length > 0 && (
+                              <ChevronDown
+                                className="
                               ml-1 h-4 w-4 opacity-70 transition-transform 
                               group-data-[state=open]/subcat:rotate-180
                             "
-                            />
+                              />
+                            )}
                           </CollapsibleTrigger>
 
-                          {/* SUBCATEGORÍAS */}
+                          {/* Subcategory */}
                           <CollapsibleContent>
                             <SidebarMenu className="ml-4 mt-1 space-y-1">
                               {cat.subcategories.map((sub) => (
@@ -156,7 +135,6 @@ export default function PublicSidebar() {
                                         cat.name
                                       )}/${slugify(sub.name)}`}
                                     >
-                                      <Tag className="h-4 w-4" />
                                       <span>{sub.name}</span>
                                     </Link>
                                   </SidebarMenuButton>
