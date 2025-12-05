@@ -88,63 +88,70 @@ export default function PublicSidebar() {
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
 
-              <CollapsibleContent>
+              <CollapsibleContent className="overflow-hidden pr-2">
                 <SidebarGroupContent>
                   <SidebarMenu className="ml-2">
-                    {data.data.map((cat) => (
-                      <Collapsible key={cat.name} className="group/subcat">
-                        <SidebarMenuItem>
-                          {/* Category */}
-                          <CollapsibleTrigger className="flex w-full cursor-pointer">
-                            <SidebarMenuButton
-                              asChild
-                              isActive={isActive(`/categories/${cat.name}`)}
-                            >
-                              <Link
-                                href={`/categorias/${slugify(cat.name)}`}
-                                className="flex-1 hover:underline"
+                    {[...data.data]
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((cat) => (
+                        <Collapsible key={cat.name} className="group/subcat">
+                          <SidebarMenuItem>
+                            {/* Category */}
+                            <CollapsibleTrigger className="flex w-full cursor-pointer">
+                              <SidebarMenuButton
+                                asChild
+                                isActive={isActive(`/categories/${cat.name}`)}
                               >
-                                <span>{cat.name}</span>
-                              </Link>
-                            </SidebarMenuButton>
+                                <Link
+                                  href={`/categorias/${slugify(cat.name)}`}
+                                  className="flex-1 hover:underline"
+                                >
+                                  <span>{cat.name}</span>
+                                </Link>
+                              </SidebarMenuButton>
 
-                            {cat.subcategories.length > 0 && (
-                              <ChevronDown
-                                className="
+                              {cat.subcategories.length > 0 && (
+                                <ChevronDown
+                                  className="
                               ml-1 h-4 w-4 opacity-70 transition-transform 
                               group-data-[state=open]/subcat:rotate-180
                             "
-                              />
-                            )}
-                          </CollapsibleTrigger>
+                                />
+                              )}
+                            </CollapsibleTrigger>
 
-                          {/* Subcategory */}
-                          <CollapsibleContent>
-                            <SidebarMenu className="ml-4 mt-1 space-y-1">
-                              {cat.subcategories.map((sub) => (
-                                <SidebarMenuItem key={sub.name}>
-                                  <SidebarMenuButton
-                                    asChild
-                                    isActive={isActive(
-                                      `/categorias/${cat.name}/${sub.name}`
-                                    )}
-                                    className="text-sm"
-                                  >
-                                    <Link
-                                      href={`/categorias/${slugify(
-                                        cat.name
-                                      )}/${slugify(sub.name)}`}
+                            {/* Subcategory */}
+                            <CollapsibleContent className="w-[90%]">
+                              <SidebarMenu className="ml-4 mt-1 space-y-1">
+                                {[...cat.subcategories]
+                                  .sort((a, b) => a.name.localeCompare(b.name))
+                                  .map((sub) => (
+                                    <SidebarMenuItem
+                                      key={sub.name}
+                                      className="hover:underline"
                                     >
-                                      <span>{sub.name}</span>
-                                    </Link>
-                                  </SidebarMenuButton>
-                                </SidebarMenuItem>
-                              ))}
-                            </SidebarMenu>
-                          </CollapsibleContent>
-                        </SidebarMenuItem>
-                      </Collapsible>
-                    ))}
+                                      <SidebarMenuButton
+                                        asChild
+                                        isActive={isActive(
+                                          `/categorias/${cat.name}/${sub.name}`
+                                        )}
+                                        className="text-sm"
+                                      >
+                                        <Link
+                                          href={`/categorias/${slugify(
+                                            cat.name
+                                          )}/${slugify(sub.name)}`}
+                                        >
+                                          <span>{sub.name}</span>
+                                        </Link>
+                                      </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                  ))}
+                              </SidebarMenu>
+                            </CollapsibleContent>
+                          </SidebarMenuItem>
+                        </Collapsible>
+                      ))}
                   </SidebarMenu>
                 </SidebarGroupContent>
               </CollapsibleContent>
