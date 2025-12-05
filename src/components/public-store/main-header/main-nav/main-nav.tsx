@@ -4,6 +4,7 @@ import { ShoppingCart, User } from "lucide-react";
 import { MainNavLogo } from "./main-nav-logo";
 import { CustomSidebarTrigger } from "../../sidebar/public-sidebar-toggle";
 import { MainSearcher } from "../searcher/main-searcher";
+import Link from "next/link";
 
 export const MainNav = () => {
   return (
@@ -24,7 +25,9 @@ export const MainNav = () => {
 
         {/* RIGHT: Icons */}
         <div className="flex items-center gap-3">
-          <User />
+          <Link href="/home/cuenta">
+            <User />
+          </Link>
           <ShoppingCart />
         </div>
 
