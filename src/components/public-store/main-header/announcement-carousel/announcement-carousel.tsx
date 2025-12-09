@@ -11,7 +11,6 @@ export const AnnouncementCarousel = () => {
         delay: 7000,
       }}
       loop={true}
-      effect="coverflow"
       spaceBetween={0}
       slidesPerView={1}
     >
