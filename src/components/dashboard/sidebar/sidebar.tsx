@@ -155,6 +155,13 @@ export default function UiSidebar({ title }: ISidebarProps) {
     {
       type: "item",
       icon: Store,
+      title: "Gestor de tienda",
+      url: "/admin/dashboard/home-store",
+      isActive: pathname === "/",
+    },
+    {
+      type: "item",
+      icon: Store,
       title: "Inicio de tienda",
       url: "/",
       isActive: pathname === "/",
