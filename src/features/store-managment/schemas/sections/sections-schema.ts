@@ -54,17 +54,23 @@ export const CreateSectionSchema = z
 
 export type ICreateSection = z.infer<typeof CreateSectionSchema>;
 
-export const UpdateSectionSchema = z.object({
-  title: z
-    .string()
-    .trim()
-    .min(1, "El título debe tener mínimo 1 caracter")
+export const UpdateSectionSchema = z
+  .object({
+    title: z
+      .string()
+      .trim()
+      .min(1, "El título debe tener mínimo 1 caracter")
       .max(120, "El título no puede tener más de 120 caracteres")
-    .optional(),
-  type: z.nativeEnum(SectionType).optional(),
-  position: z.number().int().min(0, "La posición debe ser un entero mayor a 0").optional(),
-  isEnabled: z.boolean().optional(),
-  config: z.unknown().optional(),
-}).strict();
+      .optional(),
+    type: z.nativeEnum(SectionType).optional(),
+    position: z
+      .number()
+      .int()
+      .min(0, "La posición debe ser un entero mayor a 0")
+      .optional(),
+    isEnabled: z.boolean().optional(),
+    config: z.unknown().optional(),
+  })
+  .strict();
 
 export type IUpdateSection = z.infer<typeof UpdateSectionSchema>;
