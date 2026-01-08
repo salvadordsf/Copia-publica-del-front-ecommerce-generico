@@ -140,3 +140,95 @@ export const UpdateItemSchema = z
   .strict();
 
 export type IUpdateItem = z.output<typeof UpdateItemSchema>;
+
+//Specific items
+
+//ANNOUNCEMENT
+export const CreateAnnouncementItemSchema = z.object({
+  sectionId: UuidSchema,
+  itemType: z.literal(ItemType.ANNOUNCEMENT),
+  title: z
+    .string()
+    .trim()
+    .min(1, "El título es obligatorio")
+    .max(120, "Máximo 120 caracteres"),
+  subtitle: z.string().trim().max(200, "Máximo 200 caracteres").optional(),
+  linkUrl: z.string({ message: "El link es requerido" }).url("URL inválida"),
+  position: z
+    .number({
+      required_error: "La posición es requerida",
+    })
+    .int()
+    .min(1, "La posición debe ser mayor o igual a 1"),
+});
+export type ICreateAnnouncementItem = z.infer<
+  typeof CreateAnnouncementItemSchema
+>;
+
+//IMAGE
+export const CreateImageItemSchema = z.object({
+  sectionId: UuidSchema,
+  itemType: z.literal(ItemType.IMAGE),
+  title: z.string().trim().max(120, "Máximo 120 caracteres").optional(),
+  subtitle: z.string().trim().max(200, "Máximo 200 caracteres").optional(),
+  imageUrl: z
+    .string({ message: "La URL de imagen es requerida" })
+    .url("URL inválida"),
+  linkUrl: z.string().url("URL inválida").optional(),
+  position: z
+    .number({
+      required_error: "La posición es requerida",
+    })
+    .int()
+    .min(1, "La posición debe ser mayor o igual a 1"),
+});
+export type ICreateImageItem = z.infer<typeof CreateImageItemSchema>;
+
+//CATEGORY
+export const SelectCategoriesSchema = z.object({
+  categoryIds: z
+    .array(z.string().uuid())
+    .min(1, "Seleccioná al menos una categoría"),
+});
+
+export type SelectCategoriesFormValues = z.infer<typeof SelectCategoriesSchema>;
+
+//TEXT
+export const CreateTextItemSchema = z.object({
+  sectionId: UuidSchema,
+  itemType: z.literal(ItemType.TEXT),
+  title: z
+    .string()
+    .trim()
+    .min(1, "El texto es obligatorio")
+    .max(120, "Máximo 120 caracteres"),
+  subtitle: z.string().trim().max(200, "Máximo 200 caracteres").optional(),
+  linkUrl: z.string({ message: "El link es requerido" }).url("URL inválida"),
+  position: z
+    .number({
+      required_error: "La posición es requerida",
+    })
+    .int()
+    .min(1, "La posición debe ser mayor o igual a 1"),
+});
+export type ICreateTextItem = z.infer<typeof CreateTextItemSchema>;
+
+//LINK
+export const CreateLinkItemSchema = z.object({
+  sectionId: UuidSchema,
+  itemType: z.literal(ItemType.LINK),
+  title: z
+    .string()
+    .trim()
+    .min(1, "El texto es obligatorio")
+    .max(120, "Máximo 120 caracteres"),
+  subtitle: z.string().trim().max(200, "Máximo 200 caracteres").optional(),
+  linkUrl: z.string({ message: "El link es requerido" }).url("URL inválida"),
+  position: z
+    .number({
+      required_error: "La posición es requerida",
+    })
+    .int()
+    .min(1, "La posición debe ser mayor o igual a 1"),
+});
+export type ICreateLinkItem = z.infer<typeof CreateLinkItemSchema>;
