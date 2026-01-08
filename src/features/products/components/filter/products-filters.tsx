@@ -10,7 +10,11 @@ import GenericSearchForm from "@/components/dashboard/form/generic-search-form/g
 import { useCategories } from "@/features/categories/services/categories-querys";
 import { useProductsBulkFilters } from "../../stores/products-bulk-filters";
 
-export default function ProductBulkFilters() {
+export default function ProductBulkFilters({
+  statusFilter = true,
+}: {
+  statusFilter?: boolean;
+}) {
   const { setFilters, resetFilters } = useProductsBulkFilters();
 
   const {
@@ -53,20 +57,24 @@ export default function ProductBulkFilters() {
               placeholder: "Ej: buzzo, algodón, verano...",
               className: "sm:col-span-4",
             },
-            {
-              type: "status",
-              name: "status",
-              label: "Estado del producto",
-              placeholder: "Todos",
-              className: "sm:col-start-0 sm:col-span-2 w-full",
-              options: [
-                { value: "false", label: "Todos" },
-                { value: "ACTIVE", label: "Activos" },
-                { value: "ARCHIVED", label: "Archivados" },
-                { value: "DELETED", label: "Eliminados" },
-              ],
-              defaultValue: "false",
-            },
+            ...(statusFilter
+              ? [
+                  {
+                    type: "status" as const,
+                    name: "status",
+                    label: "Estado del producto",
+                    placeholder: "Todos",
+                    className: "sm:col-start-0 sm:col-span-2 w-full",
+                    options: [
+                      { value: "false", label: "Todos" },
+                      { value: "ACTIVE", label: "Activos" },
+                      { value: "ARCHIVED", label: "Archivados" },
+                      { value: "DELETED", label: "Eliminados" },
+                    ],
+                    defaultValue: "false",
+                  },
+                ]
+              : []),
           ]}
           filtersFields={[
             {
