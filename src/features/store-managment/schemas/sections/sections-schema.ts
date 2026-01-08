@@ -32,12 +32,15 @@ export type IGetSection = z.infer<typeof GetSectionSchema>;
 
 export const CreateSectionSchema = z
   .object({
-    title: z
-      .string()
-      .trim()
-      .min(1, "El título debe tener mínimo 1 caracter")
-      .max(120, "El título no puede tener más de 120 caracteres")
-      .optional(),
+    title: z.preprocess(
+      (val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z
+        .string()
+        .trim()
+        .min(1, "El título debe tener mínimo 1 caracter")
+        .max(120, "El título no puede tener más de 120 caracteres")
+        .optional()
+    ) as z.ZodType<string | undefined>,
     type: z.nativeEnum(SectionType, {
       required_error: "El tipo es requerido",
     }),
@@ -48,7 +51,7 @@ export const CreateSectionSchema = z
       .int()
       .min(0, "La posición debe ser un entero mayor a 0"),
     isEnabled: z.boolean().optional(),
-    config: z.unknown().optional(),
+    config: z.string().optional(),
   })
   .strict();
 
@@ -56,12 +59,15 @@ export type ICreateSection = z.infer<typeof CreateSectionSchema>;
 
 export const UpdateSectionSchema = z
   .object({
-    title: z
-      .string()
-      .trim()
-      .min(1, "El título debe tener mínimo 1 caracter")
-      .max(120, "El título no puede tener más de 120 caracteres")
-      .optional(),
+    title: z.preprocess(
+      (val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z
+        .string()
+        .trim()
+        .min(1, "El título debe tener mínimo 1 caracter")
+        .max(120, "El título no puede tener más de 120 caracteres")
+        .optional()
+    ) as z.ZodType<string | undefined>,
     type: z.nativeEnum(SectionType).optional(),
     position: z
       .number()
@@ -69,7 +75,7 @@ export const UpdateSectionSchema = z
       .min(0, "La posición debe ser un entero mayor a 0")
       .optional(),
     isEnabled: z.boolean().optional(),
-    config: z.unknown().optional(),
+    config: z.string().optional(),
   })
   .strict();
 
