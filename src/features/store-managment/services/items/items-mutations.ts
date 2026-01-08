@@ -8,6 +8,8 @@ export const useCreateItem = () => {
     mutationFn: (data: ICreateItem) => createItem(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+      queryClient.invalidateQueries({ queryKey: ["section"] });
     },
   });
 };
