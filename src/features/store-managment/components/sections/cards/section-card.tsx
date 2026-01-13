@@ -10,7 +10,8 @@ interface ISectionCard {
 export const SectionCard = ({ section, isEditable = true }: ISectionCard) => {
   const router = useRouter();
 
-  const { type, position, title, isEnabled, _count, id } = section;
+  const { type, position, title, isEnabled, _count, id, createdAt, updatedAt } =
+    section;
   const translateType = SECTIONS_TYPE_LABELS[type];
 
   return (
@@ -58,6 +59,22 @@ export const SectionCard = ({ section, isEditable = true }: ISectionCard) => {
 
       {/* Optional title */}
       {title && <p className="text-xs text-gray-600 truncate">{title}</p>}
+
+      {/* Date info */}
+      <div className="mt-1 flex flex-col gap-0.5 text-xs text-gray-400">
+        <span>
+          Creada el{" "}
+          <time dateTime={createdAt}>
+            {new Date(createdAt).toLocaleDateString()}
+          </time>
+        </span>
+        <span>
+          Actualizada el{" "}
+          <time dateTime={updatedAt}>
+            {new Date(updatedAt).toLocaleDateString()}
+          </time>
+        </span>
+      </div>
 
       {/* Footer */}
       <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
