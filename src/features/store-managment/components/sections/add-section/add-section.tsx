@@ -26,7 +26,11 @@ export const AddSectionForm = ({}) => {
     error: getError,
   } = useSections({});
 
-  const { mutate, isError, error } = useCreateSection();
+  const {
+    mutate,
+    isPending: isCreating,
+    isSuccess: isCreated,
+  } = useCreateSection();
 
   const types = [
     { value: "ANNOUNCEMENT_CAROUSEL", label: "Carrusel de anuncios" },
@@ -66,72 +70,117 @@ export const AddSectionForm = ({}) => {
 
   return (
     <form onSubmit={methods.handleSubmit(onSubmit)}>
-      <div className="flex flex-col gap-5">
-        <Controller
-          control={methods.control}
-          name="type"
-          render={({ field }) => (
-            <UiSelect
-              label="Tipo de sección"
-              items={types}
-              value={field.value}
-              onChange={field.onChange}
-            />
-          )}
-        />
+      <div className="flex flex-col gap-6">
+        {/* Header */}
+        <div>
+          <h2 className="text-sm font-semibold text-gray-800">
+            Crear nueva sección
+          </h2>
+          <p className="text-xs text-gray-500">
+            Definí el tipo, posición y configuración básica
+          </p>
+        </div>
 
-        <Controller
-          control={methods.control}
-          name="position"
-          render={({ field }) => (
-            <UiSelect
-              label="Posición de sección"
-              items={positionsAbl.map((pos) => ({
-                value: pos.toString(),
-                label: pos.toString(),
-              }))}
-              value={field.value?.toString()}
-              onChange={(val) => field.onChange(Number(val))}
-            />
-          )}
-        />
-        <label>
-          <h4>
-            Título de sección{" "}
-            <span className="text-neutral-400">(opcional)</span>
-          </h4>
-          <Input
-            {...methods.register("title")}
-            required={false}
-            type="text"
-            placeholder="Productos destacados"
-          />
-        </label>
-        <label>
-          <h4>
-            Configuración extra{" "}
-            <span className="text-neutral-400">(opcional)</span>
-          </h4>
-          <Input {...methods.register("config")} type="text" required={false} />
-        </label>
-
-        {methods.formState.errors && methods.formState.errors.type && (
+        {/* Grid container */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Type */}
           <div>
-            <p>{methods.formState.errors.type?.message}</p>
-            <p>{methods.formState.touchedFields.type}</p>
+            <Controller
+              control={methods.control}
+              name="type"
+              render={({ field }) => (
+                <UiSelect
+                  label="Tipo de sección"
+                  items={types}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            {/* Errors (selects) */}
+            {(methods.formState.errors.type ||
+              methods.formState.errors.position) && (
+              <div className="text-xs m-1 text-red-500">
+                {methods.formState.errors.type?.message ||
+                  methods.formState.errors.position?.message}
+              </div>
+            )}
           </div>
-        )}
-        {methods.formState.errors && methods.formState.errors.position && (
-          <p>{methods.formState.errors.position?.message}</p>
-        )}
-        {methods.formState.errors && methods.formState.errors.title && (
-          <p>{methods.formState.errors.title?.message}</p>
-        )}
-        {methods.formState.errors && methods.formState.errors.config && (
-          <p>{methods.formState.errors.config?.message}</p>
-        )}
 
-        <MethodsBtns selectedType="create">Agregar sección</MethodsBtns>
+          {/* Position */}
+          <div>
+            <Controller
+              control={methods.control}
+              name="position"
+              render={({ field }) => (
+                <UiSelect
+                  label="Posición"
+                  items={positionsAbl.map((pos) => ({
+                    value: pos.toString(),
+                    label: pos.toString(),
+                  }))}
+                  value={field.value?.toString()}
+                  onChange={(val) => field.onChange(Number(val))}
+                />
+              )}
+            />
+            {methods.formState.errors.position && (
+              <span className="text-xs m-1 text-red-500">
+                {methods.formState.errors.position.message}
+              </span>
+            )}
+          </div>
+
+          {/* Title */}
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-medium text-gray-700">
+              Título de sección{" "}
+              <span className="text-gray-400 font-normal">(opcional)</span>
+            </label>
+            <Input
+              {...methods.register("title")}
+              type="text"
+              placeholder="Ejemplo: Productos destacados"
+            />
+            {methods.formState.errors.title && (
+              <span className="text-xs m-1 text-red-500">
+                {methods.formState.errors.title.message}
+              </span>
+            )}
+          </div>
+
+          {/* Config */}
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-medium text-gray-700">
+              Configuración extra{" "}
+              <span className="text-gray-400 font-normal">(opcional)</span>
+            </label>
+            <Input
+              {...methods.register("config")}
+              type="text"
+              placeholder="JSON, flags, etc."
+            />
+            {methods.formState.errors.config && (
+              <span className="text-xs m-1 text-red-500">
+                {methods.formState.errors.config.message}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Submit */}
+        <div className="pt-2">
+          <MethodsBtns
+            selectedType="create"
+            isDisabled={isCreating || isCreated}
+          >
+            {isCreating
+              ? "Creando sección..."
+              : isCreated
+              ? "Redirigiendo..."
+              : "Agregar sección"}
+          </MethodsBtns>
+        </div>
       </div>
     </form>
   );
