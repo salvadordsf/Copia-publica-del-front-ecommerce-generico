@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation";
 
 interface ISectionCard {
   section: HomeSection;
+  isEditable?: boolean;
 }
 
-export const SectionCard = ({ section }: ISectionCard) => {
+export const SectionCard = ({ section, isEditable = true }: ISectionCard) => {
   const router = useRouter();
 
   const { type, position, title, isEnabled, _count, id } = section;
@@ -14,18 +15,21 @@ export const SectionCard = ({ section }: ISectionCard) => {
 
   return (
     <div
-      onClick={() => router.push(`/admin/dashboard/home-store/sections/${id}`)}
+      onClick={() => {
+        if (isEditable)
+          router.push(`/admin/dashboard/home-store/sections/${id}`);
+      }}
       className={`
         w-full flex flex-col gap-2
         rounded-xl border p-4
         transition-all
-        cursor-pointer
+        ${isEditable ? "cursor-pointer hover:shadow-md" : ""}
         ${
           isEnabled
             ? "border-green-500/40 bg-green-50/30"
             : "border-gray-300 bg-white"
         }
-        hover:shadow-md
+        
       `}
     >
       {/* Header */}
