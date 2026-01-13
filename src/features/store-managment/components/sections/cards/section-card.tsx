@@ -52,7 +52,7 @@ export const SectionCard = ({ section, isEditable = true }: ISectionCard) => {
             }
           `}
         >
-          {isEnabled ? "ACTIVO" : "DESACTIVADO"}
+          {isEnabled ? "ACTIVA" : "DESACTIVADA"}
         </span>
       </div>
 

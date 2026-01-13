@@ -5,5 +5,5 @@ export const SECTIONS_TYPE_LABELS: Record<string, string> = {
   BANNER: "Banner",
   TEXT: "Texto",
   GRID: "Grilla de elementos",
-  CUSTOM: "Personalizado",
+  CUSTOM: "Personalizada",
 };
