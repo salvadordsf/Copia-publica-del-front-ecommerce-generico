@@ -4,6 +4,7 @@ import { useSections } from "../../services/sections/sections-query";
 import { SectionCard } from "../sections/cards/section-card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { StoreViewerContainer } from "./store-viewer-conteiner";
 
 interface IStoreViewerProps {}
 
@@ -22,7 +23,7 @@ export const StoreViewer = ({}: IStoreViewerProps) => {
       >
         Editar secciones
       </Button>
-      <div className="flex flex-col gap-3 w-xl p-2 border-1 border-black">
+      <StoreViewerContainer>
         {data.data.length > 0 ? (
           data.data.map((section: any) => (
             <SectionCard section={section} key={section.key} />
@@ -30,7 +31,7 @@ export const StoreViewer = ({}: IStoreViewerProps) => {
         ) : (
           <div className="text-center">Aún no hay secciones creadas</div>
         )}
-      </div>
+      </StoreViewerContainer>
     </div>
   );
 };
