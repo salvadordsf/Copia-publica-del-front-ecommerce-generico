@@ -1,7 +1,7 @@
 "use client";
 
 import { useSectionById } from "@/features/store-managment/services/sections/sections-query";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { AddSectionItemDialog } from "../../items/add-item-dialog";
@@ -9,8 +9,13 @@ import { SectionCard } from "../cards/section-card";
 import { ITEM_TYPE_LABELS } from "@/features/store-managment/utils/items-translations";
 import MethodsBtns from "@/components/dashboard/btns/btn-request-method";
 import { SECTIONS_TYPE_LABELS } from "@/features/store-managment/utils/sections-translations";
+import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
+import { useDeleteSection } from "@/features/store-managment/services/sections/sections-mutations";
+import { toast } from "sonner";
 
 export const SectionInfo = () => {
+  const router = useRouter();
+
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
@@ -22,13 +27,26 @@ export const SectionInfo = () => {
 
   const { data: { data: section } = {}, isLoading, error } = useSectionById(id);
 
+  //Delete logic
+  const { mutate } = useDeleteSection();
+  const deleteSection = () => {
+    mutate(section.id, {
+      onSuccess: () => {
+        toast.success(`La sección ${SECTIONS_TYPE_LABELS[section.type]} ${section.title ? "- ".concat(section.title) : ""} se eliminó correctamente`)
+        router.push("/admin/dashboard/home-store/sections")
+      },
+      onError: () => {
+        toast.error("Error al intentar eliminar sección");
+      }
+    });
+  }
+
   if (isLoading) return <p>Cargando sección</p>;
   if (error || !section) return <p>Error al cargar sección</p>;
 
   return (
     <section className="flex flex-col gap-5">
       {/* Section info */}
-      {/* <SectionCard section={section} isEditable={false} /> */}
       <div
         className={`
         w-full flex flex-col gap-2
@@ -105,15 +123,13 @@ export const SectionInfo = () => {
             Editar sección
           </MethodsBtns>
 
-          <MethodsBtns
-            selectedType="delete"
-            onClickAct={() => setOpenDelete(true)}
-            extraClassName="
-            m-0
-          "
-          >
-            Eliminar sección
-          </MethodsBtns>
+          
+          <ConfirmDeleteDialog 
+            resourceStatus="ACTIVE"
+            resourceType="sección"
+            resourceName={SECTIONS_TYPE_LABELS[section.type]}
+            onConfirmActions={[deleteSection]}
+          />
         </div>
       </div>
 
