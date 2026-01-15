@@ -4,6 +4,7 @@ import React from "react";
 import { HomeSection } from "@/types/resources/home-section-types";
 import { ItemProductContent } from "./card-contents/product-item";
 import { ITEM_TYPE_LABELS } from "../../utils/items-translations";
+import { ItemCategoryContent } from "./card-contents/category-item";
 
 interface ItemListProps {
   section: HomeSection;
@@ -50,6 +51,9 @@ export const ItemList = ({ section }: ItemListProps) => {
         switch (item.itemType) {
           case "PRODUCT":
             return <ItemProductContent key={item.id} item={item} />;
+
+          case "CATEGORY":
+            return <ItemCategoryContent key={item.id} item={item} />;
 
           case "IMAGE":
             return (
