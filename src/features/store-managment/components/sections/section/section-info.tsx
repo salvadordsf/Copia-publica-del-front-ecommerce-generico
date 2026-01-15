@@ -1,7 +1,5 @@
 "use client";
 
-import { useSectionById } from "@/features/store-managment/services/sections/sections-query";
-import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { AddSectionItemDialog } from "../../items/add-item-dialog";
@@ -9,21 +7,17 @@ import { ITEM_TYPE_LABELS } from "@/features/store-managment/utils/items-transla
 import { SECTIONS_TYPE_LABELS } from "@/features/store-managment/utils/sections-translations";
 import UpdateSectionDialog from "./update/section-update-dialog";
 import { DeleteSectionDialog } from "./delete/section-delete-dialog";
+import { HomeSection } from "@/types/resources/home-section-types";
 
-export const SectionInfo = ({ sectionsLength }: { sectionsLength: number }) => {
-  //Fetch the section info by param id
-  const params = useParams();
-  const id = Array.isArray(params.id) ? params.id[0] : params.id;
-
-  if (!id) return <p>ID inválido</p>;
-
-  const { data: { data: section } = {}, isLoading, error } = useSectionById(id);
-
+export const SectionInfo = ({
+  section,
+  sectionsLength,
+}: {
+  section: HomeSection;
+  sectionsLength: number;
+}) => {
   //State for add section item dialog
   const [open, setOpen] = useState(false);
-
-  if (isLoading) return <p>Cargando sección</p>;
-  if (error || !section) return <p>Error al cargar sección</p>;
 
   return (
     <section className="flex flex-col gap-5">

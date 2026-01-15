@@ -8,10 +8,10 @@ import { StoreViewerContainer } from "./store-viewer-conteiner";
 
 export const StoreViewer = () => {
   const router = useRouter();
-  const { data: data = {}, isLoading, error } = useSections({});
+  const { data: data = {}, isLoading, error } = useSections({ isEnabled: true });
 
-  if (isLoading) return <p>Cargando secciones...</p>;
-  if (error) return <p>Error al cargar secciones</p>;
+  if (isLoading) return <p>Cargando secciones activas...</p>;
+  if (error) return <p>Error al cargar secciones activas</p>;
 
   return (
     <StoreViewerContainer>
@@ -22,7 +22,7 @@ export const StoreViewer = () => {
             Vista del Home
           </h2>
           <p className="text-xs text-gray-500">
-            Orden y contenido de las secciones visibles
+            Orden y contenido de las secciones visibles (activas)
           </p>
         </div>
 
@@ -48,7 +48,7 @@ export const StoreViewer = () => {
           ))
         ) : (
           <div className="text-center text-sm text-gray-500 py-8">
-            Aún no hay secciones creadas
+            Aún no hay secciones activas
           </div>
         )}
       </div>
