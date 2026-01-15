@@ -8,6 +8,7 @@ export interface IProduct {
   stock: number;
   relevance: number;
   status: TResourceStatus;
+  imageUrls: string[];
   categoryId: string;
   subcategoryId: string;
   createdAt: string;

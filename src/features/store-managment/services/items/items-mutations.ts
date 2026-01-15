@@ -29,6 +29,7 @@ export const useDeleteItems = () => {
     mutationFn: (id: string) => deleteItem(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
+      queryClient.invalidateQueries({ queryKey: ["section"] });
     },
   });
 };

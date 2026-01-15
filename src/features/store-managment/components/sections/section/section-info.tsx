@@ -8,6 +8,8 @@ import { SECTIONS_TYPE_LABELS } from "@/features/store-managment/utils/sections-
 import UpdateSectionDialog from "./update/section-update-dialog";
 import { DeleteSectionDialog } from "./delete/section-delete-dialog";
 import { HomeSection } from "@/types/resources/home-section-types";
+import { ItemProductContent } from "../../items/card-contents/product-item";
+import { ItemList } from "../../items/item-list";
 
 export const SectionInfo = ({
   section,
@@ -130,56 +132,7 @@ export const SectionInfo = ({
         </div>
 
         {/* Items list */}
-        {section.items?.length ? (
-          <div className="flex flex-col gap-3">
-            {section.items.map((item: any) => (
-              <div
-                key={item.id}
-                className="
-                  rounded-xl
-                  border
-                  p-4
-                  text-sm
-                  transition-all
-                  hover:shadow-sm
-                "
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-gray-600 uppercase">
-                    {ITEM_TYPE_LABELS[item.itemType]}
-                  </span>
-                  <span className="text-xs text-gray-400">
-                    Posición {item.position}
-                  </span>
-                </div>
-
-                {item.itemType === "IMAGE" && (
-                  <div className="flex flex-col gap-2">
-                    <span className="text-xs text-gray-500">Imagen</span>
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title ?? "imagen"}
-                      className="rounded-md max-w-full"
-                    />
-                  </div>
-                )}
-
-                {item.itemType === "PRODUCT" && (
-                  <div className="text-xs text-gray-600">Producto asociado</div>
-                )}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div
-            className="
-            border border-dashed rounded-xl p-8
-            text-center text-sm text-gray-500
-          "
-          >
-            No hay elementos asociados en esta sección
-          </div>
-        )}
+        <ItemList section={section} />
       </div>
 
       {/* Dialog */}
