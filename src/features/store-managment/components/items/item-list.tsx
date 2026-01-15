@@ -8,13 +8,13 @@ import { ItemCategoryContent } from "./card-contents/category-item";
 import { ItemImageContent } from "./card-contents/image-item";
 import { ItemLinkContent } from "./card-contents/link-item";
 import { ItemTextContent } from "./card-contents/text-item";
+import { ItemAnnouncementContent } from "./card-contents/announcement";
 
 interface ItemListProps {
   section: HomeSection;
 }
 
 export const ItemList = ({ section }: ItemListProps) => {
-  console.log(section);
   const items = React.useMemo(() => {
     if (!section.items) return [];
 
@@ -52,6 +52,9 @@ export const ItemList = ({ section }: ItemListProps) => {
     >
       {items.map((item) => {
         switch (item.itemType) {
+          case "ANNOUNCEMENT":
+            return <ItemAnnouncementContent key={item.id} item={item} />;
+
           case "PRODUCT":
             return <ItemProductContent key={item.id} item={item} />;
 
