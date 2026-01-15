@@ -3,7 +3,7 @@
 import React from "react";
 import { ItemSection } from "@/types/resources/home-section-types";
 import { ItemCard } from "../items-card";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Link as LinkIcon } from "lucide-react";
 
 interface ItemLinkContentProps {
   item: ItemSection;
@@ -19,15 +19,21 @@ export const ItemLinkContent = ({ item }: ItemLinkContentProps) => {
 
   return (
     <ItemCard item={item}>
-      <div className="flex flex-col justify-center flex-1 px-4 text-center gap-2">
-        {/* Label */}
-        <span className="text-xs font-medium uppercase tracking-widest text-primary/70">
-          Enlace
-        </span>
+      <div className="relative flex flex-col justify-center flex-1 px-4 text-center gap-2">
+        {/* Badge */}
+        <div className="flex items-center justify-center gap-1 text-primary">
+          <LinkIcon className="h-4 w-4 text-blue-500" />
+          <span className="text-xs font-semibold uppercase tracking-widest text-blue-500">
+            Enlace
+          </span>
+        </div>
 
         {/* Title */}
         <h3
-          className="text-base font-semibold text-gray-900 line-clamp-2"
+          className="
+            text-base font-semibold text-gray-900
+            leading-tight line-clamp-2
+          "
           title={title}
         >
           {title}
@@ -36,14 +42,17 @@ export const ItemLinkContent = ({ item }: ItemLinkContentProps) => {
         {/* Subtitle */}
         {subtitle && (
           <p
-            className="text-xs text-muted-foreground line-clamp-2"
+            className="
+              text-xs text-muted-foreground
+              leading-snug line-clamp-2
+            "
             title={subtitle}
           >
             {subtitle}
           </p>
         )}
 
-        {/* Link */}
+        {/* URL */}
         <a
           href={linkUrl}
           target="_blank"
@@ -51,9 +60,11 @@ export const ItemLinkContent = ({ item }: ItemLinkContentProps) => {
           title={linkUrl}
           className="
             inline-flex items-center justify-center gap-1
-            text-sm text-primary
+            text-sm font-medium
             hover:underline
             break-all
+            mt-1
+            text-blue-500
           "
         >
           {truncatedLink}
@@ -61,7 +72,7 @@ export const ItemLinkContent = ({ item }: ItemLinkContentProps) => {
         </a>
 
         {/* Accent */}
-        <div className="mt-1 h-0.5 w-10 rounded-full bg-primary/60 mx-auto" />
+        <div className="mt-1 h-0.5 w-10 rounded-full bg-blue-500/60 mx-auto" />
       </div>
     </ItemCard>
   );
