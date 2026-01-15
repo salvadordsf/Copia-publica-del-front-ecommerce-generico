@@ -5,6 +5,7 @@ import { HomeSection } from "@/types/resources/home-section-types";
 import { ItemProductContent } from "./card-contents/product-item";
 import { ITEM_TYPE_LABELS } from "../../utils/items-translations";
 import { ItemCategoryContent } from "./card-contents/category-item";
+import { ItemImageContent } from "./card-contents/image-item";
 
 interface ItemListProps {
   section: HomeSection;
@@ -56,32 +57,7 @@ export const ItemList = ({ section }: ItemListProps) => {
             return <ItemCategoryContent key={item.id} item={item} />;
 
           case "IMAGE":
-            return (
-              <div
-                key={item.id}
-                className="
-                  w-full
-                  rounded-xl border p-4
-                  text-sm transition-all
-                  hover:shadow-sm
-                "
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-gray-600 uppercase">
-                    {ITEM_TYPE_LABELS[item.itemType]}
-                  </span>
-                  <span className="text-xs text-gray-400">
-                    Posición {item.position}
-                  </span>
-                </div>
-
-                <img
-                  src={item.imageUrl ?? undefined}
-                  alt={item.title ?? "imagen"}
-                  className="rounded-md w-full object-cover"
-                />
-              </div>
-            );
+            return <ItemImageContent key={item.id} item={item} />
 
           default:
             return (
