@@ -16,6 +16,7 @@ export interface HomeSection {
   createdAt: string;
   updatedAt: string;
   items: any[];
+  config: any | null;
   _count: {
     items: number;
   };

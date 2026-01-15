@@ -68,15 +68,40 @@ export const UpdateSectionSchema = z
         .max(120, "El título no puede tener más de 120 caracteres")
         .optional()
     ) as z.ZodType<string | undefined>,
-    type: z.nativeEnum(SectionType).optional(),
-    position: z
-      .number()
-      .int()
-      .min(0, "La posición debe ser un entero mayor a 0")
-      .optional(),
-    isEnabled: z.boolean().optional(),
+    position: z.string().optional(),
+    isEnabled: z.enum(["true", "false"]).optional(),
     config: z.string().optional(),
   })
   .strict();
 
 export type IUpdateSection = z.infer<typeof UpdateSectionSchema>;
+
+export const UpdateSectionSchemaForMutation = z
+  .object({
+    title: z.preprocess(
+      (val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+      z
+        .string()
+        .trim()
+        .min(1, "El título debe tener mínimo 1 caracter")
+        .max(120, "El título no puede tener más de 120 caracteres")
+        .optional()
+    ) as z.ZodType<string | undefined>,
+    position: z
+      .string()
+      .transform((val) => (val ? Number(val) : undefined))
+      .optional(),
+    isEnabled: z
+      .enum(["true", "false"])
+      .transform((val) => {
+        if (val === "true") return true;
+        if (val === "false") return false;
+      })
+      .optional(),
+    config: z.string().optional(),
+  })
+  .strict();
+
+export type IUpdateSectionForMutation = z.output<
+  typeof UpdateSectionSchemaForMutation
+>;

@@ -5,7 +5,7 @@ export interface GenericFormField {
   placeholder?: string;
   type: "text" | "number" | "select" | "slider" | "textarea" | "radio group" | "toggle tag";
   options?: {
-    value: string;
+    value: string | boolean;
     label: string;
     categoryId?: string;
     disabled?: boolean;

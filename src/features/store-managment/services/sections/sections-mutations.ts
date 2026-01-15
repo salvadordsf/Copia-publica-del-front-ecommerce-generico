@@ -4,6 +4,7 @@ import { createSection, deleteSection, updateSection } from "./sections.axios";
 import {
   ICreateSection,
   IUpdateSection,
+  IUpdateSectionForMutation,
 } from "../../schemas/sections/sections-schema";
 
 export const useCreateSection = () => {
@@ -17,7 +18,7 @@ export const useCreateSection = () => {
 
 export const useUpdateSection = (id: string) => {
   return useMutation({
-    mutationFn: (data: IUpdateSection) => updateSection(id, data),
+    mutationFn: (data: IUpdateSectionForMutation) => updateSection(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
       queryClient.invalidateQueries({ queryKey: ["section"] });

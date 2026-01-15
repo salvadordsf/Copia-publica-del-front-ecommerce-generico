@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axios/axios";
 import {
   ICreateSection,
   IGetSection,
-  IUpdateSection,
+  IUpdateSectionForMutation,
 } from "../../schemas/sections/sections-schema";
 
 export const getSections = async (data: IGetSection) => {
@@ -31,7 +31,7 @@ export const createSection = async (data: ICreateSection) => {
   return res.data;
 };
 
-export const updateSection = async (id: string, data: IUpdateSection) => {
+export const updateSection = async (id: string, data: IUpdateSectionForMutation) => {
   const res = await axiosInstance.put(`/home/sections/${id}`, data);
   console.log(data);
   console.log(res);

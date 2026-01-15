@@ -4,7 +4,7 @@ export default function SectionEditorPage() {
   return (
     <main className="flex flex-col gap-7 mt-4 pr-5">
       <section>
-        <SectionInfo />
+        <SectionInfo sectionsLength={40}/>
       </section>
     </main>
   );
