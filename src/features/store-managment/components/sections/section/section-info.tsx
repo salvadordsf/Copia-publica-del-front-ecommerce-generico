@@ -1,45 +1,26 @@
 "use client";
 
 import { useSectionById } from "@/features/store-managment/services/sections/sections-query";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { AddSectionItemDialog } from "../../items/add-item-dialog";
-import { SectionCard } from "../cards/section-card";
 import { ITEM_TYPE_LABELS } from "@/features/store-managment/utils/items-translations";
-import MethodsBtns from "@/components/dashboard/btns/btn-request-method";
 import { SECTIONS_TYPE_LABELS } from "@/features/store-managment/utils/sections-translations";
-import ConfirmDeleteDialog from "@/components/dashboard/actions/delete/action-delete-dialog";
-import { useDeleteSection } from "@/features/store-managment/services/sections/sections-mutations";
-import { toast } from "sonner";
+import UpdateSectionDialog from "./update/section-update-dialog";
+import { DeleteSectionDialog } from "./delete/section-delete-dialog";
 
-export const SectionInfo = () => {
-  const router = useRouter();
-
+export const SectionInfo = ({ sectionsLength }: { sectionsLength: number }) => {
+  //Fetch the section info by param id
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
-
-  const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
 
   if (!id) return <p>ID inválido</p>;
 
   const { data: { data: section } = {}, isLoading, error } = useSectionById(id);
 
-  //Delete logic
-  const { mutate } = useDeleteSection();
-  const deleteSection = () => {
-    mutate(section.id, {
-      onSuccess: () => {
-        toast.success(`La sección ${SECTIONS_TYPE_LABELS[section.type]} ${section.title ? "- ".concat(section.title) : ""} se eliminó correctamente`)
-        router.push("/admin/dashboard/home-store/sections")
-      },
-      onError: () => {
-        toast.error("Error al intentar eliminar sección");
-      }
-    });
-  }
+  //State for add section item dialog
+  const [open, setOpen] = useState(false);
 
   if (isLoading) return <p>Cargando sección</p>;
   if (error || !section) return <p>Error al cargar sección</p>;
@@ -113,23 +94,12 @@ export const SectionInfo = () => {
           sm:flex-row sm:items-center sm:justify-end
         "
         >
-          <MethodsBtns
-            selectedType="update"
-            onClickAct={() => setOpenEdit(true)}
-            extraClassName="
-            m-0
-          "
-          >
-            Editar sección
-          </MethodsBtns>
-
-          
-          <ConfirmDeleteDialog 
-            resourceStatus="ACTIVE"
-            resourceType="sección"
-            resourceName={SECTIONS_TYPE_LABELS[section.type]}
-            onConfirmActions={[deleteSection]}
+          <UpdateSectionDialog
+            section={section}
+            sectionsLength={sectionsLength}
           />
+
+          <DeleteSectionDialog section={section} />
         </div>
       </div>
 
