@@ -7,6 +7,7 @@ import { ITEM_TYPE_LABELS } from "../../utils/items-translations";
 import { ItemCategoryContent } from "./card-contents/category-item";
 import { ItemImageContent } from "./card-contents/image-item";
 import { ItemLinkContent } from "./card-contents/link-item";
+import { ItemTextContent } from "./card-contents/text-item";
 
 interface ItemListProps {
   section: HomeSection;
@@ -62,6 +63,9 @@ export const ItemList = ({ section }: ItemListProps) => {
 
           case "LINK":
             return <ItemLinkContent key={item.id} item={item} />;
+
+          case "TEXT":
+            return <ItemTextContent key={item.id} item={item} />;
 
           default:
             return (
