@@ -1,11 +1,23 @@
 import { ChevronLeft } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const GenericPrevSliderBtn = ({ id }: { id: string }) => {
   return (
-    <ChevronLeft
-      size={50}
+    <div
       id={id}
-      className="max-w-0 cursor-pointer text-neutral-400 hover:bg-neutral-200 rounded-2xl transition-all md:max-w-100 md:absolute md:-left-10 md:top-1/2 md:-translate-y-1/2 md:z-10"
-    />
+      className={cn(
+        "hidden md:flex",
+        "absolute -left-6 top-1/2 -translate-y-1/2 z-10",
+        "h-12 w-12 items-center justify-center",
+        "rounded-full bg-white",
+        "cursor-pointer",
+        "border border-neutral-200",
+        "transition-all duration-200 ease-out",
+        "hover:shadow-lg hover:border-neutral-300",
+        "active:scale-95"
+      )}
+    >
+      <ChevronLeft className="h-6 w-6 text-neutral-600" />
+    </div>
   );
 };

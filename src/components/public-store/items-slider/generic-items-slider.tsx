@@ -44,8 +44,8 @@ export const GenericItemsSlider = ({
 
   return (
     <div className="p-2">
-      {title && <h3>{title}</h3>}
-      <div className="flex relative">
+      {title && <h3 className="pb-2 font-semibold">{title}</h3>}
+      <div className="relative">
         {btns && <GenericPrevSliderBtn id={btns.prev} />}
         <Swiper
           modules={[A11y, Navigation]}
@@ -62,7 +62,7 @@ export const GenericItemsSlider = ({
           breakpoints={config.breakpoints}
         >
           {items.map(([item, element]) => (
-            <SwiperSlide key={`${itemsType}-${item.id}`} className="">
+            <SwiperSlide key={`${itemsType}-${item.id}`}>
               <GenericItemsCard>{element}</GenericItemsCard>
             </SwiperSlide>
           ))}
