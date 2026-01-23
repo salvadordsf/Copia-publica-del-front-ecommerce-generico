@@ -1,5 +1,5 @@
 import UiDivider from "@/components/dashboard/divider/divider";
-import OrderSearcher from "@/features/orders/components/searcher/orders-searcher";
+import OrderSearcher from "@/features/admin/orders/components/searcher/orders-searcher";
 
 
 export default function ProductsPage() {

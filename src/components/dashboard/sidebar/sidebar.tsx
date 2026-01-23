@@ -33,7 +33,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import UiAdminFooterSidebar from "@/features/dashboard/components/layout/sidebar/admin-sidebar-footer";
+import UiAdminFooterSidebar from "@/features/admin/dashboard/components/layout/sidebar/admin-sidebar-footer";
 
 interface ISidebarProps {
   title: string;

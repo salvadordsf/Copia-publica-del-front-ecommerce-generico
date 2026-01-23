@@ -1,5 +1,5 @@
 import UiDivider from "@/components/dashboard/divider/divider";
-import { AddSectionForm } from "@/features/store-managment/components/sections/add-section/add-section";
+import { AddSectionForm } from "@/features/admin/store-managment/components/sections/add-section/add-section";
 
 export default function AddSectionPage() {
   return (

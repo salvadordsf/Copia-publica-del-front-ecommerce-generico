@@ -6,12 +6,12 @@ import { useParams } from "next/navigation";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
-import { useOrderById } from "@/features/orders/services/orders-querys";
+import { useOrderById } from "@/features/admin/orders/services/orders-querys";
 import {
   useDeleteOrder,
   useUpdateOrder,
-} from "@/features/orders/services/orders-mutations";
-import UpdateOrderDialog from "@/features/orders/components/update/orders-update-dialog";
+} from "@/features/admin/orders/services/orders-mutations";
+import UpdateOrderDialog from "@/features/admin/orders/components/update/orders-update-dialog";
 
 export default function IdOrderPage() {
   const { id } = useParams();

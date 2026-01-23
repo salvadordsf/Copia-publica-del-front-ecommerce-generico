@@ -2,16 +2,16 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useParams } from "next/navigation";
-import { useProductById } from "@/features/products/services/products-querys";
+import { useProductById } from "@/features/admin/products/services/products-querys";
 import {
   useDeleteProducts,
   useUpdateProduct,
-} from "@/features/products/services/products-mutations";
-import UpdateProductDialog from "@/features/products/components/update/products-update-dialog";
+} from "@/features/admin/products/services/products-mutations";
+import UpdateProductDialog from "@/features/admin/products/components/update/products-update-dialog";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
-import ProductTagsManager from "@/features/products/components/update/product-tags-manager";
+import ProductTagsManager from "@/features/admin/products/components/update/product-tags-manager";
 
 export default function IdProductPage() {
   const { id } = useParams();

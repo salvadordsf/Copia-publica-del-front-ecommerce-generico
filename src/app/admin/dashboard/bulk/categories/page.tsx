@@ -1,5 +1,5 @@
-import CategoriesBulkFiltersResults from "@/features/categories/components/filter/categories-bulk-counter";
-import CategoriesBulkFilters from "@/features/categories/components/filter/categories-filters";
+import CategoriesBulkFiltersResults from "@/features/admin/categories/components/filter/categories-bulk-counter";
+import CategoriesBulkFilters from "@/features/admin/categories/components/filter/categories-filters";
 
 export default function CategoriesPage() {
   return (

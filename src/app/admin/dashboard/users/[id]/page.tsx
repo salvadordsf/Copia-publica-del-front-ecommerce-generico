@@ -3,12 +3,12 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useParams } from "next/navigation";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
-import { useUserById } from "@/features/users/services/users-querys";
+import { useUserById } from "@/features/admin/users/services/users-querys";
 import {
   useDeleteUser,
   useUpdateUser,
-} from "@/features/users/services/users-mutations";
-import UpdateUserDialog from "@/features/users/components/update/user-update-dialog";
+} from "@/features/admin/users/services/users-mutations";
+import UpdateUserDialog from "@/features/admin/users/components/update/user-update-dialog";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 

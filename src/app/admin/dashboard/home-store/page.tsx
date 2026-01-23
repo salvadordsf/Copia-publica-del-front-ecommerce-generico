@@ -1,4 +1,4 @@
-import { StoreViewer } from "@/features/store-managment/components/overviews/store-viewer";
+import { StoreViewer } from "@/features/admin/store-managment/components/overviews/store-viewer";
 
 export default function HomeStorePage() {
   return (

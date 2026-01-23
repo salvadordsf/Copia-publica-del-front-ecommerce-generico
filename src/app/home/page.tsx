@@ -1,4 +1,4 @@
-import { HomePage } from "@/features/store-managment/components/home/home-page";
+import { HomePage } from "@/features/publics/home/components/home-page";
 
 export default function Home() {
   return (

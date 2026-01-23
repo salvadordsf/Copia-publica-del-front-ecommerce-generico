@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchProducts } from "@/features/products/services/products-querys";
+import { useSearchProducts } from "@/features/admin/products/services/products-querys";
 import { MiniSearchWrapper } from "./main-searcher-wraper";
 
 export function MainSearcher() {

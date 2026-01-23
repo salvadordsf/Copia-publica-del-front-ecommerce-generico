@@ -11,17 +11,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useParams, useRouter } from "next/navigation";
-import { useCategoryById } from "@/features/categories/services/categories-querys";
+import { useCategoryById } from "@/features/admin/categories/services/categories-querys";
 import {
   useDeleteCategory,
   useUpdateCategory,
-} from "@/features/categories/services/categories-mutations";
-import UpdateCategoryDialog from "@/features/categories/components/update/categories-update-dialog";
+} from "@/features/admin/categories/services/categories-mutations";
+import UpdateCategoryDialog from "@/features/admin/categories/components/update/categories-update-dialog";
 import UiDivider from "@/components/dashboard/divider/divider";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
-import ResourceMigrateDialog from "@/features/products/components/update/migration/products-update-migrate-dialog";
+import ResourceMigrateDialog from "@/features/admin/products/components/update/migration/products-update-migrate-dialog";
 
 export default function IdCategoryPage() {
   const { id } = useParams();

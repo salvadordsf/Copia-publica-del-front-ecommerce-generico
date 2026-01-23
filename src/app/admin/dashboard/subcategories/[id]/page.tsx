@@ -14,17 +14,17 @@ import {
 import { Link2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import UiDivider from "@/components/dashboard/divider/divider";
-import { useSubcategoryById } from "@/features/subcategories/services/subcategories-querys";
+import { useSubcategoryById } from "@/features/admin/subcategories/services/subcategories-querys";
 import {
   useDeleteSubcategories,
   useUpdateSubcategory,
-} from "@/features/subcategories/services/subcategories-mutations";
+} from "@/features/admin/subcategories/services/subcategories-mutations";
 import Link from "next/link";
-import UpdateSubcategoryDialog from "@/features/subcategories/components/update/subcategories-update-dialog";
+import UpdateSubcategoryDialog from "@/features/admin/subcategories/components/update/subcategories-update-dialog";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
-import ResourceMigrateDialog from "@/features/products/components/update/migration/products-update-migrate-dialog";
+import ResourceMigrateDialog from "@/features/admin/products/components/update/migration/products-update-migrate-dialog";
 
 export default function IdSubcategoryPage() {
   const { id } = useParams();

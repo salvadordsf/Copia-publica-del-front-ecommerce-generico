@@ -1,4 +1,4 @@
-import { StoreEditor } from "@/features/store-managment/components/overviews/store-editor";
+import { StoreEditor } from "@/features/admin/store-managment/components/overviews/store-editor";
 
 export default function SectionEditorPage() {
   return (

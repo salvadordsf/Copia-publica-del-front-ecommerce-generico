@@ -1,10 +1,10 @@
 "use client";
 
-import { useHome } from "@/features/store-managment/services/home/home-query";
+import { useHome } from "@/features/publics/home/services/home-query";
 import { MainNav } from "./main-nav/main-nav";
 import { HomeSection } from "@/types/resources/home-section-types";
-import { AnnouncementCarousel } from "@/features/store-managment/components/home/announcement-carousel";
 import { useMemo } from "react";
+import { AnnouncementCarousel } from "@/features/publics/home/components/sections/announcement-carousel";
 
 export const MainHeader = () => {
   const { data: { success, data: sections = [] } = {} } = useHome();

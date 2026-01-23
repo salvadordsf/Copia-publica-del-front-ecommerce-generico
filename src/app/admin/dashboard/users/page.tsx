@@ -1,4 +1,4 @@
-import UserSearcher from "@/features/users/components/searcher/users-searcher";
+import UserSearcher from "@/features/admin/users/components/searcher/users-searcher";
 
 
 export default function ProductsPage() {

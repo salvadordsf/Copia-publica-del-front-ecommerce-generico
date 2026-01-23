@@ -1,6 +1,6 @@
 import UiDivider from "@/components/dashboard/divider/divider";
-import CreateCategoryForm from "@/features/categories/components/create/categories-create-form";
-import CategorySearcher from "@/features/categories/components/search/categories-searcher";
+import CreateCategoryForm from "@/features/admin/categories/components/create/categories-create-form";
+import CategorySearcher from "@/features/admin/categories/components/search/categories-searcher";
 
 export default function CategoriesPage() {
   return (

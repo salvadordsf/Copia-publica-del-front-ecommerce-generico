@@ -6,7 +6,7 @@ import BulkUpdateDialog from "./action-bulk-update-dialog";
 import { useState } from "react";
 import { ZodSchema } from "zod";
 import { GenericFormField } from "@/components/dashboard/form/generic-create-form/generic-create-form.types";
-import { useCategories } from "@/features/categories/services/categories-querys";
+import { useCategories } from "@/features/admin/categories/services/categories-querys";
 
 interface IBulkUpdateDialogProps {
   useResourceBulkFiltersStore: () => { filters: any };

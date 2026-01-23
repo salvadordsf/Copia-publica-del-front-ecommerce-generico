@@ -32,9 +32,9 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MainNavLogo } from "../main-header/main-nav/main-nav-logo";
-import UiAdminFooterSidebar from "@/features/dashboard/components/layout/sidebar/admin-sidebar-footer";
+import UiAdminFooterSidebar from "@/features/admin/dashboard/components/layout/sidebar/admin-sidebar-footer";
 import { slugify } from "@/utils/slugify";
-import { useCategories } from "@/features/categories/services/categories-querys";
+import { useCategories } from "@/features/admin/categories/services/categories-querys";
 
 export default function PublicSidebar() {
   const pathname = usePathname();

@@ -1,4 +1,4 @@
-import { SectionPage } from "@/features/store-managment/components/sections/section/section-dedicated-page";
+import { SectionPage } from "@/features/admin/store-managment/components/sections/section/section-dedicated-page";
 
 export default function SectionEditorPage() {
   return (
