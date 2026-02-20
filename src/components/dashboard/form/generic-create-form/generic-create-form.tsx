@@ -3,11 +3,11 @@ import { IGenericFormProps } from "./generic-create-form.types";
 import UiSelect from "../inputs/select/form-input-select";
 import UiTextarea from "../inputs/textarea/form-input-textarea";
 import UiRadioGroup from "../inputs/radio-group/form-input-radio-group";
-import ToggleCreateTagInput from "@/features/tags/components/create/tags-toggle-create-input";
 import UiSlider from "../inputs/slider/form-input-slider";
 import { Input } from "@/components/ui/input";
 import { FormError } from "../form-error-input";
 import MethodsBtns from "../../btns/btn-request-method";
+import ToggleCreateTagInput from "@/features/admin/tags/components/create/tags-toggle-create-input";
 
 
 export default function GenericForm({
