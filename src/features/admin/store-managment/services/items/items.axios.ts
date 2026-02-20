@@ -32,7 +32,7 @@ export const createItem = async (data: ICreateItem) => {
   return res.data;
 };
 
-export const updateItem = async (id: string, data: IUpdateItem) => {
+export const updateItem = async <T>(id: string, data: T) => {
   const res = await axiosInstance.put(`/home/items-sections/${id}`, data);
   console.log(data);
   console.log(res);
