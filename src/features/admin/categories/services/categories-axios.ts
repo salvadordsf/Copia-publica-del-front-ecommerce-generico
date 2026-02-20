@@ -6,6 +6,8 @@ import {
   IUpdateBulkCategories,
   IUpdateCategory,
 } from "../schemas/categories-schema";
+import { ApiResponse } from "@/types/responses.type";
+import { ICategory } from "@/types/resources/category-type";
 
 export const getCategories = async (data: IGetCategoryQuery) => {
   const params: any = {
@@ -26,7 +28,9 @@ export const getCategories = async (data: IGetCategoryQuery) => {
   return res.data;
 };
 export const getCategoryById = async (id: string) => {
-  const res = await axiosInstance.get(`/categories/${id}`);
+  const res = await axiosInstance.get<ApiResponse<ICategory>>(
+    `/categories/${id}`,
+  );
   console.log(res);
   return res.data;
 };
@@ -53,7 +57,7 @@ export const deleteCategory = async (id: string) => {
 
 export const updateManyCategories = async (
   filter: IFilterBulkCategoryQuery,
-  data: IUpdateBulkCategories
+  data: IUpdateBulkCategories,
 ) => {
   const params: IFilterBulkCategoryQuery = {
     ...(filter?.name && { name: filter?.name }),
@@ -71,7 +75,7 @@ export const updateManyCategories = async (
 };
 
 export const deleteManyCategories = async (
-  filter: IFilterBulkCategoryQuery
+  filter: IFilterBulkCategoryQuery,
 ) => {
   const params: IFilterBulkCategoryQuery = {
     ...(filter?.name && { name: filter?.name }),
