@@ -141,7 +141,38 @@ export const UpdateItemSchema = z
 
 export type IUpdateItem = z.output<typeof UpdateItemSchema>;
 
-//Specific items
+//Specific update items type
+export type IUpdateItemAnnouncement = {
+  title?: string;
+  subtitle?: string;
+  linkUrl?: string;
+  position: number;
+};
+export type IUpdateItemImage = {
+  title?: string;
+  subtitle?: string;
+  imageUrl?: string;
+  linkUrl?: string;
+  position: number;
+};
+export type IUpdateItemCategory = {
+  position: number;
+};
+export type IUpdateItemProduct = {
+  position: number;
+};
+export type IUpdateItemLink = {
+  title?: string;
+  subtitle?: string;
+  linkUrl?: string;
+  position: number;
+};
+export type IUpdateItemText = {
+  title?: string;
+  subtitle?: string;
+  linkUrl?: string;
+  position: number;
+};
 
 //ANNOUNCEMENT
 export const CreateAnnouncementItemSchema = z.object({
