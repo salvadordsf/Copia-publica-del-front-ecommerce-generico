@@ -2,13 +2,13 @@
 
 import React from "react";
 import { HomeSection } from "@/types/resources/home-section-types";
-import { ItemProductContent } from "./card-contents/product-item";
+import { ItemAnnouncementContent } from "@/features/publics/home/components/items/announcement";
+import { ItemProductContent } from "@/features/publics/home/components/items/product-item";
+import { ItemCategoryContent } from "@/features/publics/home/components/items/category-item";
+import { ItemImageContent } from "@/features/publics/home/components/items/image-item";
+import { ItemLinkContent } from "@/features/publics/home/components/items/link-item";
+import { ItemTextContent } from "@/features/publics/home/components/items/text-item";
 import { ITEM_TYPE_LABELS } from "../../utils/items-translations";
-import { ItemCategoryContent } from "./card-contents/category-item";
-import { ItemImageContent } from "./card-contents/image-item";
-import { ItemLinkContent } from "./card-contents/link-item";
-import { ItemTextContent } from "./card-contents/text-item";
-import { ItemAnnouncementContent } from "./card-contents/announcement";
 
 interface ItemListProps {
   section: HomeSection;
@@ -20,7 +20,7 @@ export const ItemList = ({ section }: ItemListProps) => {
 
     if (section.type === "PRODUCT_CAROUSEL") {
       return [...section.items].sort(
-        (a, b) => (b.product?.relevance ?? 0) - (a.product?.relevance ?? 0)
+        (a, b) => (b.product?.relevance ?? 0) - (a.product?.relevance ?? 0),
       );
     }
 
