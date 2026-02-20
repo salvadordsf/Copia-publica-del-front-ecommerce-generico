@@ -1,7 +1,7 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y, Navigation } from "swiper/modules";
+import { A11y, Navigation, Pagination } from "swiper/modules";
 import "swiper/swiper.css";
 import "swiper/css/navigation";
 import { ReactElement } from "react";
@@ -27,6 +27,7 @@ interface IGenericItemsSliderProps {
       };
     };
   };
+  paginationDots?: boolean;
 }
 
 export const GenericItemsSlider = ({
@@ -35,6 +36,7 @@ export const GenericItemsSlider = ({
   title,
   btns,
   slidesSpaceConfig,
+  paginationDots = false,
 }: IGenericItemsSliderProps) => {
   const config = {
     slidesPerView: slidesSpaceConfig?.slidesPerView || 1,
@@ -48,7 +50,7 @@ export const GenericItemsSlider = ({
       <div className="relative">
         {btns && <GenericPrevSliderBtn id={btns.prev} />}
         <Swiper
-          modules={[A11y, Navigation]}
+          modules={[A11y, Navigation, Pagination]}
           a11y={{
             prevSlideMessage: `${itemsType} anterior`,
             nextSlideMessage: `${itemsType} siguiente`,
@@ -57,6 +59,7 @@ export const GenericItemsSlider = ({
             nextEl: `#${btns?.next}`,
             prevEl: `#${btns?.prev}`,
           }}
+          pagination={paginationDots}
           slidesPerView={config.slidesPerView}
           spaceBetween={config.spaceBetween}
           breakpoints={config.breakpoints}
