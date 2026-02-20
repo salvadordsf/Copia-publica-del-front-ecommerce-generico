@@ -117,7 +117,7 @@ export const CreateItemSchema = z
 
 export type ICreateItem = z.output<typeof CreateItemSchema>;
 
-export const UpdateItemSchema = z
+export const UpdateBaseItemSchema = z
   .object({
     title: z
       .string()
@@ -139,40 +139,7 @@ export const UpdateItemSchema = z
   })
   .strict();
 
-export type IUpdateItem = z.output<typeof UpdateItemSchema>;
-
-//Specific update items type
-export type IUpdateItemAnnouncement = {
-  title?: string;
-  subtitle?: string;
-  linkUrl?: string;
-  position: number;
-};
-export type IUpdateItemImage = {
-  title?: string;
-  subtitle?: string;
-  imageUrl?: string;
-  linkUrl?: string;
-  position: number;
-};
-export type IUpdateItemCategory = {
-  position: number;
-};
-export type IUpdateItemProduct = {
-  position: number;
-};
-export type IUpdateItemLink = {
-  title?: string;
-  subtitle?: string;
-  linkUrl?: string;
-  position: number;
-};
-export type IUpdateItemText = {
-  title?: string;
-  subtitle?: string;
-  linkUrl?: string;
-  position: number;
-};
+export type IUpdateItem = z.output<typeof UpdateBaseItemSchema>;
 
 //ANNOUNCEMENT
 export const CreateAnnouncementItemSchema = z.object({
@@ -192,8 +159,34 @@ export const CreateAnnouncementItemSchema = z.object({
     .int()
     .min(1, "La posición debe ser mayor o igual a 1"),
 });
+
 export type ICreateAnnouncementItem = z.infer<
   typeof CreateAnnouncementItemSchema
+>;
+
+export const UpdateItemAnnouncementSchema = z
+  .object({
+    title: z
+      .string()
+      .trim()
+      .max(120, "El título debe tener como máximo 120 caracteres")
+      .optional(),
+    subtitle: z
+      .string()
+      .trim()
+      .max(200, "El subtítulo debe tener como máximo 120 caracteres")
+      .optional(),
+    position: z
+      .number()
+      .int()
+      .min(0, "La posición debe ser un entero mayor a 0")
+      .optional(),
+    linkUrl: z.string().url("URL inválida").optional(),
+  })
+  .strict();
+
+export type IUpdateItemAnnouncement = z.output<
+  typeof UpdateItemAnnouncementSchema
 >;
 
 //IMAGE
@@ -214,6 +207,30 @@ export const CreateImageItemSchema = z.object({
     .min(1, "La posición debe ser mayor o igual a 1"),
 });
 export type ICreateImageItem = z.infer<typeof CreateImageItemSchema>;
+
+export const UpdateItemImageSchema = z
+  .object({
+    title: z
+      .string()
+      .trim()
+      .max(120, "El título debe tener como máximo 120 caracteres")
+      .optional(),
+    subtitle: z
+      .string()
+      .trim()
+      .max(200, "El subtítulo debe tener como máximo 120 caracteres")
+      .optional(),
+    position: z
+      .number()
+      .int()
+      .min(0, "La posición debe ser un entero mayor a 0")
+      .optional(),
+    linkUrl: z.string().url("URL inválida").optional(),
+    imageUrl: z.string().url("URL inválida").optional(),
+  })
+  .strict();
+
+export type IUpdateItemImage = z.output<typeof UpdateItemImageSchema>;
 
 //CATEGORY
 export const SelectCategoriesSchema = z.object({
@@ -244,6 +261,29 @@ export const CreateTextItemSchema = z.object({
 });
 export type ICreateTextItem = z.infer<typeof CreateTextItemSchema>;
 
+export const UpdateItemTextSchema = z
+  .object({
+    title: z
+      .string()
+      .trim()
+      .max(120, "El título debe tener como máximo 120 caracteres")
+      .optional(),
+    subtitle: z
+      .string()
+      .trim()
+      .max(200, "El subtítulo debe tener como máximo 120 caracteres")
+      .optional(),
+    position: z
+      .number()
+      .int()
+      .min(0, "La posición debe ser un entero mayor a 0")
+      .optional(),
+    linkUrl: z.string().url("URL inválida").optional(),
+  })
+  .strict();
+
+export type IUpdateItemText = z.output<typeof UpdateItemTextSchema>;
+
 //LINK
 export const CreateLinkItemSchema = z.object({
   sectionId: UuidSchema,
@@ -263,3 +303,39 @@ export const CreateLinkItemSchema = z.object({
     .min(1, "La posición debe ser mayor o igual a 1"),
 });
 export type ICreateLinkItem = z.infer<typeof CreateLinkItemSchema>;
+
+export const UpdateItemLinkSchema = z
+  .object({
+    title: z
+      .string()
+      .trim()
+      .max(120, "El título debe tener como máximo 120 caracteres")
+      .optional(),
+    subtitle: z
+      .string()
+      .trim()
+      .max(200, "El subtítulo debe tener como máximo 120 caracteres")
+      .optional(),
+    position: z
+      .number()
+      .int()
+      .min(0, "La posición debe ser un entero mayor a 0")
+      .optional(),
+    linkUrl: z.string().url("URL inválida").optional(),
+  })
+  .strict();
+
+export type IUpdateItemLink = z.output<typeof UpdateItemLinkSchema>;
+
+//UPDATE POSTION
+export const UpdateItemPositionSchema = z
+  .object({
+    position: z
+      .number()
+      .int()
+      .min(0, "La posición debe ser un entero mayor a 0")
+      .optional(),
+  })
+  .strict();
+
+export type IUpdateItemPosition = z.output<typeof UpdateItemPositionSchema>;
