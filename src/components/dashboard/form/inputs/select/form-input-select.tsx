@@ -13,7 +13,7 @@ interface UiSelectProps {
   field: ControllerRenderProps<any, any>;
   placeholder?: string;
   label: string;
-  items: { value: string; label: string, disabled?: boolean }[] | undefined;
+  items: { value: string | boolean; label: string, disabled?: boolean }[] | undefined;
   disabled?: boolean;
   defaultValue?: string;
   className?: string;
@@ -43,7 +43,7 @@ export default function UiSelect({
           <SelectGroup>
             <SelectLabel>{label}</SelectLabel>
             {items.map((item) => (
-              <SelectItem disabled={item.disabled} key={item.value} value={item.value}>
+              <SelectItem disabled={item.disabled} key={`${item.value}`} value={`${item.value}`}>
                 {item.label}
               </SelectItem>
             ))}
