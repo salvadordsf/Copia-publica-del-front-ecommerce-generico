@@ -14,9 +14,9 @@ export const useCreateItem = () => {
   });
 };
 
-export const useUpdateItems = (id: string) => {
+export const useUpdateItems = <T>(id: string) => {
   return useMutation({
-    mutationFn: (data: IUpdateItem) => updateItem(id, data),
+    mutationFn: (data: T) => updateItem(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
       queryClient.invalidateQueries({ queryKey: ["item"] });
