@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { useUpdateTag } from "@/features/tags/services/tags-mutations";
 import { CreateTagSchema, ICreateTagSchema } from "../../schemas/tags-schema";
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
 import UpdateDialog from "@/components/dashboard/actions/update/action-update-dialog";
 import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
+import { useUpdateTag } from "../../services/tags-mutations";
 
 interface Props {
   tagId: string;
