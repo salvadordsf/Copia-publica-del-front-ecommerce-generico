@@ -2,8 +2,8 @@
 
 import React from "react";
 import { ItemSection } from "@/types/resources/home-section-types";
-import { ItemCard } from "../items-card";
 import { FileText, ExternalLink } from "lucide-react";
+import { ItemCard } from "@/features/admin/store-managment/components/items/items-card";
 
 interface ItemTextContentProps {
   item: ItemSection;

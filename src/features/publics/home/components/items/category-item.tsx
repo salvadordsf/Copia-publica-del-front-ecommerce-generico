@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ItemSection } from "@/types/resources/home-section-types";
-import { ItemCard } from "../items-card";
+import { ItemCard } from "@/features/admin/store-managment/components/items/items-card";
 
 interface ItemCategoryContentProps {
   item: ItemSection;
