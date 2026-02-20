@@ -7,7 +7,8 @@ import {
   IUpdateBulkProducts,
   IUpdateProduct,
 } from "../schemas/products-schemas";
-import { IProductWithAll } from "@/types/resources/product-type";
+import { IProduct, IProductWithAll } from "@/types/resources/product-type";
+import { ApiResponse } from "@/types/responses.type";
 
 export const getProducts = async (data: IGetProductsQuery) => {
   const params: any = {
@@ -37,15 +38,18 @@ export const getProducts = async (data: IGetProductsQuery) => {
     ...(data?.sortOrder && { sortOrder: data?.sortOrder }),
   };
 
-  const res = await axiosInstance.get("/products", {
-    params,
-  });
+  const res = await axiosInstance.get<ApiResponse<{ data: IProduct[] }>>(
+    "/products",
+    {
+      params,
+    },
+  );
   console.log(res);
   return res.data;
 };
 
 export const getProductById = async (id: string) => {
-  const res = await axiosInstance.get(`/products/${id}`);
+  const res = await axiosInstance.get<ApiResponse<IProduct>>(`/products/${id}`);
   console.log(res);
   return res.data;
 };
@@ -78,7 +82,7 @@ export const deleteProduct = async (id: string) => {
 
 export const updateManyProducts = async (
   filter: IFilterBulkProductsQuery,
-  data: IUpdateBulkProducts
+  data: IUpdateBulkProducts,
 ) => {
   const params: IFilterBulkProductsQuery = {
     ...(filter?.name && { name: filter?.name }),
