@@ -170,6 +170,7 @@ export const UpdateItemAnnouncementSchema = z
       .string()
       .trim()
       .max(120, "El título debe tener como máximo 120 caracteres")
+      .min(1, "El título es obligatorio")
       .optional(),
     subtitle: z
       .string()
