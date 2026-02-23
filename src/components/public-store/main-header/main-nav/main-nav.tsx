@@ -28,7 +28,9 @@ export const MainNav = () => {
           <Link href="/home/cuenta">
             <User />
           </Link>
-          <ShoppingCart />
+          <Link href="/home/carrito">
+            <ShoppingCart />
+          </Link>
         </div>
 
       </div>
