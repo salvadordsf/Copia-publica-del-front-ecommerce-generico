@@ -16,9 +16,15 @@ export const ProductCarousel = ({ section }: ProductCarouselProps) => {
     return section.items
       .filter(
         (item) =>
-          item.itemType === "PRODUCT" && item.product && item.product.stock > 0
+          item.itemType === "PRODUCT" && item.product && item.product.stock > 0,
       )
-      .sort((a, b) => b.product.relevance - a.product.relevance);
+      .sort((a, b) => {
+        if (a.position !== b.position) {
+          return a.position - b.position;
+        }
+
+        return b.product.relevance - a.product.relevance;
+      });
   }, [section.items]);
 
   if (!products.length) return null;
