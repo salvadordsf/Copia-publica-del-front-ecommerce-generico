@@ -8,8 +8,11 @@ import {
   useProductById,
   useProducts,
 } from "@/features/admin/products/services/products-querys";
-import { Loader2, ShoppingCart } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AddToCartButton } from "../../cart/components/add-to-cart";
+import { useCartStore } from "../../cart/stores/cart-store";
+import { useCartHydrated } from "../../cart/stores/use-cart-hydrated";
 
 export const ProductPage = () => {
   //Get the productId from the path
@@ -26,16 +29,30 @@ export const ProductPage = () => {
     isLoading: isLoadingProducts,
     isError: isErrorProducts,
   } = useProducts({ categoryId: product?.categoryId!, status: "ACTIVE" });
-  const relatedProducts = (products?.success ? products.data.data! : null)?.filter(prod => prod.id !== productId)
+  const relatedProducts = (
+    products?.success ? products.data.data! : null
+  )?.filter((prod) => prod.id !== productId);
 
   //Create the quantity state
   const [quantity, setQuantity] = React.useState(1);
+
+  //Stock calculation using the cart quantity
+  const hydrated = useCartHydrated();
+
+  const cartQty = useCartStore(
+    (s) => s.items.find((i) => i.productId === product?.id)?.quantity ?? 0,
+  );
+
+  const visualStock = hydrated
+    ? Math.max(0, (product?.stock ?? 0) - cartQty)
+    : (product?.stock ?? 0);
 
   //Return if any of this cant load
   if (isLoading) return <Loader2 />;
   if (isError || !response || !response.success)
     return <p>Error al cargar producto desde el hook</p>;
   if (!product) return <p>Error al cargar producto desde el hook</p>;
+
   if (isLoadingProducts) return <Loader2 className="" />;
   if (isErrorProducts || !products || !products.success)
     return <p>Error al cargar productos relacionados desde el hook</p>;
@@ -110,7 +127,9 @@ export const ProductPage = () => {
                   variant="ghost"
                   size="icon"
                   disabled={quantity <= 1}
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  onClick={() =>
+                    setQuantity((q) => Math.min(visualStock, q - 1))
+                  }
                   className="rounded-none rounded-l-lg cursor-pointer"
                 >
                   −
@@ -123,7 +142,7 @@ export const ProductPage = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  disabled={quantity >= product.stock}
+                  disabled={quantity >= visualStock}
                   onClick={() =>
                     setQuantity((q) => Math.min(product.stock, q + 1))
                   }
@@ -134,24 +153,12 @@ export const ProductPage = () => {
               </div>
 
               <span className="text-sm text-muted-foreground">
-                Stock disponible: {product.stock}
+                Stock disponible: {visualStock}
               </span>
             </div>
 
             {/* Add to cart */}
-            <Button
-              size="lg"
-              disabled={product.stock === 0}
-              className="w-full transition-all hover:scale-[1.01]"
-            >
-              {product.stock > 0 ? (
-                <span className="cursor-pointer">
-                  Agregar al carrito <ShoppingCart className="inline" />
-                </span>
-              ) : (
-                "Sin stock"
-              )}
-            </Button>
+            <AddToCartButton product={product} quantity={quantity} />
           </div>
         </div>
       </section>
