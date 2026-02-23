@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/react-query/query-client";
-import { ICreateItem, IUpdateItem } from "../../schemas/items/items-schema";
+import { ICreateItem } from "../../schemas/items/items-schema";
 import { createItem, deleteItem, updateItem } from "./items.axios";
 
 export const useCreateItem = () => {
@@ -20,6 +20,8 @@ export const useUpdateItems = <T>(id: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
       queryClient.invalidateQueries({ queryKey: ["item"] });
+      queryClient.invalidateQueries({ queryKey: ["section"] });
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
     },
   });
 };
