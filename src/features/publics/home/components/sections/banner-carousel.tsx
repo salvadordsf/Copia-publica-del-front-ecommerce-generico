@@ -12,7 +12,10 @@ interface BannerCarouselProps {
 }
 
 export const BannerCarousel = ({ section }: BannerCarouselProps) => {
-  const items = section.items?.filter((item) => Boolean(item.imageUrl)) ?? [];
+  const items =
+    section.items
+      ?.filter((item) => Boolean(item.imageUrl))
+      .sort((a, b) => a.position - b.position) ?? [];
 
   if (!items.length) return null;
 
