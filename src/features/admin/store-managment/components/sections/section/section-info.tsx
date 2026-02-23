@@ -3,12 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { AddSectionItemDialog } from "../../items/add-item-dialog";
-import { ITEM_TYPE_LABELS } from "@/features/admin/store-managment/utils/items-translations";
 import { SECTIONS_TYPE_LABELS } from "@/features/admin/store-managment/utils/sections-translations";
 import UpdateSectionDialog from "./update/section-update-dialog";
 import { DeleteSectionDialog } from "./delete/section-delete-dialog";
 import { HomeSection } from "@/types/resources/home-section-types";
-import { ItemProductContent } from "../../items/card-contents/product-item";
 import { ItemList } from "../../items/item-list";
 
 export const SectionInfo = ({
