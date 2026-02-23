@@ -14,8 +14,6 @@ export const ItemAnnouncementContent = ({
 }: ItemAnnouncementContentProps) => {
   const { title, subtitle, linkUrl } = item;
 
-  if (!title) return null;
-
   const truncatedLink =
     linkUrl && linkUrl.length > 45 ? `${linkUrl.slice(0, 45)}…` : linkUrl;
 
@@ -36,7 +34,7 @@ export const ItemAnnouncementContent = ({
             text-base font-semibold text-gray-900
             leading-tight line-clamp-3
           "
-          title={title}
+          title={title!}
         >
           {title}
         </h3>
