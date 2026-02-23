@@ -20,7 +20,7 @@ export const CategoriesCarousel = ({ section }: CategoriesCarouselProps) => {
           item.category &&
           item.category.status === "ACTIVE"
       )
-      .sort((a, b) => a.category.name.localeCompare(b.category.name));
+      .sort((a, b) => a.position - b.position);
   }, [section.items]);
 
   if (!categories.length) return null;
