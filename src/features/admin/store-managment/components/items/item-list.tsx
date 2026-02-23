@@ -19,12 +19,16 @@ export const ItemList = ({ section }: ItemListProps) => {
     if (!section.items) return [];
 
     if (section.type === "PRODUCT_CAROUSEL") {
-      return [...section.items].sort(
-        (a, b) => (b.product?.relevance ?? 0) - (a.product?.relevance ?? 0),
-      );
+      return [...section.items].sort((a, b) => {
+        if (a.position !== b.position) {
+          return a.position - b.position;
+        }
+
+        return b.product.relevance - a.product.relevance;
+      });
     }
 
-    return section.items;
+    return section.items.sort((a, b) => a.position - b.position);
   }, [section.items, section.type]);
 
   if (!items || items.length === 0) {
