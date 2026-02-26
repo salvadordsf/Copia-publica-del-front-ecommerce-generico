@@ -1,0 +1,75 @@
+"use client";
+
+import { useProducts } from "@/features/admin/products/services/products-querys";
+import { Loader2 } from "lucide-react";
+import { useProductsFiltersStore } from "../../stores/products-filters";
+import { ProductResultCard } from "./product-result-card";
+import UiPagination from "@/components/dashboard/pagination/pagination";
+
+export function ProductsResultsContainer() {
+  const filters = useProductsFiltersStore((s) => s.filters);
+  const setPage = useProductsFiltersStore((s) => s.setPage);
+  const setPageSize = useProductsFiltersStore((s) => s.setPageSize);
+
+  const { data, isLoading, isError } = useProducts(filters);
+
+  const products = data?.success ? data.data.data : [];
+  const pagination = data?.success ? data.data.pagination : null;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-10">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+  }
+
+  if (isError || !data || !data.success) {
+    return (
+      <div className="py-10 text-center text-sm text-muted-foreground">
+        Error al cargar productos
+      </div>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <div className="py-10 text-center text-sm text-muted-foreground">
+        No se encontraron productos
+      </div>
+    );
+  }
+
+  return (
+    <section>
+      <div
+        className="
+          grid grid-cols-2 gap-4
+          sm:grid-cols-4
+          lg:grid-cols-4
+        "
+      >
+        {products.map((product) => (
+          <ProductResultCard key={product.id} product={product} />
+        ))}
+      </div>
+
+      <div className="mt-4">
+      {pagination && (
+        <UiPagination
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          pageSize={pagination.pageSize}
+          onPageChangeAction={(page) => {
+            setPage(page);
+          }}
+          onPageSizeAction={(size) => {
+            setPageSize(size);
+            setPage(1);
+          }}
+        />
+      )}
+      </div>
+    </section>
+  );
+}

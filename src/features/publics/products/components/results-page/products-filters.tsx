@@ -46,7 +46,7 @@ export function ProductsFilters() {
     return categoriesRes.data;
   }, [categoriesRes]);
 
-  //find the selected category for get the subcategories availables ary
+  //find the selected category for get the availables subcategories ary
   const selectedCategory = useMemo(() => {
     return categories.find((c) => c.id === categoryId);
   }, [categories, categoryId]);
