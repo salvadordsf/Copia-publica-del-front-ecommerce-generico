@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useCartStore } from "../stores/cart-store";
 import { useProductById } from "@/features/admin/products/services/products-querys";
 
@@ -50,8 +56,8 @@ export function CartTotal() {
     setTotal(sum);
   }, []);
 
-  //useEffect for restart the count set the ref to {} and the total to 0 when any item from the cart change
-  useEffect(() => {
+  //use useLayoutEffect for reset subtotals before children effects run, so each CartTotalItem can safely recalculate and report its subtotal when cart items change
+  useLayoutEffect(() => {
     mapRef.current = {};
     setTotal(0);
   }, [items]);
