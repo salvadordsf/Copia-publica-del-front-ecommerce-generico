@@ -5,11 +5,19 @@ import { Loader2 } from "lucide-react";
 import { useProductsFiltersStore } from "../../stores/products-filters";
 import { ProductResultCard } from "./product-result-card";
 import UiPagination from "@/components/dashboard/pagination/pagination";
+import { useEffect } from "react";
 
-export function ProductsResultsContainer() {
+export function ProductsResultsContainer({ resetFilters = true }) {
   const filters = useProductsFiltersStore((s) => s.filters);
+  const reset = useProductsFiltersStore((s) => s.resetFilters);
   const setPage = useProductsFiltersStore((s) => s.setPage);
   const setPageSize = useProductsFiltersStore((s) => s.setPageSize);
+
+  useEffect(() => {
+    if (resetFilters) {
+      reset();
+    }
+  }, []);
 
   const { data, isLoading, isError } = useProducts(filters);
 
@@ -55,20 +63,20 @@ export function ProductsResultsContainer() {
       </div>
 
       <div className="mt-4">
-      {pagination && (
-        <UiPagination
-          currentPage={pagination.currentPage}
-          totalPages={pagination.totalPages}
-          pageSize={pagination.pageSize}
-          onPageChangeAction={(page) => {
-            setPage(page);
-          }}
-          onPageSizeAction={(size) => {
-            setPageSize(size);
-            setPage(1);
-          }}
-        />
-      )}
+        {pagination && (
+          <UiPagination
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            pageSize={pagination.pageSize}
+            onPageChangeAction={(page) => {
+              setPage(page);
+            }}
+            onPageSizeAction={(size) => {
+              setPageSize(size);
+              setPage(1);
+            }}
+          />
+        )}
       </div>
     </section>
   );
