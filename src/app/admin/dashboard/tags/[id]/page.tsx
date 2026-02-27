@@ -10,18 +10,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useTagById } from "@/features/tags/services/tags-querys";
-import { useParams } from "next/navigation";
-import UpdateTagDialog from "@/features/tags/components/update/tags-update-dialog";
-import {
-  useDeleteTag,
-  useUpdateTag,
-} from "@/features/tags/services/tags-mutations";
 import UiDivider from "@/components/dashboard/divider/divider";
-import ResourceStatus from "@/components/dashboard/resource-components/resource-status/resource-status-resource";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
+import { useParams } from "next/navigation";
+import { useTagById } from "@/features/admin/tags/services/tags-querys";
+import { useDeleteTag, useUpdateTag } from "@/features/admin/tags/services/tags-mutations";
+import UpdateTagDialog from "@/features/admin/tags/components/update/tags-update-dialog";
 
 export default function IdTagPage() {
   const { id } = useParams();

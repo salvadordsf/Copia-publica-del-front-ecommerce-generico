@@ -1,15 +1,6 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { useRouter } from "next/navigation";
 import { IGetCategoryQuery } from "../../schemas/categories-schema";
 import { useCategories } from "../../services/categories-querys";

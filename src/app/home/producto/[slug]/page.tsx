@@ -1,4 +1,4 @@
-import { ProductPage } from "@/features/publics/product/components/product-page";
+import { ProductPage } from "@/features/publics/products/components/product-page";
 
 export default function ProductDedicatedPage() {
   return <ProductPage />;

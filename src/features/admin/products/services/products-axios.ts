@@ -38,12 +38,19 @@ export const getProducts = async (data: IGetProductsQuery) => {
     ...(data?.sortOrder && { sortOrder: data?.sortOrder }),
   };
 
-  const res = await axiosInstance.get<ApiResponse<{ data: IProduct[] }>>(
-    "/products",
-    {
-      params,
-    },
-  );
+  const res = await axiosInstance.get<
+    ApiResponse<{
+      data: IProduct[];
+      pagination: {
+        currentPage: number;
+        pageSize: number;
+        totalItems: number;
+        totalPages: number;
+      };
+    }>
+  >("/products", {
+    params,
+  });
   console.log(res);
   return res.data;
 };

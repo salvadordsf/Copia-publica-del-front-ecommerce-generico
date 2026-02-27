@@ -1,14 +1,14 @@
 "use client";
 
-import ToggleCreateTagInput from "@/features/tags/components/create/tags-toggle-create-input";
 import { useUpdateProduct } from "@/features/admin/products/services/products-mutations";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import UiDivider from "@/components/dashboard/divider/divider";
+import ToggleCreateTagInput from "@/features/admin/tags/components/create/tags-toggle-create-input";
 
 interface ProductTagsManagerProps {
   product: any;
-  initialTags: string[]; // <-- ahora es string[]
+  initialTags: string[];
 }
 
 export default function ProductTagsManager({

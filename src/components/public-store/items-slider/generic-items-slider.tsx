@@ -46,7 +46,7 @@ export const GenericItemsSlider = ({
 
   return (
     <div className="p-2">
-      {title && <h3 className="pb-2 font-semibold">{title}</h3>}
+      {title && <h3 className="pb-2">{title}</h3>}
       <div className="relative">
         {btns && <GenericPrevSliderBtn id={btns.prev} />}
         <Swiper

@@ -1,5 +1,5 @@
-import TagsBulkFiltersResults from "@/features/tags/components/filter/tags-bulk-counter";
-import TagsBulkFilters from "@/features/tags/components/filter/tags-filters";
+import TagsBulkFiltersResults from "@/features/admin/tags/components/filter/tags-bulk-counter";
+import TagsBulkFilters from "@/features/admin/tags/components/filter/tags-filters";
 
 export default function TagsBulkActionsPage() {
   return (
