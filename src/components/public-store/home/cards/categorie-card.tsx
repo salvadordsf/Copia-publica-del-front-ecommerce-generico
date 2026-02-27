@@ -12,7 +12,7 @@ interface CategoryCardProps {
 export const CategoryCard = ({ category }: CategoryCardProps) => {
   return (
     <Link
-      href={`/home/categorias/${slugify(category.name)}`}
+      href={`/home/categoria/${slugify(category.name)}?id=${category.id}`}
       className={cn(
         "group flex h-18 w-full max-w-[160px] items-center justify-center",
         "rounded-xl border border-neutral-200 bg-white",
