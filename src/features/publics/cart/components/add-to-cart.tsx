@@ -5,6 +5,8 @@ import { useCartStore } from "../stores/cart-store";
 import { useCartHydrated } from "../stores/use-cart-hydrated";
 import { ShoppingCart } from "lucide-react";
 import { IProduct } from "@/types/resources/product-type";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 interface AddToCartButtonProps {
   product: IProduct;
@@ -14,12 +16,16 @@ interface AddToCartButtonProps {
 export function AddToCartButton({ product, quantity }: AddToCartButtonProps) {
   const hydrated = useCartHydrated();
 
+  //try to get the user session if exist
+  const { data: session, isPending, error } = authClient.useSession();
+  const router = useRouter();
+
   const addItem = useCartStore((s) => s.addItem);
   const currentQty = useCartStore(
     (s) => s.items.find((i) => i.productId === product.id)?.quantity ?? 0,
   );
 
-  if (!hydrated) return null;
+  if (!hydrated || isPending) return null;
 
   const hasStock = product.stock > 0;
   const canAdd = quantity > 0 && currentQty + quantity <= product.stock;
@@ -28,7 +34,14 @@ export function AddToCartButton({ product, quantity }: AddToCartButtonProps) {
     <Button
       size="lg"
       disabled={!canAdd}
-      onClick={() => addItem(product.id, quantity)}
+      onClick={() => {
+        if (session) {
+          addItem(product.id, quantity)
+        } else {
+          router.push("/auth/login");
+          //will be set the necesary values for redirect to the page of the prduct by id after login/register
+        }
+      }}
       className="w-full transition-all hover:scale-[1.01] cursor-pointer"
     >
       {canAdd ? (
@@ -36,7 +49,7 @@ export function AddToCartButton({ product, quantity }: AddToCartButtonProps) {
           Agregar al carrito <ShoppingCart className="inline" />
         </span>
       ) : (
-        hasStock? "Sin stock" : "Stock máximo alcanzado"
+        hasStock? "Stock máximo alcanzado" : "Sin stock"
       )}
     </Button>
   );
