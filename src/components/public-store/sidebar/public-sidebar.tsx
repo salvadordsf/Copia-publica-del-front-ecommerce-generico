@@ -13,13 +13,11 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-
 import {
   Home,
   ShoppingBasket,
@@ -28,7 +26,6 @@ import {
   Phone,
   Boxes,
 } from "lucide-react";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MainNavLogo } from "../main-header/main-nav/main-nav-logo";
@@ -37,9 +34,13 @@ import { slugify } from "@/utils/slugify";
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
 
 export default function PublicSidebar() {
+  //get the pathname for chek active links
   const pathname = usePathname();
+
+  //get the categories + subcategories
   const { data, isLoading, isError } = useCategories({ subcategories: true });
 
+  //create a boolean helper to get the active path
   const isActive = (url: string) => pathname === url;
 
   return (
@@ -100,10 +101,12 @@ export default function PublicSidebar() {
                             <CollapsibleTrigger className="flex w-full cursor-pointer">
                               <SidebarMenuButton
                                 asChild
-                                isActive={isActive(`/categories/${cat.name}`)}
+                                isActive={isActive(
+                                  `/home/categoria/${slugify(cat.name)}?id=${cat.id}`,
+                                )}
                               >
                                 <Link
-                                  href={`/categorias/${slugify(cat.name)}`}
+                                  href={`/home/categoria/${slugify(cat.name)}?id=${cat.id}`}
                                   className="flex-1 hover:underline"
                                 >
                                   <span>{cat.name}</span>
@@ -133,14 +136,13 @@ export default function PublicSidebar() {
                                       <SidebarMenuButton
                                         asChild
                                         isActive={isActive(
-                                          `/categorias/${cat.name}/${sub.name}`
+                                          `/home/subcategoria/${slugify(sub.name)}?id=${sub.id}`,
                                         )}
                                         className="text-sm"
                                       >
                                         <Link
-                                          href={`/categorias/${slugify(
-                                            cat.name
-                                          )}/${slugify(sub.name)}`}
+                                          href={`/home/subcategoria/${slugify(sub.name)}?id=${sub.id}`}
+                                          className="flex-1 hover:underline"
                                         >
                                           <span>{sub.name}</span>
                                         </Link>
@@ -221,7 +223,7 @@ export default function PublicSidebar() {
 
       {/* Footer */}
       <SidebarFooter>
-        <UiAdminFooterSidebar userName="nombre" email="mail" />
+        <UiAdminFooterSidebar />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
