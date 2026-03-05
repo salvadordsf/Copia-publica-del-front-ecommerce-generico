@@ -103,7 +103,7 @@ export default function UiAdminFooterSidebar() {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <Link href="/admin/profile" className="cursor-pointer">
+                <Link href="/home/perfil" className="cursor-pointer">
                   <DropdownMenuItem>
                     <UserRound />
                     Mi perfil
