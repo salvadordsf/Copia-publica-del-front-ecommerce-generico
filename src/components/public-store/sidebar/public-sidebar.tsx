@@ -173,6 +173,29 @@ export default function PublicSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
 
+        {/* Generics */}
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={isActive("/home/generic-1")}>
+              <Link href="/home/generic-1">
+                <Boxes />
+                <span>Sección genérica 1</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={isActive("/home/generic-2")}>
+              <Link href="/home/generic-2">
+                <Boxes />
+                <span>Sección genérica 2</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
         {/* Faq */}
         <SidebarMenu>
           <SidebarMenuItem>
@@ -192,29 +215,6 @@ export default function PublicSidebar() {
               <Link href="/home/contacto">
                 <Phone />
                 <span>Contacto</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-
-        {/* Generics */}
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/home/generic-1")}>
-              <Link href="/home/generic-1">
-                <Boxes />
-                <span>Sección genérica 1</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/home/generic-2")}>
-              <Link href="/home/generic-2">
-                <Boxes />
-                <span>Sección genérica 2</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
