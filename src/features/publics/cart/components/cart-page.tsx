@@ -6,18 +6,18 @@ import { useCartHydrated } from "../stores/use-cart-hydrated";
 import { useCartStore } from "../stores/cart-store";
 import { CartItemList } from "./cart-item-list";
 import { CartTotal } from "./cart-total";
+import CheckoutSteps from "./checkout/checkout-steps";
 
 export default function CartPage() {
   const hydrated = useCartHydrated();
   const items = useCartStore((s) => s.items);
 
-  if (!hydrated) return null;
-
   const totalItems = items.reduce((acc, i) => acc + i.quantity, 0);
+
+  if (!hydrated) return null;
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8">
-      {/*Header*/}
       <header className="mb-8">
         <h1 className="text-2xl font-semibold">Carrito</h1>
 
@@ -27,35 +27,47 @@ export default function CartPage() {
       </header>
 
       <section className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_420px]">
-        {/*Items*/}
         <div className="flex flex-col gap-6">
           <CartItemList />
         </div>
 
-        {/*Summary*/}
         <aside className="h-fit rounded-xl border bg-background p-6 shadow-sm lg:sticky lg:top-24">
-          <h2 className="mb-6 text-lg font-semibold">Resumen de compra</h2>
+          <div className="flex flex-col gap-6">
+            {/* Summary */}
+            <div className="flex flex-col gap-4">
+              <h2 className="text-lg font-semibold">Resumen de compra</h2>
 
-          <div className="flex justify-between text-sm">
-            <span>Productos</span>
-            <span>{totalItems}</span>
-          </div>
+              <div className="flex justify-between text-sm text-muted-foreground">
+                <span>Productos</span>
+                <span className="font-medium text-foreground">
+                  {totalItems}
+                </span>
+              </div>
 
-          {/*Total*/}
-          <div className="mt-4 flex justify-between border-t pt-4">
-            <span className="text-base font-medium">Total</span>
-            <CartTotal />
-          </div>
+              {/* total */}
+              <div className="flex items-center justify-between rounded-lg bg-muted/40 px-4 py-3 text-sm">
+                <span className="font-medium">Total</span>
+                <CartTotal />
+              </div>
+            </div>
 
-          {/*Action btns*/}
-          <div className="mt-6 flex flex-col gap-3">
-            <Button className="w-full" disabled={items.length === 0}>
-              Continuar compra
-            </Button>
+            {/* divider */}
+            <div className="border-t" />
 
-            <Button variant="outline" asChild className="w-full">
-              <Link href="/home">Seguir comprando</Link>
-            </Button>
+            {/* checkout steps */}
+            <div className="flex flex-col gap-4">
+              <CheckoutSteps />
+            </div>
+
+            {/* divider */}
+            <div className="border-t" />
+
+            {/* actions */}
+            <div className="flex flex-col gap-3">
+              <Button variant="outline" asChild className="w-full">
+                <Link href="/home">Seguir comprando</Link>
+              </Button>
+            </div>
           </div>
         </aside>
       </section>
