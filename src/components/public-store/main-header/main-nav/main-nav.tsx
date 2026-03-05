@@ -44,7 +44,7 @@ export const MainNav = () => {
             </>
           ) : (
             <>
-              <Link href="/home/cuenta">
+              <Link href="/home/perfil">
                 <User />
               </Link>
 
