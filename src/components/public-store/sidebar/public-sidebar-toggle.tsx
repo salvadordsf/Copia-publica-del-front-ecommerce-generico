@@ -10,17 +10,25 @@ interface CustomSidebarTriggerProps {
 export const CustomSidebarTrigger = ({
   className,
 }: CustomSidebarTriggerProps) => {
-  const { toggleSidebar, open } = useSidebar();
+  const { toggleSidebar, open, openMobile, isMobile } = useSidebar();
 
   return (
     <button
-      onClick={() => {
-        toggleSidebar();
-      }}
+      onClick={toggleSidebar}
       className={`p-2 rounded-md hover:bg-neutral-200 cursor-pointer transition-all ${className}`}
       aria-label="Abrir/Colapsar sidebar"
     >
-      {open ? <X size={24} className="text-red-900" /> : <Menu size={24} />}
+      {isMobile ? (
+        openMobile ? (
+          <X size={24} className="text-red-900" />
+        ) : (
+          <Menu size={24} />
+        )
+      ) : open ? (
+        <X size={24} className="text-red-900" />
+      ) : (
+        <Menu size={24} />
+      )}
     </button>
   );
 };
