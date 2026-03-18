@@ -1,0 +1,1 @@
+export type TUserRoles = "USER" | "EDITOR" | "ADMIN";
