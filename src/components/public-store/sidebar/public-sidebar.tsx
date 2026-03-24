@@ -32,6 +32,7 @@ import { MainNavLogo } from "../main-header/main-nav/main-nav-logo";
 import UiAdminFooterSidebar from "@/features/admin/dashboard/components/layout/sidebar/admin-sidebar-footer";
 import { slugify } from "@/utils/slugify";
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
+import { CustomSidebarTrigger } from "./public-sidebar-toggle";
 
 export default function PublicSidebar() {
   //get the pathname for chek active links
@@ -49,7 +50,10 @@ export default function PublicSidebar() {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <MainNavLogo />
+            <div className="flex flex-row-reverse justify-between">
+              <MainNavLogo />
+              <CustomSidebarTrigger className="max-[1600px]:block min-[1600px]:hidden"/>
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
