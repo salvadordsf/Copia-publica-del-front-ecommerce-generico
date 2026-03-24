@@ -18,11 +18,13 @@ export const MainHeader = () => {
   );
 
   return (
-    <header>
-      {firstAnnouncement && (
-        <AnnouncementCarousel section={firstAnnouncement} />
-      )}
-      <MainNav />
+      <div className="pt-20">
+    <header className="fixed top-0 left-0 right-0 z-30">
+        {firstAnnouncement && (
+          <AnnouncementCarousel section={firstAnnouncement} />
+        )}
+        <MainNav />
     </header>
+      </div>
   );
 };
