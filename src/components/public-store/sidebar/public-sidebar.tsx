@@ -68,13 +68,13 @@ export default function PublicSidebar() {
         </SidebarMenu>
 
         {/* Categories*/}
-        {!isLoading && !isError && (
+        {!isLoading && !isError && data && data.success &&(
           <Collapsible className="group/collapsible">
             <SidebarGroup>
               <SidebarGroupLabel asChild>
                 <CollapsibleTrigger className="flex items-center cursor-pointer">
                   <Link
-                    href="/categorias"
+                    href="/home/categorias"
                     className="flex-1 flex items-center text-sm font-semibold hover:underline"
                   >
                     Categorías
