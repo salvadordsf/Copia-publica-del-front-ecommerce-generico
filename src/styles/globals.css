@@ -6,19 +6,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --method-get: rgb(36, 166, 36);
-  /* verde */
-  --method-post: rgb(255, 200, 0);
-  /* amarillo */
-  --method-put: oklch(0.6 0.2 265);
-  /* azul */
-  --method-delete: oklch(0.63 0.25 25);
-  /* rojo */
-
   --font-sans: 'Inter', sans-serif;
-  /* Aquí puedes añadir la fuente Inter si lo deseas */
   --font-mono: 'Courier New', monospace;
-  /* O tu fuente monospace favorita */
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -51,18 +40,26 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
+
+  /* Tus colores custom */
+  --method-get: rgb(36, 166, 36);
+  --method-post: rgb(255, 200, 0);
+  --method-put: oklch(0.6 0.2 265);
+  --method-delete: oklch(0.63 0.25 25);
 }
 
 @theme inline {
-  --color-method-get: var(--method-get);
-  --color-method-post: var(--method-post);
-  --color-method-put: var(--method-put);
-  --color-method-delete: var(--method-delete);
+  /* Fuentes */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 
+  /* Radios */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Colores shadcn */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -94,6 +91,35 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Colores custom */
+  --color-method-get: var(--method-get);
+  --color-method-post: var(--method-post);
+  --color-method-put: var(--method-put);
+  --color-method-delete: var(--method-delete);
+
+  /* Animaciones migradas desde tailwind.config.js */
+  --animate-float-y: floatY 6s ease-in-out infinite;
+  --animate-float-y-reverse: floatYReverse 7s ease-in-out infinite;
+  --animate-float-x: floatX 8s ease-in-out infinite;
+  --animate-float-x-reverse: floatXReverse 9s ease-in-out infinite;
+
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes floatYReverse {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(6px); }
+  }
+  @keyframes floatX {
+    0%, 100% { transform: translateX(0px); }
+    50% { transform: translateX(6px); }
+  }
+  @keyframes floatXReverse {
+    0%, 100% { transform: translateX(0px); }
+    50% { transform: translateX(-6px); }
+  }
 }
 
 .dark {
@@ -101,7 +127,6 @@
   --method-post: oklch(0.85 0.18 95);
   --method-put: oklch(0.7 0.25 265);
   --method-delete: oklch(0.7 0.25 25);
-
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
@@ -139,7 +164,6 @@
   * {
     @apply border-border outline-ring/50;
   }
-
   body {
     @apply bg-background text-foreground;
   }
