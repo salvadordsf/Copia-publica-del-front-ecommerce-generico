@@ -1,5 +1,7 @@
+import Link from "next/link";
+
 export const MainNavLogo = () => {
   return (
-    <div className="w-full text-center text-xl font-bold order-1">Logo</div>
+    <Link href="/home/" className="w-full text-center text-xl font-bold order-1">Logo</Link>
   );
 };
