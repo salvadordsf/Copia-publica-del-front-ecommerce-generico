@@ -123,6 +123,18 @@ export default function LoginForm() {
                 className="h-10"
               />
 
+              <p className="text-center text-sm text-gray-600">
+                ¿No recuerdas tu contraseña?{" "}
+                <span
+                  onClick={() => {
+                    console.log("Forgot password clicked");
+                  }}
+                  className="text-primary font-semibold hover:underline cursor-pointer"
+                >
+                  Recuperar contraseña
+                </span>
+              </p>
+
               <span className="text-red-500 text-xs min-h-[18px]">
                 {errors.password?.message}
               </span>
@@ -141,13 +153,13 @@ export default function LoginForm() {
             </div>
 
             {/* Server Error */}
-            <div className="min-h-[20px] flex justify-center">
+            {serverError && <div className="min-h-[20px] flex justify-center">
               {serverError && (
                 <p className="text-red-600 text-sm font-medium text-center">
                   {serverError}
                 </p>
               )}
-            </div>
+            </div>}
 
             {/* Submit */}
             <Button
