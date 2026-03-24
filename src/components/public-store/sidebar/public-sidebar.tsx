@@ -44,7 +44,7 @@ export default function PublicSidebar() {
   const isActive = (url: string) => pathname === url;
 
   return (
-    <Sidebar className="border-r bg-white pr-2">
+    <Sidebar className="border-r bg-white z-40">
       {/* Logo */}
       <SidebarHeader>
         <SidebarMenu>
