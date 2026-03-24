@@ -6,8 +6,9 @@ import { ProductsResultsContainer } from "../products/components/results-page/pr
 import { useCategoryById } from "@/features/admin/categories/services/categories-querys";
 import { GenericItemsSlider } from "@/components/public-store/items-slider/generic-items-slider";
 import { SubcategoryCard } from "../subcategories/subcategory-card";
-import { Link2, Loader2 } from "lucide-react";
+import { ChevronRight, Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export function CategoryPage() {
   const searchParams = useSearchParams();
@@ -43,7 +44,13 @@ export function CategoryPage() {
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-10">
       <header className="space-y-2">
         <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-          {data.data.name}
+          <Link
+            href={`/home/categorias`}
+            className="font-extralight cursor-pointer text-neutral-500 hover:underline hover:text-neutral-600 transition-all"
+          >
+            Categorías
+          </Link>{" "}
+          <ChevronRight className="inline" /> {data.data.name}
         </h1>
 
         <div className="h-px w-full bg-neutral-200" />
@@ -69,7 +76,7 @@ export function CategoryPage() {
           </div>
 
           <div className="p-3 md:p-4">
-            <ProductsResultsContainer resetFilters={false}/>
+            <ProductsResultsContainer resetFilters={false} />
           </div>
         </section>
       )}
