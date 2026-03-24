@@ -18,11 +18,18 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authClient } from "@/lib/auth-client";
 import { LoginSchema } from "../../schemas/auth-schemas";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 type LoginValues = z.infer<typeof LoginSchema>;
 
 export default function LoginForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams.get("redirect");
+  const redirect =
+    redirectParam && redirectParam.startsWith("/") ? redirectParam : "/home";
+
   const [rememberMe, setRememberMe] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -48,17 +55,20 @@ export default function LoginForm() {
           password: data.password,
         },
         {
+          onSuccess: () => {
+            router.replace(redirect);
+          },
           // Handle BetterAuth errors
           onError: (ctx) => {
             if (ctx.error.code === "INVALID_EMAIL_OR_PASSWORD") {
               setServerError("El correo o la contraseña no son válidos.");
             } else {
               setServerError(
-                "Ocurrió un error inesperado. Vuelve a intentarlo."
+                "Ocurrió un error inesperado. Vuelve a intentarlo.",
               );
             }
           },
-        }
+        },
       );
     } catch {
       setServerError("Error inesperado en el servidor.");
