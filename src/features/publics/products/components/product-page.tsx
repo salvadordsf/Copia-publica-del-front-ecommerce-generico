@@ -74,9 +74,9 @@ export const ProductPage = () => {
   return (
     <main className="flex flex-col gap-8 px-4 py-6 md:px-8">
       {/* TOP SECTION */}
-      <section className="flex flex-col gap-6 md:grid md:grid-cols-2 md:gap-10">
+      <section className="flex flex-col gap-6 md:grid md:grid-cols-2 md:gap-10 max-w-70 md:max-w-3xl mx-auto">
         {/* IMAGES */}
-        <div className="w-full">
+        <div className="w-full max-w-sm mx-auto md:max-w-none">
           {imageSrc.length > 1 ? (
             <GenericItemsSlider
               title=""

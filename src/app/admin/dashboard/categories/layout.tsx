@@ -9,7 +9,7 @@ export default function AdminDashboardLayout({
 }>) {
   return (
     <div className="flex flex-col w-[90%] sm:w-full">
-      <header className="pt-10">
+      <header className="">
         <UiBreadcrumb
           items={[
             { href: "/admin/dashboard", label: "Inicio administrador" },

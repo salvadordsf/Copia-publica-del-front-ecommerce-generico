@@ -1,10 +1,5 @@
-export default function AdminDashboard() {
-  return (
-    <header>
-      <div>
+import AdminDashboardOverviewPage from "@/components/dashboard/overview/overview-page";
 
-      </div>
-			<h2 className="text-xl p-2">Overview</h2>
-    </header>
-  );
+export default function AdminDashboard() {
+  return <AdminDashboardOverviewPage />;
 }

@@ -12,7 +12,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -220,7 +219,7 @@ export default function UiSidebar({ title }: ISidebarProps) {
           )
         )}
       </SidebarContent>
-      <UiAdminFooterSidebar userName="nombre" email="mail"/>
+      <UiAdminFooterSidebar />
       <SidebarRail />
     </Sidebar>
   );
