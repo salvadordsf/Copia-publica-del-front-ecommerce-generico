@@ -9,7 +9,9 @@ import {
 import { ApiResponse } from "@/types/responses.type";
 import { ICategory } from "@/types/resources/category-type";
 
-export const getCategories = async (data: IGetCategoryQuery) => {
+export const getCategories = async (
+  data: IGetCategoryQuery,
+): Promise<ApiResponse<ICategory[]>> => {
   const params: any = {
     ...(data?.name && { name: data?.name }),
     ...(data?.status && { status: data?.status }),
