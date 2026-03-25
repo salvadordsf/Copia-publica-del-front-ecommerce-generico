@@ -8,29 +8,36 @@ import { useCategories } from "@/features/admin/categories/services/categories-q
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
 import { useCreateProduct } from "../../services/products-mutations";
-import { CreateProductSchema, ICreateProduct } from "../../schemas/products-schemas";
-
+import {
+  CreateProductSchema,
+  ICreateProduct,
+} from "../../schemas/products-schemas";
 
 export default function CreateProductForm() {
-  
   const {
-    data: { success, data: categories} = {},
+    data: { success, data: categories } = {},
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
-  } = useCategories({subcategories: true});
-  
+  } = useCategories({ subcategories: true });
+
   const { mutate, isError, error } = useCreateProduct();
-  
+
   const methods = useForm<ICreateProduct>({
     resolver: zodResolver(CreateProductSchema),
     defaultValues: {
-      tagsAry: []
-    }
+      tagsAry: [],
+    },
   });
 
   const onSubmit = (data: ICreateProduct) => {
-    console.log(data);
-    mutate(data, {
+    const dataWithImageArray = {
+      ...data,
+      imageUrls: data.imageUrls
+      ? data.imageUrls.split(",").map((url) => url.trim())
+      : [],
+    };
+    console.log(dataWithImageArray);
+    mutate(dataWithImageArray, {
       onSuccess: () => {
         toast.success(`Producto "${data.name}" creado exitosamente.`);
       },
@@ -40,8 +47,8 @@ export default function CreateProductForm() {
     });
   };
 
-  if (isLoadingCategories) return <div>Loading categories...</div>
-  if (getCategoriesError) return <div>Error al obtener categorías</div>
+  if (isLoadingCategories) return <div>Loading categories...</div>;
+  if (getCategoriesError) return <div>Error al obtener categorías</div>;
 
   return (
     <FormProvider {...methods}>
@@ -101,7 +108,7 @@ export default function CreateProductForm() {
                 value: sub.id,
                 label: sub.name,
                 categoryId: cat.id,
-              }))
+              })),
             ),
             className: "col-start-2 row-start-4",
           },
@@ -135,11 +142,19 @@ export default function CreateProductForm() {
             ],
             className: "col-start-1 row-start-6",
           },
+          {
+            name: "imageUrls",
+            label: "URLs de las imágenes",
+            placeholder:
+              "Escribe las URLs de las imágenes separadas por ',' (comas)",
+            type: "text",
+            className: "col-start-1 col-end-3 row-start-7",
+          },
         ]}
         submitButtonText="Crear producto"
         submitButtonType="create"
         btnClassName="col-start-1 col-end-3"
-        onSubmitAction={(onSubmit)}
+        onSubmitAction={onSubmit}
         isError={isError}
         serverError={error}
       />
