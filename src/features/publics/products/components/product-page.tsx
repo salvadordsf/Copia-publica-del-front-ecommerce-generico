@@ -59,20 +59,10 @@ export const ProductPage = () => {
   if (!relatedProducts)
     return <p>Error al cargar productos relacionados desde el hook</p>;
 
-  //This will be not necessary when add product,imageUrls in the Product schema
-  const imageSrc = product?.imageUrls
-    ? product?.imageUrls
-      ? product?.imageUrls
-      : [
-          "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
-        ]
-    : [
-        "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
-        "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
-      ];
+  const imageSrc = product?.imageUrls;
 
   return (
-    <main className="flex flex-col gap-8 px-4 py-6 md:px-8">
+    <main className="flex flex-col gap-8 px-4 py-6 md:px-8 max-w-3xl m-auto">
       {/* TOP SECTION */}
       <section className="flex flex-col gap-6 md:grid md:grid-cols-2 md:gap-10 max-w-70 md:max-w-3xl mx-auto">
         {/* IMAGES */}
