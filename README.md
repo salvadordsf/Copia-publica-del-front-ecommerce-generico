@@ -53,7 +53,7 @@ Full product management with status filtering (active, archived, deleted), tag m
 ![Create product](Screenshots/ADMIN/productos/CREATE/Crear%20producto.PNG)
 ![Create product 2](Screenshots/ADMIN/productos/CREATE/Crear%20producto%202.PNG)
 
-**Search**
+**Search** 
 
 ![search products](Screenshots/ADMIN/productos/SEARCH/search%20products%201.PNG)
 
