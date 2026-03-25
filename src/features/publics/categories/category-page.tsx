@@ -57,7 +57,10 @@ export function CategoryPage() {
       </header>
 
       {data.data.subcategories.length > 0 && (
-        <section className="space-y-4">
+        <section
+          className="space-y-4"
+          onClick={() => console.log(data.data.subcategories)}
+        >
           <GenericItemsSlider
             itemsType="subcategoría"
             title="Subcategorías"
@@ -65,6 +68,15 @@ export function CategoryPage() {
               { id: sub.id },
               <SubcategoryCard subcategory={sub} />,
             ])}
+            slidesSpaceConfig={{
+              slidesPerView: 2,
+              spaceBetween: 16,
+              breakpoints: {
+                640: { slidesPerView: 3, spaceBetween: 16 },
+                1024: { slidesPerView: 4, spaceBetween: 16 },
+                1280: { slidesPerView: 5, spaceBetween: 16 },
+              },
+            }}
           />
         </section>
       )}
