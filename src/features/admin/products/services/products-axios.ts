@@ -1,6 +1,7 @@
 import axiosInstance from "@/lib/axios/axios";
 import {
   ICreateProduct,
+  ICreateProductMutation,
   IFilterBulkProductsQuery,
   IGetProductsQuery,
   IReassignProducts,
@@ -61,7 +62,7 @@ export const getProductById = async (id: string) => {
   return res.data;
 };
 
-export const createProduct = async (data: ICreateProduct) => {
+export const createProduct = async (data: ICreateProductMutation) => {
   const res = await axiosInstance.post("/products", data);
   console.log(res);
   return res.data;
@@ -156,6 +157,7 @@ export const getSearchProducts = async () => {
     category: p.category?.name ?? "",
     subcategory: p.subcategory?.name ?? "",
     tags: p.tags?.map((t) => t.name).join(" ") ?? "",
+    imageUrls: p.imageUrls,
   }));
 
   console.log(searchProducts);
