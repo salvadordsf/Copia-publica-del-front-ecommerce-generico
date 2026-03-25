@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/react-query/query-client";
 import {
-  ICreateProduct,
+  ICreateProductMutation,
   IFilterBulkProductsQuery,
   IReassignProducts,
   IUpdateBulkProducts,
@@ -18,7 +18,7 @@ import {
 
 export const useCreateProduct = () => {
   return useMutation({
-    mutationFn: (data: ICreateProduct) => createProduct(data),
+    mutationFn: (data: ICreateProductMutation) => createProduct(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
