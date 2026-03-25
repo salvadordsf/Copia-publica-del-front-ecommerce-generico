@@ -21,7 +21,7 @@ import { useOrderById } from "@/features/admin/orders/services/orders-querys";
 import { ORDER_STATUS_COLOR, ORDER_STATUS_LABEL } from "./order-status-label";
 import { useEffect, useRef } from "react";
 import { useUpdateOrder } from "@/features/admin/orders/services/orders-mutations";
-import { IOrder } from "@/types/resources/order-types";
+import { IOrder, IOrderProduct } from "@/types/resources/order-types";
 
 export default function OrderDetailPage() {
   //get the orderId
@@ -349,10 +349,8 @@ export default function OrderDetailPage() {
               <h2 className="mb-2 text-sm font-medium">Productos</h2>
 
               <div className="divide-y rounded-md border">
-                {order.products.map((p: any) => (
+                {order.products.map((p: IOrderProduct) => (
                   <div key={p.id} className="flex items-center gap-4 p-4">
-                    <div className="h-14 w-14 rounded-md bg-muted" />
-
                     <div className="flex flex-1 flex-col">
                       <span className="text-sm font-medium">
                         {p.productName}
