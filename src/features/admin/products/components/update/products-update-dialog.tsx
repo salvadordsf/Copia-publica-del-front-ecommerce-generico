@@ -14,9 +14,10 @@ import {
 } from "../../schemas/products-schemas";
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
 import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
+import { IProduct } from "@/types/resources/product-type";
 
 interface Props {
-  product: any;
+  product: IProduct;
 }
 
 export default function UpdateProductDialog({ product }: Props) {
