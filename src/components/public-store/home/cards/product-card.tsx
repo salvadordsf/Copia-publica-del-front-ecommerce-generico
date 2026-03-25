@@ -22,7 +22,7 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
           "border border-neutral-200 transition-all duration-200",
           "hover:shadow-md hover:border-neutral-300",
           "mx-auto w-full",
-          "h-60 p-0 max-w-[150px] sm:max-w-[150px] lg:max-w-[170px] xl:max-w-[200px]",
+          "h-70 p-0 max-w-[150px] sm:max-w-[150px] lg:max-w-[170px] xl:max-w-[200px]",
           outOfStock && "opacity-60",
         )}
       >
@@ -45,13 +45,13 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
 
         {/* Content */}
         <CardContent className="flex flex-col px-2 justify-around h-[30%]">
-          {/* Nombre */}
-          <h3 className="text-sm font-light text-gray-800 line-clamp-2 leading-tight">
+          {/* Name */}
+          <h3 className="pt-0.5 pr-0.5 text-sm font-light text-gray-800 line-clamp-2 leading-tight">
             {product.name}
           </h3>
 
-          {/* Precio */}
-          <p className="text-lg font-semibold text-primary tracking-tight self-center">
+          {/* Price */}
+          <p className="text-lg font-semibold text-primary tracking-tight self-center bg-green-200/70 px-2 mb-1  rounded-2xl">
             ${product.price}
           </p>
         </CardContent>
