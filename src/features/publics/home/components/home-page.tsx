@@ -24,7 +24,7 @@ export const HomePage = () => {
   if (!success || !sections.length) return null;
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-10">
       {/* Full width sections */}
       {sections.map((section: HomeSection) => {
         if (section.type === "BANNER") {
@@ -41,7 +41,7 @@ export const HomePage = () => {
         return null;
       })}
 
-      <div className="max-w-7xl xl:my-0 xl:mx-auto sm:px-1 md:px-5">
+      <div className="flex flex-col gap-5 max-w-7xl xl:my-0 xl:mx-auto sm:px-1 md:px-5">
         {sections.map((section: HomeSection) => {
           switch (section.type) {
             case "CATEGORY_CAROUSEL":
