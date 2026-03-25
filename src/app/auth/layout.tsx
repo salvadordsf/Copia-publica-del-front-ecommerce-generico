@@ -1,4 +1,3 @@
-import MainFooter from "@/components/public-store/footer/public-footer";
 import { MainNavLogo } from "@/components/public-store/main-header/main-nav/main-nav-logo";
 
 export default function AuthLayout({
