@@ -28,6 +28,7 @@ export const CategoriesCarousel = ({ section }: CategoriesCarouselProps) => {
   return (
     <section className="my-2">
       <GenericItemsSlider
+        isHomePageSlider={true}
         title={section.title ?? "Categorías"}
         itemsType="categoría"
         btns={{
