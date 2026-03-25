@@ -46,7 +46,7 @@ export default function ResourceActionsHandler({
           <ConfirmDeleteDialog
             resourceStatus={resource.status}
             resourceType={resourceEsName}
-            resourceName={resource.name}
+            resourceName={resource.orderNumber}
             onConfirmActions={[
               () => {
                 deleteResourceAction(resource.id);
@@ -60,7 +60,7 @@ export default function ResourceActionsHandler({
         <ConfirmDeleteDialog
           resourceStatus={resource.status}
           resourceType={resourceEsName}
-          resourceName={resource.orderNumber}
+          resourceName={resource.name}
           onConfirmActions={[
             () => {
               deleteResourceAction(resource.id);
