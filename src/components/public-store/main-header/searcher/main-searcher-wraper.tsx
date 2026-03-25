@@ -3,12 +3,13 @@ import { SearchEmpty } from "./empty-search";
 import { useState } from "react";
 import Link from "next/link";
 import { slugify } from "@/utils/slugify";
+import { IProduct } from "@/types/resources/product-type";
 
 export const MiniSearchWrapper = ({
   products,
   isLoading,
 }: {
-  products: any[];
+  products: IProduct[];
   isLoading: boolean;
 }) => {
   const [searchValue, setSearchValue] = useState("");
@@ -59,10 +60,20 @@ export const MiniSearchWrapper = ({
                     key={res.id}
                     href={`/home/productos/${slugify(res.name)}`}
                   >
-                    <li className="py-2 cursor-pointer hover:bg-neutral-100 px-2 rounded">
-                      <span className="font-medium">{res.name}</span>
-                      <div className="text-xs opacity-60">
-                        {res.category} • {res.subcategory}
+                    <li className="py-2 cursor-pointer hover:bg-neutral-100 px-2 rounded flex items-center gap-3">
+                      <img
+                        src={
+                          res.imageUrls?.[0] ??
+                          "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+                        }
+                        alt={res.name}
+                        className="w-8 h-8 object-cover rounded-md flex-shrink-0"
+                      />
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-medium truncate">{res.name}</span>
+                        <div className="text-xs opacity-60 truncate">
+                          {res.category} • {res.subcategory}
+                        </div>
                       </div>
                     </li>
                   </Link>
