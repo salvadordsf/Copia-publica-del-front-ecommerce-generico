@@ -21,8 +21,29 @@ export const CreateProductSchema = z.object({
   subcategoryId: UuidSchema,
   tagsAry: z.array(UuidSchema).optional(),
   status: StatusEnum.optional(),
+  imageUrls: z.string().optional(),
 });
 export type ICreateProduct = z.infer<typeof CreateProductSchema>;
+export const CreateProductMutationSchema = z.object({
+  name: z.string().min(3, "El nombre tiene que tener al menos 3 caracteres."),
+  description: z
+    .string()
+    .min(10, "La descripción tiene que tener al menos 10 caracteres."),
+  price: z.number().min(0, "El precio tiene que tener un valo mayor a $0."),
+  relevance: z
+    .number()
+    .int()
+    .min(1, "La relevancia tiene que ser un valor entre 1 y 6")
+    .max(6, "La relevancia tiene que ser un valor entre 1 y 6")
+    .optional(),
+  stock: z.number().int().min(0, "El stock debe ser positivo"),
+  categoryId: UuidSchema,
+  subcategoryId: UuidSchema,
+  tagsAry: z.array(UuidSchema).optional(),
+  status: StatusEnum.optional(),
+  imageUrls: z.array(z.string()).optional(),
+});
+export type ICreateProductMutation = z.infer<typeof CreateProductSchema>;
 
 export const UpdateProductSchema = CreateProductSchema.partial();
 export type IUpdateProduct = z.infer<typeof UpdateProductSchema>;
