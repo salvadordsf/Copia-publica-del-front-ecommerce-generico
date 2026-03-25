@@ -19,7 +19,7 @@ export default function SidebarWidthResizer({
         isMobile
           ? { width: `90%` }
           : open
-          ? { width: `calc(95% - ${sidebarWidth}px)` }
+          ? { width: `calc(90%` }
           : { width: `95%` }
       }
     >

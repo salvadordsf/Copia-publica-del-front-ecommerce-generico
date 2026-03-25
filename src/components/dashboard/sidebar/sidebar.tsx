@@ -29,10 +29,12 @@ import {
   ChartSpline,
   Store,
   ChevronDown,
+  LayoutTemplate,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import UiAdminFooterSidebar from "@/features/admin/dashboard/components/layout/sidebar/admin-sidebar-footer";
+import { MainNavLogo } from "@/components/public-store/main-header/main-nav/main-nav-logo";
 
 interface ISidebarProps {
   title: string;
@@ -153,17 +155,17 @@ export default function UiSidebar({ title }: ISidebarProps) {
     },
     {
       type: "item",
-      icon: Store,
-      title: "Gestor de tienda",
+      icon: LayoutTemplate,
+      title: "Gestor de home público",
       url: "/admin/dashboard/home-store",
       isActive: pathname === "/",
     },
     {
       type: "item",
       icon: Store,
-      title: "Inicio de tienda",
-      url: "/",
-      isActive: pathname === "/",
+      title: "Tienda pública",
+      url: "/home",
+      isActive: pathname === "/home",
     },
   ];
 
@@ -171,7 +173,8 @@ export default function UiSidebar({ title }: ISidebarProps) {
     <Sidebar id="ui-sidebar-id">
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
+          <SidebarMenuItem className="flex flex-col-reverse  items-center gap-2">
+            <MainNavLogo />
             <span className="font-semibold">{title}</span>
           </SidebarMenuItem>
         </SidebarMenu>

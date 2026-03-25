@@ -12,6 +12,7 @@ import ResourceProperties from "@/components/dashboard/resource-components/resou
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ProductTagsManager from "@/features/admin/products/components/update/product-tags-manager";
+import { GenericItemsSlider } from "@/components/public-store/items-slider/generic-items-slider";
 
 export default function IdProductPage() {
   const { id } = useParams();
@@ -39,6 +40,42 @@ export default function IdProductPage() {
     <>
       <div className="pt-5 space-y-6">
         <ResourceNameDate resource={product} />
+        {/* IMAGES */}
+        <div className="w-full max-w-xs">
+          {product.imageUrls.length > 1 ? (
+            <GenericItemsSlider
+              title=""
+              itemsType="producto"
+              btns={{
+                prev: `swiper-prev-btn-product-${product.id}`,
+                next: `swiper-next-btn-product-${product.id}`,
+              }}
+              paginationDots={true}
+              slidesSpaceConfig={{
+                slidesPerView: 1,
+                spaceBetween: 8,
+              }}
+              items={product.imageUrls.map((url: string, index: number) => [
+                { id: `${product.id}-img-${index}` },
+                <img
+                  key={url}
+                  src={url}
+                  alt={`${product.name} - imagen ${index + 1}`}
+                  className="w-full h-48 rounded-xl object-cover"
+                />,
+              ])}
+            />
+          ) : (
+            <img
+              src={
+                product.imageUrls[0] ??
+                "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+              }
+              alt={product.name}
+              className="w-full h-48 rounded-xl object-cover"
+            />
+          )}
+        </div>
         <ResourceProperties
           properties={[
             { key: "Nombre", value: product.name },
