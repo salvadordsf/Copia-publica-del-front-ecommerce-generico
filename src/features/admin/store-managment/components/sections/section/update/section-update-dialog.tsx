@@ -67,7 +67,7 @@ export default function UpdateSectionDialog({
   };
 
   return (
-    <UpdateDialog
+    <UpdateDialog<IUpdateSection>
       useFormMethods={methods}
       openState={[
         open,
