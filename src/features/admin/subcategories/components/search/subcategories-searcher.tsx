@@ -10,14 +10,16 @@ import {
 import SubcategoryList from "./subcategories-list";
 import GenericSearchForm from "@/components/dashboard/form/generic-search-form/generic-search-form";
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
+import { ICategory } from "@/types/resources/category-type";
 
 export default function SubcategorySearcher() {
   const {
-    data: { success, data: categories } = {},
+    data,
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
-
+  const categories = data?.success ? data.data : [];
+  
   const defaultValues: IGetSubcategoryQuery = {
     name: "",
     status: "false",
@@ -81,7 +83,7 @@ export default function SubcategorySearcher() {
                 selectLabel: "Categorías",
                 placeholder: "Seleccionar categoría",
                 type: "select",
-                options: categories.map((category: any) => {
+                options: categories.map((category: ICategory) => {
                   return { value: category.id, label: category.name };
                 }),
                 className: "sm:col-span-2 sm:row-start-3",
