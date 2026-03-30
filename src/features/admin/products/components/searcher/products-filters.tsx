@@ -9,15 +9,18 @@ import {
 import GenericSearchForm from "@/components/dashboard/form/generic-search-form/generic-search-form";
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
 import { useProductsSearchFilters } from "../../stores/products-search-filters-store";
+import { ICategory } from "@/types/resources/category-type";
+import { ISubcategory } from "@/types/resources/subcategory-type";
 
 export default function ProductSearchFilters() {
   const { filters, setFilters, resetFilters } = useProductsSearchFilters();
 
   const {
-    data: { success, data: categories } = {},
+    data,
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
+  const categories = data?.success ? data.data : [];
 
   const methods = useForm<IGetProductsQuery>({
     resolver: zodResolver(GetProductsQuerySchema),
@@ -118,7 +121,7 @@ export default function ProductSearchFilters() {
               selectLabel: "Categorías",
               placeholder: "Seleccionar categoría",
               type: "select",
-              options: categories.map((category: any) => {
+              options: categories.map((category: ICategory) => {
                 return { value: category.id, label: category.name };
               }),
               className: "sm:col-span-2 sm:row-start-3",
@@ -130,12 +133,12 @@ export default function ProductSearchFilters() {
               placeholder: "Seleccionar subcategoría",
               type: "select",
               dependsOn: "categoryId",
-              options: categories.flatMap((cat: any) =>
-                cat.subcategories.map((sub: any) => ({
+              options: categories.flatMap((cat: ICategory) =>
+                cat.subcategories.map((sub: ISubcategory) => ({
                   value: sub.id,
                   label: sub.name,
                   categoryId: cat.id,
-                }))
+                })),
               ),
               className: "sm:col-span-2 sm:row-start-4",
             },
