@@ -5,10 +5,12 @@ import { SectionCard } from "../sections/cards/section-card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { StoreViewerContainer } from "./store-viewer-conteiner";
+import { HomeSection } from "@/types/resources/home-section-types";
 
 export const StoreViewer = () => {
   const router = useRouter();
-  const { data: data = {}, isLoading, error } = useSections({ isEnabled: true });
+  const { data, isLoading, error } = useSections({ isEnabled: true });
+  const sections = data?.success ? data.data : [];
 
   if (isLoading) return <p>Cargando secciones activas...</p>;
   if (error) return <p>Error al cargar secciones activas</p>;
@@ -38,11 +40,11 @@ export const StoreViewer = () => {
 
       {/* Content */}
       <div className="flex flex-col gap-4">
-        {data.data.length > 0 ? (
-          data.data.map((section: any) => (
+        {sections.length > 0 ? (
+          sections.map((section: HomeSection) => (
             <SectionCard
               section={section}
-              key={section.key}
+              key={section.id}
               isEditable={false}
             />
           ))
