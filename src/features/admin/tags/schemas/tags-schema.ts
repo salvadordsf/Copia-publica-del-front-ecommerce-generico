@@ -9,6 +9,12 @@ export const CreateTagSchema = z.object({
 
 export type ICreateTagSchema = z.infer<typeof CreateTagSchema>;
 
+export const UpdateTagSchema = z.object({
+  name: z.string().min(MIN_LENGHT, { message: `La tag debe tener al menos ${MIN_LENGHT} letras.`}).optional(),
+});
+
+export type IUpdateTag = z.infer<typeof UpdateTagSchema>;
+
 export const GetTagQuerySchema = z.object({
     name: z.string().optional(),
     products: z.boolean().optional(),
