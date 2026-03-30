@@ -1,6 +1,5 @@
 import axiosInstance from "@/lib/axios/axios";
 import {
-  ICreateProduct,
   ICreateProductMutation,
   IFilterBulkProductsQuery,
   IGetProductsQuery,
@@ -8,11 +7,14 @@ import {
   IUpdateBulkProducts,
   IUpdateProduct,
 } from "../schemas/products-schemas";
-import { IProduct, IProductWithAll } from "@/types/resources/product-type";
+import { IProduct } from "@/types/resources/product-type";
 import { ApiResponse } from "@/types/responses.type";
+import { PaginationType } from "@/types/pagination-type";
 
-export const getProducts = async (data: IGetProductsQuery) => {
-  const params: any = {
+export const getProducts = async (
+  data: IGetProductsQuery,
+): Promise<ApiResponse<{ data: IProduct[]; pagination: PaginationType }>> => {
+  const params: IGetProductsQuery = {
     ...(data?.page && { page: data?.page }),
     ...(data?.pageSize && { pageSize: data?.pageSize }),
 
@@ -39,50 +41,51 @@ export const getProducts = async (data: IGetProductsQuery) => {
     ...(data?.sortOrder && { sortOrder: data?.sortOrder }),
   };
 
-  const res = await axiosInstance.get<
-    ApiResponse<{
-      data: IProduct[];
-      pagination: {
-        currentPage: number;
-        pageSize: number;
-        totalItems: number;
-        totalPages: number;
-      };
-    }>
-  >("/products", {
+  const res = await axiosInstance.get("/products", {
     params,
   });
   console.log(res);
   return res.data;
 };
 
-export const getProductById = async (id: string) => {
+export const getProductById = async (
+  id: string,
+): Promise<ApiResponse<IProduct>> => {
   const res = await axiosInstance.get<ApiResponse<IProduct>>(`/products/${id}`);
   console.log(res);
   return res.data;
 };
 
-export const createProduct = async (data: ICreateProductMutation) => {
+export const createProduct = async (
+  data: ICreateProductMutation,
+): Promise<ApiResponse<IProduct>> => {
   const res = await axiosInstance.post("/products", data);
   console.log(res);
   return res.data;
 };
 
-export const updateProduct = async (id: string, data: IUpdateProduct) => {
+export const updateProduct = async (
+  id: string,
+  data: IUpdateProduct,
+): Promise<ApiResponse<IProduct>> => {
   const res = await axiosInstance.put(`/products/${id}`, data);
   console.log(data);
   console.log(res);
   return res.data;
 };
 
-export const reassignProducts = async (data: IReassignProducts) => {
+export const reassignProducts = async (
+  data: IReassignProducts,
+): Promise<ApiResponse<IProduct[]>> => {
   const res = await axiosInstance.patch(`/products/reassign`, data);
   console.log(data);
   console.log(res);
   return res.data;
 };
 
-export const deleteProduct = async (id: string) => {
+export const deleteProduct = async (
+  id: string,
+): Promise<ApiResponse<IProduct>> => {
   const res = await axiosInstance.delete(`/products/${id}`);
   console.log(res);
   return res.data;
@@ -91,7 +94,7 @@ export const deleteProduct = async (id: string) => {
 export const updateManyProducts = async (
   filter: IFilterBulkProductsQuery,
   data: IUpdateBulkProducts,
-) => {
+): Promise<ApiResponse<{ count: number }>> => {
   const params: IFilterBulkProductsQuery = {
     ...(filter?.name && { name: filter?.name }),
 
@@ -116,7 +119,9 @@ export const updateManyProducts = async (
   return res.data;
 };
 
-export const deleteManyProducts = async (filter: IFilterBulkProductsQuery) => {
+export const deleteManyProducts = async (
+  filter: IFilterBulkProductsQuery,
+): Promise<ApiResponse<{ count: number }>> => {
   const params: IFilterBulkProductsQuery = {
     ...(filter?.name && { name: filter?.name }),
 
@@ -136,30 +141,15 @@ export const deleteManyProducts = async (filter: IFilterBulkProductsQuery) => {
   return res.data;
 };
 
-export const getSearchProducts = async () => {
-  const params = {
-    pageSize: 10000,
+export const getSearchProducts = async (): Promise<IProduct[]> => {
+  const params: IGetProductsQuery = {
+    pageSize: "10000",
     status: "ACTIVE",
-
     category: true,
     subcategory: true,
     tags: true,
   };
 
-  const res = await axiosInstance.get("/products", {
-    params,
-  });
-
-  const searchProducts = res.data.data.data.map((p: IProductWithAll) => ({
-    id: p.id,
-    name: p.name,
-    description: p.description ?? "",
-    category: p.category?.name ?? "",
-    subcategory: p.subcategory?.name ?? "",
-    tags: p.tags?.map((t) => t.name).join(" ") ?? "",
-    imageUrls: p.imageUrls,
-  }));
-
-  console.log(searchProducts);
-  return searchProducts;
+  const res = await getProducts(params);
+  return res.success ? res.data.data : [];
 };
