@@ -12,13 +12,16 @@ import {
   CreateProductSchema,
   ICreateProduct,
 } from "../../schemas/products-schemas";
+import { ICategory } from "@/types/resources/category-type";
+import { ISubcategory } from "@/types/resources/subcategory-type";
 
 export default function CreateProductForm() {
   const {
-    data: { success, data: categories } = {},
+    data,
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
+  const categories = data?.success ? data.data : [];
 
   const { mutate, isError, error } = useCreateProduct();
 
@@ -91,7 +94,7 @@ export default function CreateProductForm() {
             selectLabel: "Categorías",
             placeholder: "Seleccionar categoría",
             type: "select",
-            options: categories.map((category: any) => {
+            options: categories.map((category: ICategory) => {
               return { value: category.id, label: category.name };
             }),
             className: "col-start-1 row-start-4",
@@ -103,8 +106,8 @@ export default function CreateProductForm() {
             placeholder: "Seleccionar subcategoría",
             type: "select",
             dependsOn: "categoryId",
-            options: categories.flatMap((cat: any) =>
-              cat.subcategories.map((sub: any) => ({
+            options: categories.flatMap((cat: ICategory) =>
+              cat.subcategories.map((sub: ISubcategory) => ({
                 value: sub.id,
                 label: sub.name,
                 categoryId: cat.id,
