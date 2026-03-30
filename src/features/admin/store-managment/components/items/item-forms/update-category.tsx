@@ -22,21 +22,18 @@ interface Props {
 
 export function UpdateCategoryItemForm({ item, closeDialog }: Props) {
   const {
-    data: { data: section } = {},
+    data,
     isLoading: isLoadingSection,
     error: errorSection,
   } = useSectionById(item.sectionId);
+  const section = data?.success ? data.data : null;
 
   const { mutate, isPending } = useUpdateItems<IUpdateItemPosition>(item.id);
-
-  const updatedItem = section.items.find(
-    (updated: ItemSection) => item.id === updated.id,
-  );
 
   const methods = useForm<IUpdateItemPosition>({
     resolver: zodResolver(UpdateItemPositionSchema),
     defaultValues: {
-      position: updatedItem.position,
+      position: item.position,
     },
   });
 
@@ -44,7 +41,7 @@ export function UpdateCategoryItemForm({ item, closeDialog }: Props) {
     mutate(data, {
       onSuccess: () => {
         toast.success(
-          `Item categoría "${updatedItem.category.name}" actualizada exitosamente.`,
+          `Item categoría "${item.category.name}" actualizada exitosamente.`,
         );
         closeDialog();
       },

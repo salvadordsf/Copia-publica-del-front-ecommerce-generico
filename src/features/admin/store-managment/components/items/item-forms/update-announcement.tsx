@@ -22,24 +22,23 @@ interface Props {
 
 export function UpdateAnnouncementItemForm({ item, closeDialog }: Props) {
   const {
-    data: { data: section } = {},
+    data,
     isLoading: isLoadingSection,
     error: errorSection,
   } = useSectionById(item.sectionId);
+  const section = data?.success ? data.data : null;
 
   const { mutate, isPending } = useUpdateItems<IUpdateItemAnnouncement>(
     item.id,
   );
 
-  const updatedItem = section.items.find((updated: ItemSection) => item.id === updated.id);
-
   const methods = useForm<IUpdateItemAnnouncement>({
     resolver: zodResolver(UpdateItemAnnouncementSchema),
     defaultValues: {
-      title: updatedItem.title ?? undefined,
-      subtitle: updatedItem.subtitle ?? undefined,
-      linkUrl: updatedItem.linkUrl ?? undefined,
-      position: updatedItem.position,
+      title: item.title ?? undefined,
+      subtitle: item.subtitle ?? undefined,
+      linkUrl: item.linkUrl ?? undefined,
+      position: item.position,
     },
   });
 
@@ -56,7 +55,7 @@ export function UpdateAnnouncementItemForm({ item, closeDialog }: Props) {
   };
 
   if (isLoadingSection) return <p>Cargando sección</p>;
-  if (errorSection || !section) return <p>Error al cargar sección</p>;
+  if (errorSection || !section || !item) return <p>Error al cargar sección</p>;
 
   return (
     <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
