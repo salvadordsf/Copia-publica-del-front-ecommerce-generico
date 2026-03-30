@@ -20,11 +20,8 @@ import { useRouter } from "next/navigation";
 export const AddSectionForm = ({}) => {
   const router = useRouter();
 
-  const {
-    data: { data: sections } = {},
-    isLoading,
-    error: getError,
-  } = useSections({});
+  const { data, isLoading, error: getError } = useSections({});
+  const sections = data?.success ? data.data : [];
 
   const {
     mutate,
@@ -56,8 +53,9 @@ export const AddSectionForm = ({}) => {
     mutate(data, {
       onSuccess: (res) => {
         toast.success(`Sección "${data.type}" creada exitosamente.`);
-        console.log("Esto", res.data);
-        router.push(res.data.id);
+        if (res.success) {
+          router.push(res.data.id);
+        }
       },
       onError: (e) => {
         toastError(e as AxiosError, "general");
@@ -177,8 +175,8 @@ export const AddSectionForm = ({}) => {
             {isCreating
               ? "Creando sección..."
               : isCreated
-              ? "Redirigiendo..."
-              : "Agregar sección"}
+                ? "Redirigiendo..."
+                : "Agregar sección"}
           </MethodsBtns>
         </div>
       </div>
