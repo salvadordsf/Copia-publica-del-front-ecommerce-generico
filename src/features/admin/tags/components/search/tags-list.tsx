@@ -8,6 +8,7 @@ import { statusTranslate } from "@/utils/status-translate";
 import { stringToDateToString } from "@/utils/date-to-string-utility";
 import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
 import UiTable from "@/components/dashboard/table/table";
+import { ITag } from "@/types/resources/tag-type";
 
 interface Props {
   query: IGetTagQuery;
@@ -17,7 +18,7 @@ export default function TagList({ query }: Props) {
   const router = useRouter();
 
   const {
-    data: { success, data: tags } = {},
+    data,
     isLoading,
     isError,
   } = useTags({
@@ -25,6 +26,7 @@ export default function TagList({ query }: Props) {
     products: query.products ? query.products : undefined,
     status: query.status && query.status !== "false" ? query.status : undefined,
   });
+  const tags = data?.success ? data.data : [];
 
   if (isLoading) {
     return (
@@ -83,7 +85,7 @@ export default function TagList({ query }: Props) {
         ],
         bodyRows:
           tags &&
-          tags.map((tag: any) => {
+          tags.map((tag: ITag) => {
             return {
               onClickAction: () =>
                 router.push(`/admin/dashboard/tags/${tag.id}`),
