@@ -1,57 +1,72 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { IShippingForm, ShippingSchema } from "./schemas/shipping-info-schema";
 
-export default function ShippingForm({ onNext }: any) {
-  const [type, setType] = useState<"pickup" | "delivery" | null>(null);
+export default function ShippingForm({
+  onNextAction,
+}: {
+  onNextAction: (data: IShippingForm) => void;
+}) {
   const [shippingCost, setShippingCost] = useState<number | null>(null);
 
-  const [form, setForm] = useState({
-    shippingStreet: "",
-    shippingCity: "",
-    shippingProvince: "",
-    shippingPostal: "",
-    shippingCountry: "Argentina",
-    shippingNotes: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<IShippingForm>({
+    resolver: zodResolver(ShippingSchema),
+    defaultValues: {
+      type: undefined,
+      shippingStreet: "",
+      shippingCity: "",
+      shippingProvince: "",
+      shippingPostal: "",
+      shippingCountry: "Argentina",
+      shippingNotes: "",
+    },
   });
 
-  const isDeliveryFormValid =
-    form.shippingStreet &&
-    form.shippingCity &&
-    form.shippingProvince &&
-    form.shippingPostal;
+  const type = watch("type");
 
-  const canCalculateShipping = form.shippingPostal.length > 0;
-
-  const canContinue =
-    type === "pickup" ||
-    (type === "delivery" && isDeliveryFormValid && shippingCost !== null);
+  const canCalculateShipping = watch("shippingPostal")?.length > 0;
 
   const calculateShipping = () => {
-    // placeholder future logic probably something like that
-
-    //   const cost = await shippingService.calculate({
-    //   postalCode: form.shippingPostal,
-    // });
     setShippingCost(3000);
   };
 
+  const onSubmit = (data: IShippingForm) => {
+  if (data.type === "pickup") {
+    onNextAction({
+      ...data,
+      shippingStreet: "[calle y dirección de la tienda]",
+      shippingCity: "[ciudad de la tienda]",
+      shippingProvince: "[provincia de la tienda]",
+      shippingPostal: "[código postal]",
+      shippingCountry: "Argentina",
+      shippingNotes: "Retiro en local - Horario: [horario]",
+    });
+  } else {
+    onNextAction(data);
+  }
+};
+
   return (
-    <div className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <h3 className="font-medium">Envío</h3>
 
-      <p className="text-sm text-muted-foreground">
-        Elegí cómo querés recibir tu pedido.
-      </p>
-
-      {/* shipping type */}
+      {/* type */}
       <div className="flex gap-2">
         <Button
           type="button"
           variant={type === "pickup" ? "default" : "outline"}
-          onClick={() => setType("pickup")}
+          onClick={() => setValue("type", "pickup")}
         >
           Retirar en local
         </Button>
@@ -59,7 +74,7 @@ export default function ShippingForm({ onNext }: any) {
         <Button
           type="button"
           variant={type === "delivery" ? "default" : "outline"}
-          onClick={() => setType("delivery")}
+          onClick={() => setValue("type", "delivery")}
         >
           Envío a domicilio
         </Button>
@@ -67,97 +82,41 @@ export default function ShippingForm({ onNext }: any) {
 
       {!type && (
         <p className="text-xs text-muted-foreground">
-          Debés elegir un tipo de envío para continuar.
+          Debés elegir un tipo de envío
         </p>
       )}
 
-      {/* delivery form */}
+      {/* delivery */}
       {type === "delivery" && (
         <div className="space-y-2">
-          <Input
-            placeholder="Calle"
-            value={form.shippingStreet}
-            onChange={(e) =>
-              setForm({ ...form, shippingStreet: e.target.value })
-            }
-          />
+          <Input placeholder="Calle" {...register("shippingStreet")} />
+          {errors.shippingStreet && <p>{errors.shippingStreet.message}</p>}
 
-          <Input
-            placeholder="Ciudad"
-            value={form.shippingCity}
-            onChange={(e) => setForm({ ...form, shippingCity: e.target.value })}
-          />
+          <Input placeholder="Ciudad" {...register("shippingCity")} />
+          {errors.shippingCity && <p>{errors.shippingCity.message}</p>}
 
-          <Input
-            placeholder="Provincia"
-            value={form.shippingProvince}
-            onChange={(e) =>
-              setForm({ ...form, shippingProvince: e.target.value })
-            }
-          />
+          <Input placeholder="Provincia" {...register("shippingProvince")} />
+          {errors.shippingProvince && <p>{errors.shippingProvince.message}</p>}
 
-          <Input
-            placeholder="Código postal"
-            value={form.shippingPostal}
-            onChange={(e) =>
-              setForm({ ...form, shippingPostal: e.target.value })
-            }
-          />
+          <Input placeholder="Código postal" {...register("shippingPostal")} />
+          {errors.shippingPostal && <p>{errors.shippingPostal.message}</p>}
 
-          {!isDeliveryFormValid && (
-            <p className="text-xs text-muted-foreground">
-              Completá todos los datos de envío para continuar.
-            </p>
-          )}
+          {/* shipping calc */}
+          <Button
+            type="button"
+            disabled={!canCalculateShipping}
+            onClick={calculateShipping}
+          >
+            Calcular envío
+          </Button>
 
-          {/* shipping calculator */}
-          <div className="flex flex-col gap-2 pt-2">
-            <Button
-              type="button"
-              variant="outline"
-              disabled={!canCalculateShipping}
-              onClick={calculateShipping}
-            >
-              Calcular costo de envío
-            </Button>
-
-            {!canCalculateShipping && (
-              <p className="text-xs text-muted-foreground">
-                Ingresá el código postal para calcular el envío.
-              </p>
-            )}
-
-            {shippingCost !== null && (
-              <div className="flex justify-between text-sm text-muted-foreground border-t pt-3">
-                <span>Costo de envío</span>
-                <span className="font-semibold">${shippingCost}</span>
-              </div>
-            )}
-          </div>
+          {shippingCost && <p>Costo: ${shippingCost}</p>}
         </div>
       )}
 
-      {/* continue */}
-      <Button
-        className="w-full"
-        disabled={!canContinue}
-        onClick={() =>
-          onNext(
-            type === "pickup"
-              ? {
-                  shippingStreet: "Calle de retiro",
-                  shippingCity: "Ciudad de retiro",
-                  shippingProvince: "Provincia de retiro",
-                  shippingPostal: "Cod. postal de retiro",
-                  shippingCountry: "Argentina",
-                  shippingNotes: "Notas de retiro",
-                }
-              : form,
-          )
-        }
-      >
+      <Button type="submit" disabled={!type}>
         Continuar
       </Button>
-    </div>
+    </form>
   );
 }
