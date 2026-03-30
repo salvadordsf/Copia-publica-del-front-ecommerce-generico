@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { GetTagQuerySchema, IGetTagQuery } from "../../schemas/tags-schema";
-import { Search } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TagList from "./tags-list";
