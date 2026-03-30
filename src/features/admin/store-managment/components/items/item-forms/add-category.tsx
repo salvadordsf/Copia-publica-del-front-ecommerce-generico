@@ -13,10 +13,12 @@ import { useCreateItem } from "@/features/admin/store-managment/services/items/i
 import { toast } from "sonner";
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
+import { ItemSection } from "@/types/resources/home-section-types";
+import { ICategory } from "@/types/resources/category-type";
 
 interface Props {
   sectionId: string;
-  items: any[];
+  items: ItemSection[];
   closeDialog: () => void;
 }
 
@@ -26,10 +28,11 @@ export default function AddCategoryForm({
   closeDialog,
 }: Props) {
   const {
-    data: { success, data: categories } = {},
+    data,
     isLoading,
     isError,
   } = useCategories({});
+  const categories = data?.success ? data.data : [];
 
   const { mutate, isPending } = useCreateItem();
 
@@ -63,7 +66,7 @@ export default function AddCategoryForm({
 
     try {
       const idsToCreate = data.categoryIds.filter((id) => {
-        const isAlreadyOn = items.some((item: any) => item.categoryId === id);
+        const isAlreadyOn = items.some((item: ItemSection) => item.categoryId === id);
         isAlreadyOn ? isAlready++ : isNotAlready++;
         return !isAlreadyOn;
       });
@@ -112,7 +115,7 @@ export default function AddCategoryForm({
 
       {/* Grid de cards */}
       <div className="flex flex-wrap gap-4">
-        {categories.map((category: any) => {
+        {categories.map((category: ICategory) => {
           const selected = selectedIds.includes(category.id);
 
           return (
