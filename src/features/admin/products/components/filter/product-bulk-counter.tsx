@@ -14,7 +14,12 @@ import {
   useUpdateManyProducts,
 } from "../../services/products-mutations";
 import { BulkUpdateDialogComponent } from "@/components/dashboard/actions/update/bulk/action-bulk-update-dialog-comp";
-import { UpdateBulkProductsSchema } from "../../schemas/products-schemas";
+import {
+  IFilterBulkProductsQuery,
+  IUpdateBulkProducts,
+  UpdateBulkProductsSchema,
+} from "../../schemas/products-schemas";
+import { IProduct } from "@/types/resources/product-type";
 
 export default function ProductBulkFiltersResults() {
   const { filters } = useProductsBulkFilters();
@@ -34,7 +39,7 @@ export default function ProductBulkFiltersResults() {
     pageSize: "10",
   });
 
-  const total = data?.data?.pagination.totalItems ?? 0;
+  const total = data?.success ? (data?.data?.pagination.totalItems ?? 0) : 0;
 
   const {
     data: fullData,
@@ -48,10 +53,10 @@ export default function ProductBulkFiltersResults() {
           category: true,
           subcategory: true,
         }
-      : {}
+      : {},
   );
 
-  const products = fullData?.data?.data ?? [];
+  const products = fullData?.success ? (fullData.data?.data ?? []) : [];
 
   console.log(filters);
 
@@ -67,7 +72,10 @@ export default function ProductBulkFiltersResults() {
 
         {total > 0 && (
           <div className="flex flex-col sm:flex-row gap-5">
-            <BulkUpdateDialogComponent
+            <BulkUpdateDialogComponent<
+              IFilterBulkProductsQuery,
+              IUpdateBulkProducts
+            >
               resourceType={"productos"}
               resourceGenre={"masc"}
               fields={["status", "relevance"]}
@@ -150,7 +158,7 @@ export default function ProductBulkFiltersResults() {
             ],
             bodyRows:
               products &&
-              products.map((product: any) => {
+              products.map((product: IProduct) => {
                 return {
                   rowCells: [
                     { type: "body", text: product.name },
