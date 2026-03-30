@@ -15,6 +15,7 @@ import { AddProductItemForm } from "./item-forms/product/add-product";
 import AddCategoryForm from "./item-forms/add-category";
 import { AddTextItemForm } from "./item-forms/add-text";
 import { AddLinkItemForm } from "./item-forms/add-link";
+import { ItemSection } from "@/types/resources/home-section-types";
 
 interface Props {
   open: boolean;
@@ -30,7 +31,7 @@ interface Props {
       | "GRID"
       | "TEXT"
       | "CUSTOM";
-    items: any[];
+    items: ItemSection[];
   };
 }
 
