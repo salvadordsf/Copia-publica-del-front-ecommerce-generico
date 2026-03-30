@@ -5,13 +5,13 @@ import { TResourceStatus } from "./resource-status.types";
 export interface ISubcategory {
   id: string;
   name: string;
-  subcategories: any;
   status: TResourceStatus;
   categoryId: string;
-  category: ICategory[];
+  category: ICategory;
   products: IProduct[];
   createdAt: string;
   updatedAt: string;
-  archivedAt: string;
-  deletedAt: string;
+  archivedAt: string | null;
+  deletedAt: string | null;
+  _count: { products: number };
 }
