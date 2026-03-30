@@ -21,7 +21,7 @@ import { useOrderById } from "@/features/admin/orders/services/orders-querys";
 import { ORDER_STATUS_COLOR, ORDER_STATUS_LABEL } from "./order-status-label";
 import { useEffect, useRef } from "react";
 import { useUpdateOrder } from "@/features/admin/orders/services/orders-mutations";
-import { IOrder, IOrderProduct } from "@/types/resources/order-types";
+import { IOrderProduct } from "@/types/resources/order-types";
 
 export default function OrderDetailPage() {
   //get the orderId
@@ -30,7 +30,7 @@ export default function OrderDetailPage() {
 
   //get the order by id
   const { data, isPending, isError } = useOrderById(orderId!);
-  const order: IOrder = data?.data ?? null;
+  const order = data?.success ? data.data : null;
 
   //get the update fn for update order status
   const { mutateAsync: updateOrder } = useUpdateOrder(orderId!);
@@ -38,7 +38,7 @@ export default function OrderDetailPage() {
   //calculate the order total
   const totalToPay =
     order?.products.reduce(
-      (acc: number, p: any) => acc + Number(p.subtotal),
+      (acc: number, p: IOrderProduct) => acc + Number(p.subtotal),
       0,
     ) ?? 0;
 
@@ -54,7 +54,7 @@ export default function OrderDetailPage() {
    * in a future version.
    */
   const expiredAt = new Date(
-    new Date(order?.createdAt).getTime() + 24 * 60 * 60 * 1000,
+    new Date(order?.createdAt ?? "").getTime() + 24 * 60 * 60 * 1000,
   );
   const isExpired = new Date() > expiredAt;
 
@@ -116,7 +116,9 @@ export default function OrderDetailPage() {
   if (order.status === "CANCELLED") {
     return (
       <div className="flex flex-col gap-2 max-w-sm m-auto my-20 items-center">
-        <div className="text-muted-foreground">La orden ya no se encuentra disponible.</div>
+        <div className="text-muted-foreground">
+          La orden ya no se encuentra disponible.
+        </div>
         <div className="flex gap-1">
           <Button>
             <Link href="/home">Volver al inicio</Link>
