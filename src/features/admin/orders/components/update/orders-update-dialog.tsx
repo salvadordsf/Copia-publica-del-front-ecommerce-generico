@@ -12,10 +12,7 @@ import { useUpdateOrder } from "../../services/orders-mutations";
 import { IUpdateOrder, UpdateOrderSchema } from "../../schemas/orders-schema";
 import { useGetSession } from "@/features/admin/users/services/users-querys";
 import { IUser } from "@/types/resources/user-type";
-
-interface Props {
-  order: any;
-}
+import { IOrder } from "@/types/resources/order-types";
 
 const STATUS_LABELS = {
   READY: "Listo",
@@ -37,7 +34,7 @@ const STATUS_TRANSITIONS = {
   },
 } as const;
 
-export default function UpdateOrderDialog({ order }: Props) {
+export default function UpdateOrderDialog({ order }: { order: IOrder }) {
   //Update hook
   const { mutateAsync, isError, error } = useUpdateOrder(order.id);
 
@@ -61,7 +58,7 @@ export default function UpdateOrderDialog({ order }: Props) {
       shippingProvince: order.shippingProvince,
       shippingPostal: order.shippingPostal,
       shippingCountry: order.shippingCountry,
-      shippingNotes: order.shippingNotes,
+      shippingNotes: order.shippingNotes ?? "",
     },
   });
 
@@ -102,7 +99,7 @@ export default function UpdateOrderDialog({ order }: Props) {
   };
 
   return (
-    <UpdateDialog
+    <UpdateDialog<IUpdateOrder>
       useFormMethods={methods}
       openState={[open, setOpen]}
       dialogConfig={{
@@ -212,7 +209,7 @@ export default function UpdateOrderDialog({ order }: Props) {
             },
             {
               label: "Notas de envío",
-              original: order.shippingNotes,
+              original: order.shippingNotes ?? "",
               edited: methods.getValues().shippingNotes,
             },
           ]}
