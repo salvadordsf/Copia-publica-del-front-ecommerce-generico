@@ -14,7 +14,12 @@ import {
   useUpdateManyTags,
 } from "../../services/tags-mutations";
 import { useTags } from "../../services/tags-querys";
-import { UpdateBulkTagsSchema } from "../../schemas/tags-schema";
+import {
+  IFilterBulkTagsQuery,
+  IUpdateBulkTags,
+  UpdateBulkTagsSchema,
+} from "../../schemas/tags-schema";
+import { ITag } from "@/types/resources/tag-type";
 
 export default function TagsBulkFiltersResults() {
   const { filters } = useTagsBulkFilters();
@@ -26,10 +31,11 @@ export default function TagsBulkFiltersResults() {
   }, [filters]);
 
   const {
-    data: { success, data: tags } = {},
+    data,
     isLoading: isLoadingTags,
     isError: getTagsError,
   } = useTags(filters);
+  const tags = data?.success ? data.data : [];
 
   const total = tags?.length ?? 0;
 
@@ -47,7 +53,7 @@ export default function TagsBulkFiltersResults() {
 
         {total > 0 && (
           <div className="flex flex-col sm:flex-row gap-5">
-            <BulkUpdateDialogComponent
+            <BulkUpdateDialogComponent<IFilterBulkTagsQuery, IUpdateBulkTags>
               resourceType={"etiquetas"}
               resourceGenre={"fem"}
               fields={["status"]}
@@ -114,7 +120,7 @@ export default function TagsBulkFiltersResults() {
             ],
             bodyRows:
               tags &&
-              tags.map((tag: any) => {
+              tags.map((tag: ITag) => {
                 return {
                   rowCells: [
                     { type: "body", text: tag.name },
