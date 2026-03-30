@@ -43,3 +43,19 @@ export interface IOrder {
     products: number;
   };
 }
+
+// This will be temporary until the backend has support
+export interface IOrderShippingData {
+  shippingStreet: string;
+  shippingCity: string;
+  shippingProvince: string;
+  shippingPostal: string;
+  shippingCountry: string;
+  shippingNotes: string;
+}
+export interface IOrderBuyerInfo {
+  dni: string;
+  email: string;
+  name: string;
+  phone: string;
+}
