@@ -8,6 +8,7 @@ import UiTable from "@/components/dashboard/table/table";
 import { stringToDateToString } from "@/utils/date-to-string-utility";
 import { statusTranslate } from "@/utils/status-translate";
 import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
+import { ISubcategory } from "@/types/resources/subcategory-type";
 
 interface Props {
   query: IGetSubcategoryQuery;
@@ -17,7 +18,7 @@ export default function SubcategoryList({ query }: Props) {
   const router = useRouter();
 
   const {
-    data: { success, data: subcategories } = {},
+    data,
     isLoading,
     isError,
   } = useSubcategories({
@@ -27,6 +28,7 @@ export default function SubcategoryList({ query }: Props) {
     category: query.category ? query.category : undefined,
     products: query.products ? query.products : undefined,
   });
+  const subcategories = data?.success ? data.data : [];
 
   if (isLoading) {
     return (
@@ -90,7 +92,7 @@ export default function SubcategoryList({ query }: Props) {
         ],
         bodyRows:
           subcategories &&
-          subcategories.map((subcategory: any) => {
+          subcategories.map((subcategory: ISubcategory) => {
             return {
               onClickAction: () =>
                 router.push(`/admin/dashboard/subcategories/${subcategory.id}`),
