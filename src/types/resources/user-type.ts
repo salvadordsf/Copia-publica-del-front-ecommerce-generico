@@ -1,4 +1,7 @@
+import { authClient } from "@/lib/auth-client";
 import { TResourceStatus } from "./resource-status.types";
+import { IOrder } from "./order-types";
+import { IAddress } from "./address-type";
 
 export type TUsersRoles = "USER" | "EDITOR" | "ADMIN";
 
@@ -7,8 +10,8 @@ export interface IUser {
   name: string;
   email: string;
   role: TUsersRoles;
-  address: any;
-  orders: any;
+  address: IAddress[];
+  orders: IOrder[];
 
   status: TResourceStatus;
 
@@ -17,7 +20,11 @@ export interface IUser {
   archivedAt: string | null;
   deletedAt: string | null;
   emailVerified: boolean;
-  image: string;
-  sessions: any;
-  accounts: any;
+  image: string | null;
 }
+
+type User = typeof authClient.$Infer.Session.user;
+
+export type ExtendedSessionUserType = User & {
+  role: TUsersRoles;
+};
