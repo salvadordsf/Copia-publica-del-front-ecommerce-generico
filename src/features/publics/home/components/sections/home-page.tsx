@@ -11,17 +11,18 @@ import { AnnouncementCarousel } from "./announcement-carousel";
 import { useMemo } from "react";
 
 export const HomePage = () => {
-  const { data: { success, data: sections = [] } = {} } = useHome();
+  const { data } = useHome();
+  const sections = data?.success ? data.data : [];
 
   const firstAnnouncement = useMemo(
     () =>
       (sections as HomeSection[]).find(
-        (section) => section.type === "ANNOUNCEMENT_CAROUSEL"
+        (section) => section.type === "ANNOUNCEMENT_CAROUSEL",
       ),
-    [sections]
+    [sections],
   );
 
-  if (!success || !sections.length) return null;
+  if (!data?.success || !sections.length) return null;
 
   return (
     <div className="flex flex-col gap-5">
