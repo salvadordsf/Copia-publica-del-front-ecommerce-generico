@@ -24,6 +24,7 @@ export const CreateProductSchema = z.object({
   imageUrls: z.string().optional(),
 });
 export type ICreateProduct = z.infer<typeof CreateProductSchema>;
+
 export const CreateProductMutationSchema = z.object({
   name: z.string().min(3, "El nombre tiene que tener al menos 3 caracteres."),
   description: z
@@ -43,7 +44,7 @@ export const CreateProductMutationSchema = z.object({
   status: StatusEnum.optional(),
   imageUrls: z.array(z.string()).optional(),
 });
-export type ICreateProductMutation = z.infer<typeof CreateProductSchema>;
+export type ICreateProductMutation = z.infer<typeof CreateProductMutationSchema>;
 
 export const UpdateProductSchema = CreateProductSchema.partial();
 export type IUpdateProduct = z.infer<typeof UpdateProductSchema>;
