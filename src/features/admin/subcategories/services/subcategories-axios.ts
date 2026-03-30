@@ -6,9 +6,13 @@ import {
   IUpdateBulkSubcategories,
   IUpdateSubcategory,
 } from "../schemas/subcategories-schema";
+import { ISubcategory } from "@/types/resources/subcategory-type";
+import { ApiResponse } from "@/types/responses.type";
 
-export const getSubcategories = async (data: IGetSubcategoryQuery) => {
-  const params: any = {
+export const getSubcategories = async (
+  data: IGetSubcategoryQuery,
+): Promise<ApiResponse<ISubcategory[]>> => {
+  const params: IGetSubcategoryQuery = {
     ...(data?.name && { name: data?.name }),
     ...(data?.status && { status: data?.status }),
     ...(data?.categoryId && { categoryId: data?.categoryId }),
@@ -27,13 +31,17 @@ export const getSubcategories = async (data: IGetSubcategoryQuery) => {
   console.log(res);
   return res.data;
 };
-export const getSubcategoryById = async (id: string) => {
+export const getSubcategoryById = async (
+  id: string,
+): Promise<ApiResponse<ISubcategory>> => {
   const res = await axiosInstance.get(`/subcategories/${id}`);
   console.log(res);
   return res.data;
 };
 
-export const createSubcategory = async (data: ICreateSubcategory) => {
+export const createSubcategory = async (
+  data: ICreateSubcategory,
+): Promise<ApiResponse<ISubcategory>> => {
   const res = await axiosInstance.post("/subcategories", data);
   console.log(data);
   console.log(res);
@@ -42,15 +50,17 @@ export const createSubcategory = async (data: ICreateSubcategory) => {
 
 export const updateSubcategory = async (
   id: string,
-  data: IUpdateSubcategory
-) => {
+  data: IUpdateSubcategory,
+): Promise<ApiResponse<ISubcategory>> => {
   const res = await axiosInstance.put(`/subcategories/${id}`, data);
   console.log(data);
   console.log(res);
   return res.data;
 };
 
-export const deleteSubcategory = async (id: string) => {
+export const deleteSubcategory = async (
+  id: string,
+): Promise<ApiResponse<ISubcategory>> => {
   const res = await axiosInstance.delete(`/subcategories/${id}`);
   console.log(res);
   return res.data;
@@ -58,8 +68,8 @@ export const deleteSubcategory = async (id: string) => {
 
 export const updateManySubcategories = async (
   filter: IFilterBulkSubcategoriesQuery,
-  data: IUpdateBulkSubcategories
-) => {
+  data: IUpdateBulkSubcategories,
+): Promise<ApiResponse<{ count: number }>>  => {
   const params: IFilterBulkSubcategoriesQuery = {
     ...(filter?.name && { name: filter?.name }),
     ...(filter?.status && { status: filter?.status }),
@@ -78,8 +88,8 @@ export const updateManySubcategories = async (
 };
 
 export const deleteManySubcategories = async (
-  filter: IFilterBulkSubcategoriesQuery
-) => {
+  filter: IFilterBulkSubcategoriesQuery,
+): Promise<ApiResponse<{ count: number }>> => {
   const params: IFilterBulkSubcategoriesQuery = {
     ...(filter?.name && { name: filter?.name }),
     ...(filter?.status && { status: filter?.status }),
