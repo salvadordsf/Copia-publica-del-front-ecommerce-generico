@@ -7,17 +7,17 @@ import UiTable from "@/components/dashboard/table/table";
 import { stringToDateToString } from "@/utils/date-to-string-utility";
 import { useUserSearchFilters } from "../../stores/users-store";
 import { useUsers } from "../../services/users-querys";
+import { IUser } from "@/types/resources/user-type";
 
 export default function UserList() {
   const { filters, setFilters } = useUserSearchFilters();
 
   const router = useRouter();
 
-  const {
-    data: { success, data: users } = {},
-    isLoading,
-    isError,
-  } = useUsers(filters);
+  const { data, isLoading, isError } = useUsers(filters);
+  const usersData = data?.success
+    ? data.data
+    : { data: [], pagination: { currentPage: 1, totalPages: 1, pageSize: 10 } };
 
   if (isLoading) {
     return (
@@ -31,7 +31,7 @@ export default function UserList() {
 
   if (isError) return <p>Error al cargar usuarios.</p>;
 
-  if (users?.data && !users.data.length) {
+  if (usersData?.data && !usersData.data.length) {
     return !filters.search ? (
       <p>No se encontraron usuarios.</p>
     ) : (
@@ -82,8 +82,8 @@ export default function UserList() {
             },
           ],
           bodyRows:
-            users.data &&
-            users.data.map((user: any) => {
+            usersData?.data &&
+            usersData?.data.map((user: IUser) => {
               return {
                 onClickAction: () =>
                   router.push(`/admin/dashboard/users/${user.id}`),
@@ -116,12 +116,12 @@ export default function UserList() {
       />
 
       <UiPagination
-        currentPage={users.pagination.currentPage}
-        totalPages={users.pagination.totalPages}
+        currentPage={usersData.pagination.currentPage}
+        totalPages={usersData.pagination.totalPages}
         onPageChangeAction={(pageNum: number) => {
           setFilters({ page: String(pageNum) });
         }}
-        pageSize={users.pagination.pageSize}
+        pageSize={usersData.pagination.pageSize}
         onPageSizeAction={(pageSize: number) => {
           setFilters({ pageSize: String(pageSize), page: "1" });
         }}
