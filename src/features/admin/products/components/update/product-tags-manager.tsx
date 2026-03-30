@@ -5,9 +5,11 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import UiDivider from "@/components/dashboard/divider/divider";
 import ToggleCreateTagInput from "@/features/admin/tags/components/create/tags-toggle-create-input";
+import { IProduct } from "@/types/resources/product-type";
+import { ITag } from "@/types/resources/tag-type";
 
 interface ProductTagsManagerProps {
-  product: any;
+  product: IProduct;
   initialTags: string[];
 }
 
@@ -41,7 +43,7 @@ export default function ProductTagsManager({
       <div className="mt-6">
         <h3 className="text-lg font-semibold mb-2">Gestor de etiquetas</h3>
         <ToggleCreateTagInput
-          initialValue={product.tags.map((t: any) => t.id)}
+          initialValue={product.tags.map((t: ITag) => t.id)}
           initialTags={product.tags}
           value={tags}
           onChangeAction={handleTagsChange}
