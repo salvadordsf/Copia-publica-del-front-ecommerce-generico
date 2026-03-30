@@ -37,7 +37,7 @@ export default function UpdateSectionDialog({
       position: section.position.toString(),
       isEnabled: section.isEnabled ? "true" : "false",
       title: section.title ? section.title : undefined,
-      config: section.config,
+      config: String(section.config),
     },
   });
 
