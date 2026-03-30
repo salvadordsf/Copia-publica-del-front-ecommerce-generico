@@ -9,6 +9,8 @@ import {
 import GenericSearchForm from "@/components/dashboard/form/generic-search-form/generic-search-form";
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
 import { useProductsBulkFilters } from "../../stores/products-bulk-filters";
+import { ICategory } from "@/types/resources/category-type";
+import { ISubcategory } from "@/types/resources/subcategory-type";
 
 export default function ProductBulkFilters({
   statusFilter = true,
@@ -18,10 +20,11 @@ export default function ProductBulkFilters({
   const { setFilters, resetFilters } = useProductsBulkFilters();
 
   const {
-    data: { success, data: categories } = {},
+    data,
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
+  const categories = data?.success ? data.data : [];
 
   const methods = useForm<IFilterBulkProductsQuery>({
     resolver: zodResolver(FilterBulkProductsQuerySchema),
@@ -103,7 +106,7 @@ export default function ProductBulkFilters({
               selectLabel: "Categorías",
               placeholder: "Seleccionar categoría",
               type: "select",
-              options: categories.map((category: any) => {
+              options: categories.map((category: ICategory) => {
                 return { value: category.id, label: category.name };
               }),
               className: "sm:col-span-2 sm:row-start-3",
@@ -115,8 +118,8 @@ export default function ProductBulkFilters({
               placeholder: "Seleccionar subcategoría",
               type: "select",
               dependsOn: "categoryId",
-              options: categories.flatMap((cat: any) =>
-                cat.subcategories.map((sub: any) => ({
+              options: categories.flatMap((cat: ICategory) =>
+                cat.subcategories.map((sub: ISubcategory) => ({
                   value: sub.id,
                   label: sub.name,
                   categoryId: cat.id,
