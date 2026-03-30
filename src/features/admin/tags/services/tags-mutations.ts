@@ -3,6 +3,7 @@ import {
   ICreateTagSchema,
   IFilterBulkTagsQuery,
   IUpdateBulkTags,
+  IUpdateTag,
 } from "../schemas/tags-schema";
 import {
   createTag,
@@ -34,7 +35,7 @@ export const useToggleCreateTag = () => {
 
 export const useUpdateTag = (id: string) => {
   return useMutation({
-    mutationFn: (data: ICreateTagSchema) => updateTag(id, data),
+    mutationFn: (data: IUpdateTag) => updateTag(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tag"] });
     },
