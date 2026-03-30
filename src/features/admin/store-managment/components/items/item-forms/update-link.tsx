@@ -22,24 +22,21 @@ interface Props {
 
 export function UpdateLinkItemForm({ item, closeDialog }: Props) {
   const {
-    data: { data: section } = {},
+    data,
     isLoading: isLoadingSection,
     error: errorSection,
   } = useSectionById(item.sectionId);
+  const section = data?.success ? data.data : null;
 
   const { mutate, isPending } = useUpdateItems<IUpdateItemLink>(item.id);
-
-  const updatedItem = section.items.find(
-    (updated: ItemSection) => item.id === updated.id,
-  );
 
   const methods = useForm<IUpdateItemLink>({
     resolver: zodResolver(UpdateItemLinkSchema),
     defaultValues: {
-      title: updatedItem.title ?? undefined,
-      subtitle: updatedItem.subtitle ?? undefined,
-      linkUrl: updatedItem.linkUrl ?? undefined,
-      position: updatedItem.position,
+      title: item.title ?? undefined,
+      subtitle: item.subtitle ?? undefined,
+      linkUrl: item.linkUrl ?? undefined,
+      position: item.position,
     },
   });
 
