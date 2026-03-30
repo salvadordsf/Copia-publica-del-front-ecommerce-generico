@@ -1,42 +1,31 @@
 "use client";
 
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-export const buyerSchema = z.object({
-  name: z.string().min(4, "El nombre debe tener al menos 4 caracteres"),
-
-  dni: z
-    .string()
-    .min(7, "El DNI debe tener al menos 7 caracteres")
-    .max(9, "El DNI no puede superar los 9 caracteres"),
-
-  phone: z.string().min(6, "El teléfono debe tener al menos 6 caracteres"),
-
-  email: z.string().email("Ingresá un email válido"),
-});
-type BuyerFormValues = z.infer<typeof buyerSchema>;
+import { BuyerSchema, IBuyer } from "./schemas/buyer-schema";
 
 interface BuyerFormProps {
-  onNext: (data: BuyerFormValues) => void;
-  onBack: () => void;
+  onNextAction: (data: IBuyer) => void;
+  onBackAction: () => void;
 }
 
-export default function BuyerForm({ onNext, onBack }: BuyerFormProps) {
+export default function BuyerForm({
+  onNextAction,
+  onBackAction,
+}: BuyerFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<BuyerFormValues>({
-    resolver: zodResolver(buyerSchema),
+  } = useForm<IBuyer>({
+    resolver: zodResolver(BuyerSchema),
     mode: "onChange",
   });
 
-  const onSubmit = (data: BuyerFormValues) => {
-    onNext(data);
+  const onSubmit = (data: IBuyer) => {
+    onNextAction(data);
   };
 
   return (
@@ -87,7 +76,7 @@ export default function BuyerForm({ onNext, onBack }: BuyerFormProps) {
 
       {/* actions */}
       <div className="flex gap-2 pt-2">
-        <Button type="button" variant="outline" onClick={onBack}>
+        <Button type="button" variant="outline" onClick={onBackAction}>
           Volver
         </Button>
 
