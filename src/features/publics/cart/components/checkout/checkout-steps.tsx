@@ -7,6 +7,9 @@ import { useCreateOrder } from "@/features/admin/orders/services/orders-mutation
 import { useCreateOrderProducts } from "@/features/admin/order-product/services/order-product-mutations";
 import ShippingForm from "./shipping-form";
 import BuyerForm from "./buyer-form";
+import { IOrderShippingData } from "@/types/resources/order-types";
+import { IBuyer } from "./schemas/buyer-schema";
+import { IShippingForm } from "./schemas/shipping-info-schema";
 
 export default function CheckoutSteps() {
   const [step, setStep] = useState(1);
@@ -14,8 +17,20 @@ export default function CheckoutSteps() {
   const router = useRouter();
   const items = useCartStore((s) => s.items);
 
-  const [shippingData, setShippingData] = useState<any>(null);
-  const [buyerData, setBuyerData] = useState<any>(null);
+  const [shippingData, setShippingData] = useState<IOrderShippingData>({
+    shippingStreet: "",
+    shippingCity: "",
+    shippingProvince: "",
+    shippingPostal: "",
+    shippingCountry: "Argentina",
+    shippingNotes: "",
+  });
+  const [_buyerData, setBuyerData] = useState<IBuyer>({
+    dni: "",
+    email: "",
+    name: "",
+    phone: "",
+  });
 
   const { mutateAsync: createOrder } = useCreateOrder();
   const { mutateAsync: createOrderProducts } = useCreateOrderProducts();
@@ -24,24 +39,34 @@ export default function CheckoutSteps() {
     if (!shippingData) return;
 
     const orderRequest = await createOrder(shippingData);
-    const order = orderRequest.data;
+    const order = orderRequest.success ? orderRequest.data : null;
 
-    const input = items.map((item) => ({
-      ...item,
-      orderId: order.id,
-    }));
+    if (order && order.id) {
+      const input = items.map((item) => ({
+        ...item,
+        orderId: order?.id,
+      }));
 
-    await createOrderProducts(input);
+      await createOrderProducts(input);
+    }
 
-    router.push(`/home/orden?id=${order.id}`);
+    router.push(`/home/orden?id=${order?.id}`);
   };
 
   return (
     <div className="space-y-6">
       {step === 1 && (
         <ShippingForm
-          onNext={(data: any) => {
-            setShippingData(data);
+          onNextAction={(data: IShippingForm) => {
+            console.log(data);
+            setShippingData({
+              shippingStreet: data.shippingStreet,
+              shippingCity: data.shippingCity,
+              shippingProvince: data.shippingProvince,
+              shippingPostal: data.shippingPostal,
+              shippingCountry: data.shippingCountry,
+              shippingNotes: data.shippingNotes ?? "",
+            });
             setStep(2);
           }}
         />
@@ -49,8 +74,9 @@ export default function CheckoutSteps() {
 
       {step === 2 && (
         <BuyerForm
-          onBack={() => setStep(1)}
-          onNext={(data: any) => {
+          onBackAction={() => setStep(1)}
+          onNextAction={(data: IBuyer) => {
+            console.log(data);
             setBuyerData(data);
             handleCreateOrder();
           }}
