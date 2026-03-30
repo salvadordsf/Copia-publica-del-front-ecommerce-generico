@@ -15,6 +15,7 @@ import { AxiosError } from "axios";
 import { toastError } from "@/utils/toast-error-utility";
 import { toast } from "sonner";
 import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
+import { ICategory } from "@/types/resources/category-type";
 
 interface Props {
   subcategoryId: string;
@@ -29,11 +30,12 @@ export default function UpdateSubcategoryDialog({
 }: Props) {
   //Get categories for select
   let {
-    data: { success, data: categories} = {},
+    data,
     isLoading,
     isError: isErrorGetCategories,
   } = useCategories({});
-
+  const categories = data?.success ? data.data : [];
+  
   //Update hook
   const { mutateAsync, isError, error } = useUpdateSubcategory(subcategoryId);
 
@@ -65,7 +67,7 @@ export default function UpdateSubcategoryDialog({
   if (isLoading) return <Skeleton className="w-23 h-9" />;
 
   return (
-    <UpdateDialog
+    <UpdateDialog<IUpdateSubcategory>
       useFormMethods={methods}
       isDisabled={isErrorGetCategories}
       openState={[open, setOpen]}
@@ -86,7 +88,7 @@ export default function UpdateSubcategoryDialog({
           selectLabel: "Categorías",
           placeholder: "Seleccionar categoría",
           type: "select",
-          options: categories.map((category: any) => {
+          options: categories.map((category: ICategory) => {
             return { value: category.id, label: category.name };
           }),
         },
@@ -108,10 +110,10 @@ export default function UpdateSubcategoryDialog({
             },
             {
               label: "Categoría",
-              original: categories.filter((category: any) => {
+              original: categories.filter((category: ICategory) => {
                 if (category.id === initialCategoryId) return category;
               })[0].name,
-              edited: categories.filter((category: any) => {
+              edited: categories.filter((category: ICategory) => {
                 if (category.id === methods.getValues().categoryId)
                   return category;
               })[0].name,
