@@ -11,7 +11,8 @@ import { TextSection } from "./sections/text";
 import { GridSection } from "./sections/grid";
 
 export const HomePage = () => {
-  const { data: { success, data: sections = [] } = {} } = useHome();
+  const { data } = useHome();
+  const sections = data?.success ? data.data : [];
 
   const firstAnnouncement = useMemo(
     () =>
@@ -21,7 +22,7 @@ export const HomePage = () => {
     [sections],
   );
 
-  if (!success || !sections.length) return null;
+  if (!data?.success || !sections.length) return null;
 
   return (
     <div className="flex flex-col gap-10">
