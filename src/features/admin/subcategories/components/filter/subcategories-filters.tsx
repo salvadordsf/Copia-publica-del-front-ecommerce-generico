@@ -9,15 +9,17 @@ import {
   IFilterBulkSubcategoriesQuery,
 } from "../../schemas/subcategories-schema";
 import { useSubcategoriesBulkFilters } from "../../store/subcategories-bulk-filters";
+import { ICategory } from "@/types/resources/category-type";
 
 export default function SubcategoryBulkFilters() {
   const { setFilters, resetFilters } = useSubcategoriesBulkFilters();
 
   const {
-    data: { success, data: categories = [] } = {},
+    data,
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
+  const categories = data?.success ? data.data : [];
 
   const methods = useForm<IFilterBulkSubcategoriesQuery>({
     resolver: zodResolver(FilterBulkSubcategoriesQuerySchema),
@@ -67,7 +69,7 @@ export default function SubcategoryBulkFilters() {
               selectLabel: "Categorías",
               placeholder: "Seleccionar categoría",
               type: "select",
-              options: categories.map((category: any) => {
+              options: categories.map((category: ICategory) => {
                 return { value: category.id, label: category.name };
               }),
               className: "sm:col-span-2 sm:row-start-3",
