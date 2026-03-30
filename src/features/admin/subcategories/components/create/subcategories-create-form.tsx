@@ -9,15 +9,16 @@ import { CreateSubcategorySchema, ICreateSubcategory } from "../../schemas/subca
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
+import { ICategory } from "@/types/resources/category-type";
 
 export default function CreateSubcategoryForm() {
-  
   const {
-    data: { success, data: categories} = {},
+    data,
     isLoading,
     isError: getCategoryError,
   } = useCategories({});
-  
+  const categories = data?.success ? data.data : [];
+
   const { mutate, isError, error } = useCreateSubcategory();
   
   const methods = useForm<ICreateSubcategory>({
@@ -53,7 +54,7 @@ export default function CreateSubcategoryForm() {
             selectLabel: "Categorías",
             placeholder: "Seleccionar categoría",
             type: "select",
-            options: categories.map((category: any) => {
+            options: categories.map((category: ICategory) => {
               return {value: category.id, label: category.name}
             })
           },
