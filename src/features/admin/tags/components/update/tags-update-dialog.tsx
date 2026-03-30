@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { CreateTagSchema, ICreateTagSchema } from "../../schemas/tags-schema";
+import { IUpdateTag, UpdateTagSchema } from "../../schemas/tags-schema";
 import { toastError } from "@/utils/toast-error-utility";
 import { AxiosError } from "axios";
 import UpdateDialog from "@/components/dashboard/actions/update/action-update-dialog";
@@ -24,13 +24,13 @@ export default function UpdateTagDialog({ tagId, initialName }: Props) {
   const [open, setOpen] = useState(false);
 
   //Form methods for Dialog > GenericForm
-  const methods = useForm<ICreateTagSchema>({
-    resolver: zodResolver(CreateTagSchema),
+  const methods = useForm<IUpdateTag>({
+    resolver: zodResolver(UpdateTagSchema),
     defaultValues: { name: initialName },
   });
 
   //onSubmit form > try Update hook + toast
-  const onSubmit = async (data: ICreateTagSchema) => {
+  const onSubmit = async (data: IUpdateTag) => {
     try {
       await mutateAsync(data);
       toast.success("Etiqueta actualizada correctamente.");
@@ -42,7 +42,7 @@ export default function UpdateTagDialog({ tagId, initialName }: Props) {
   };
 
   return (
-    <UpdateDialog
+    <UpdateDialog<IUpdateTag>
       useFormMethods={methods}
       openState={[open, setOpen]}
       dialogConfig={{
