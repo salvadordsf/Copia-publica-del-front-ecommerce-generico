@@ -15,6 +15,8 @@ import {
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
 import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
 import { IProduct } from "@/types/resources/product-type";
+import { ICategory } from "@/types/resources/category-type";
+import { ISubcategory } from "@/types/resources/subcategory-type";
 
 interface Props {
   product: IProduct;
@@ -22,17 +24,19 @@ interface Props {
 
 export default function UpdateProductDialog({ product }: Props) {
   const {
-    data: { success, data: categories } = {},
+    data,
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
+  const categories = data?.success ? data.data : [];
+
   const getCategoryName = (id: string) =>
-    categories.find((c: any) => c.id === id)?.name || "Sin categoría";
+    categories.find((c: ICategory) => c.id === id)?.name || "Sin categoría";
 
   const getSubcategoryName = (categoryId: string, subcategoryId: string) =>
     categories
-      .find((c: any) => c.id === categoryId)
-      ?.subcategories.find((s: any) => s.id === subcategoryId)?.name ||
+      .find((c: ICategory) => c.id === categoryId)
+      ?.subcategories.find((s: ISubcategory) => s.id === subcategoryId)?.name ||
     "Sin subcategoría";
   //Update hook
   const { mutateAsync, isError, error } = useUpdateProduct(product.id);
@@ -69,7 +73,7 @@ export default function UpdateProductDialog({ product }: Props) {
   if (isLoadingCategories) return <div>Loading categories...</div>;
   if (getCategoriesError) return <div>Error al obtener categorías</div>;
   return (
-    <UpdateDialog
+    <UpdateDialog<IUpdateProduct>
       useFormMethods={methods}
       openState={[open, setOpen]}
       dialogConfig={{
@@ -112,7 +116,7 @@ export default function UpdateProductDialog({ product }: Props) {
           selectLabel: "Categorías",
           placeholder: "Seleccionar categoría",
           type: "select",
-          options: categories.map((category: any) => {
+          options: categories.map((category: ICategory) => {
             return { value: category.id, label: category.name };
           }),
           defaultValue: product.categoryId,
@@ -125,8 +129,8 @@ export default function UpdateProductDialog({ product }: Props) {
           placeholder: "Seleccionar subcategoría",
           type: "select",
           dependsOn: "categoryId",
-          options: categories.flatMap((cat: any) => {
-            return cat.subcategories.map((sub: any) => {
+          options: categories.flatMap((cat: ICategory) => {
+            return cat.subcategories.map((sub: ISubcategory) => {
               return {
                 value: sub.id,
                 label: sub.name,
@@ -174,13 +178,13 @@ export default function UpdateProductDialog({ product }: Props) {
             },
             {
               label: "Precio",
-              original: product.price,
+              original: product.price.toString(),
               edited: String(methods.getValues().price),
             },
             {
               label: "Stock",
-              original: product.stock,
-              edited: methods.getValues().stock,
+              original: product.stock.toString(),
+              edited: String(methods.getValues().stock),
             },
             {
               label: "Categoría",
@@ -191,17 +195,17 @@ export default function UpdateProductDialog({ product }: Props) {
               label: "Subcategoría",
               original: getSubcategoryName(
                 product.categoryId,
-                product.subcategoryId
+                product.subcategoryId,
               ),
               edited: getSubcategoryName(
                 methods.getValues().categoryId ?? "",
-                methods.getValues().subcategoryId ?? ""
+                methods.getValues().subcategoryId ?? "",
               ),
             },
             {
               label: "Relevancia",
-              original: product.relevance,
-              edited: methods.getValues().relevance,
+              original: product.relevance.toString(),
+              edited: String(methods.getValues().relevance),
             },
           ]}
         />,
