@@ -1,3 +1,4 @@
+import { ICategory } from "./category-type";
 import { IProduct } from "./product-type";
 
 export type SectionType =
@@ -17,8 +18,8 @@ export interface HomeSection {
   isEnabled: boolean;
   createdAt: string;
   updatedAt: string;
-  items: any[];
-  config: any | null;
+  items: ItemSection[];
+  config: unknown | null;
   _count: {
     items: number;
   };
@@ -42,7 +43,7 @@ export interface ItemSection {
   productId: string | null;
   product: IProduct;
   categoryId: string | null;
-  category: any;
+  category: ICategory;
   title: string | null;
   subtitle: string | null;
   linkUrl: string | null;
