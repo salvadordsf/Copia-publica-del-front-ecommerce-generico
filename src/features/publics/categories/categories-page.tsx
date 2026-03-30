@@ -7,20 +7,17 @@ import { ArrowRightCircleIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 export const CategoriesPublicPage = () => {
-  const {
-    data: { success, data: categories = [] } = {},
-    isLoading,
-    isError,
-  } = useCategories({
+  const { data, isLoading, isError } = useCategories({
     status: "ACTIVE",
     subcategories: true,
     products: true,
   });
+  const categories = data?.success ? data.data : [];
 
   if (isLoading)
     return <Loader2 className="animate-spin text-neutral-400" size={32} />;
 
-  if (isError || !success)
+  if (isError || !data?.success)
     return (
       <div className="max-w-4xl mx-auto py-16 px-4">
         <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
