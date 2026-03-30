@@ -10,9 +10,10 @@ import { useUpdateUser } from "../../services/users-mutations";
 import { IUpdateUser, UpdateUserSchema } from "../../schemas/user-schemas";
 import UpdateConfirmDialog from "@/components/dashboard/actions/update/action-update-confirmation-dialog";
 import UpdateDialog from "@/components/dashboard/actions/update/action-update-dialog";
+import { IUser } from "@/types/resources/user-type";
 
 interface Props {
-  user: any;
+  user: IUser;
 }
 
 export default function UpdateUserDialog({ user }: Props) {
@@ -45,7 +46,7 @@ export default function UpdateUserDialog({ user }: Props) {
   };
 
   return (
-    <UpdateDialog
+    <UpdateDialog<IUpdateUser>
       useFormMethods={methods}
       openState={[open, setOpen]}
       dialogConfig={{
