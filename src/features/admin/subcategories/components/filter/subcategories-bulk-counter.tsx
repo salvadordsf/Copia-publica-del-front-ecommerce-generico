@@ -13,8 +13,9 @@ import {
   useUpdateManySubcategories,
 } from "../../services/subcategories-mutations";
 import { useSubcategories } from "../../services/subcategories-querys";
-import { UpdateBulkSubcategoriesSchema } from "../../schemas/subcategories-schema";
+import { IFilterBulkSubcategoriesQuery, IUpdateBulkSubcategories, UpdateBulkSubcategoriesSchema } from "../../schemas/subcategories-schema";
 import { useSubcategoriesBulkFilters } from "../../store/subcategories-bulk-filters";
+import { ISubcategory } from "@/types/resources/subcategory-type";
 
 export default function SubcategoriesBulkFiltersResults() {
   const { filters } = useSubcategoriesBulkFilters();
@@ -26,20 +27,22 @@ export default function SubcategoriesBulkFiltersResults() {
   }, [filters]);
 
   const {
-    data: { success, data: subs = [] } = {},
+    data,
     isLoading: isLoadingSubcategories,
     isError: getSubcategoriesError,
   } = useSubcategories(filters);
+  const subcategories = data?.success ? data.data : [];
 
-  const total = subs.length ?? 0;
+  const total = subcategories.length ?? 0;
 
   const {
-    data: { data: subcategoriesWithCats = [] } = {},
+    data: subsWithCatsData,
     isLoading: isLoadingFull,
     isError: isErrorFull,
   } = useSubcategories(showPreview ? { category: true, ...filters } : {});
-
-  console.log("asd", filters);
+  const subcategoriesWithCats = subsWithCatsData?.success
+    ? subsWithCatsData.data
+    : [];
 
   if (isLoadingSubcategories) return <div>Loading subcategories...</div>;
   if (getSubcategoriesError)
@@ -54,7 +57,7 @@ export default function SubcategoriesBulkFiltersResults() {
 
         {total > 0 && (
           <div className="flex flex-col sm:flex-row gap-5">
-            <BulkUpdateDialogComponent
+            <BulkUpdateDialogComponent<IFilterBulkSubcategoriesQuery, IUpdateBulkSubcategories>
               resourceType={"subcategorías"}
               resourceGenre={"fem"}
               fields={["status", "categoryId"]}
@@ -125,7 +128,7 @@ export default function SubcategoriesBulkFiltersResults() {
             ],
             bodyRows:
               subcategoriesWithCats &&
-              subcategoriesWithCats.map((subcategory: any) => {
+              subcategoriesWithCats.map((subcategory: ISubcategory) => {
                 return {
                   rowCells: [
                     { type: "body", text: subcategory.name },
