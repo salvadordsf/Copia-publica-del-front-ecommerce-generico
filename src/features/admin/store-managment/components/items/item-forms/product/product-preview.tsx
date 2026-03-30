@@ -10,10 +10,11 @@ import { useProducts } from "@/features/admin/products/services/products-querys"
 import MethodsBtns from "@/components/dashboard/btns/btn-request-method";
 import { IProduct } from "@/types/resources/product-type";
 import { toast } from "sonner";
+import { ItemSection } from "@/types/resources/home-section-types";
 
 interface Props {
   sectionId: string;
-  items: any[];
+  items: ItemSection[];
   closeDialog: () => void;
 }
 
@@ -42,10 +43,10 @@ export default function ProductPreview({
     pageSize: "10",
   });
 
-  const total = data?.data?.pagination.totalItems ?? 0;
+  const total = data?.success ? data.data.pagination.totalItems : 0;
 
   const {
-    data: fullData,
+    data: fullDataResponse,
     isLoading: isLoadingFull,
     isError: isErrorFull,
   } = useProducts(
@@ -55,12 +56,13 @@ export default function ProductPreview({
           pageSize: total >= 10 ? String(total) : "10",
           status: "ACTIVE",
         }
-      : {}
+      : {},
   );
+  const fullData = fullDataResponse?.success ? fullDataResponse.data : null;
 
   const products: IProduct[] =
-    fullData?.data?.data.sort(
-      (a: IProduct, b: IProduct) => b.relevance - a.relevance
+    fullData?.data.sort(
+      (a: IProduct, b: IProduct) => b.relevance - a.relevance,
     ) ?? [];
 
   const createProductItem = async () => {
