@@ -15,6 +15,8 @@ import { IProduct } from "@/types/resources/product-type";
 import ResourceStatusPil from "@/components/dashboard/resource-components/resource-status/resource-status-resource-pil";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ICategory } from "@/types/resources/category-type";
+import { ISubcategory } from "@/types/resources/subcategory-type";
 
 interface IMigrateProductsProps {
   products: IProduct[];
@@ -43,10 +45,11 @@ export default function MigrateProductsForm({
   //Query hooks
   //Get categories
   const {
-    data: { data: categories } = {},
+    data,
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories({ subcategories: true });
+  const categories = data?.success ? data.data : [];
   //Reassign mutate
   const { mutateAsync } = useReassignProducts();
 
@@ -94,7 +97,7 @@ export default function MigrateProductsForm({
     try {
       await mutateAsync(data.items);
       toast.success(
-        `${data.items.length} productos actualizados correctamente.`
+        `${data.items.length} productos actualizados correctamente.`,
       );
       onConfirm();
     } catch (error) {
@@ -160,7 +163,7 @@ export default function MigrateProductsForm({
 
         //Get the available subcats from current category
         const availableSubcats =
-          categories?.find((c: any) => c.id === currentCategoryId)
+          categories?.find((c: ICategory) => c.id === currentCategoryId)
             ?.subcategories || [];
 
         return (
@@ -198,13 +201,13 @@ export default function MigrateProductsForm({
                       //Set the new options for the subcategory input when category change
                       setValue(
                         `items.${idx}.subcategoryId`,
-                        categories.find((c: any) => c.id === newCatId)
-                          ?.subcategories?.[0]?.id || ""
+                        categories.find((c: ICategory) => c.id === newCatId)
+                          ?.subcategories?.[0]?.id || "",
                       );
                     }}
                     className="border rounded px-2 py-1 text-sm"
                   >
-                    {categories.map((cat: any) => (
+                    {categories.map((cat: ICategory) => (
                       <option key={cat.id} value={cat.id}>
                         {cat.name}
                       </option>
@@ -225,7 +228,7 @@ export default function MigrateProductsForm({
                     className="border rounded px-2 py-1 text-sm"
                   >
                     {availableSubcats.length > 0 ? (
-                      availableSubcats.map((sub: any) => (
+                      availableSubcats.map((sub: ISubcategory) => (
                         <option key={sub.id} value={sub.id}>
                           {sub.name}
                         </option>
