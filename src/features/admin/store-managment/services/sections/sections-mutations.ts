@@ -3,7 +3,6 @@ import { queryClient } from "@/lib/react-query/query-client";
 import { createSection, deleteSection, updateSection } from "./sections.axios";
 import {
   ICreateSection,
-  IUpdateSection,
   IUpdateSectionForMutation,
 } from "../../schemas/sections/sections-schema";
 
