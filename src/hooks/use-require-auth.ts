@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { TUserRoles } from "@/types/roles/users-roles.types";
+import { ExtendedSessionUserType } from "@/types/resources/user-type";
 
-type Role = "ADMIN" | "EDITOR" | "USER";
-
-export const useRequireRole = (requiredRoles: Role[]) => {
+export const useRequireRole = (requiredRoles: TUserRoles[]) => {
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
@@ -27,7 +27,7 @@ export const useRequireRole = (requiredRoles: Role[]) => {
         return;
       }
 
-      const role = session.data.user.role;
+      const role = (session.data.user as ExtendedSessionUserType).role;
 
       if (!role || !requiredRoles.includes(role)) {
         setHavePermission(false);
