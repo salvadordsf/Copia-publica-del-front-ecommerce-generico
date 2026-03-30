@@ -13,7 +13,6 @@ export const useRegister = () =>
   useMutation({
     mutationFn: register,
     onSuccess: (res: AuthResponse ) => {
-        console.log(res.token)
       saveToken(res.token);
       useAuthStore.getState().setUser(res.user);
     },
@@ -26,7 +25,6 @@ export const useLogin = () =>
   useMutation({
     mutationFn: login,
     onSuccess: (res: AuthResponse ) => {
-        console.log(res)
       saveToken(res.token);
       useAuthStore.getState().setUser(res.user);
     },
