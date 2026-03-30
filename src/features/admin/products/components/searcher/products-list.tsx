@@ -9,17 +9,25 @@ import UiTable from "@/components/dashboard/table/table";
 import { stringToDateToString } from "@/utils/date-to-string-utility";
 import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
 import { statusTranslate } from "@/utils/status-translate";
+import { IProduct } from "@/types/resources/product-type";
 
 export default function ProductList() {
   const { filters, setFilters } = useProductsSearchFilters();
 
   const router = useRouter();
 
-  const {
-    data: { success, data: products } = {},
-    isLoading,
-    isError,
-  } = useProducts(filters);
+  const { data, isLoading, isError } = useProducts(filters);
+  const products = data?.success
+    ? data.data
+    : {
+        data: [],
+        pagination: {
+          currentPage: 1,
+          totalPages: 1,
+          pageSize: 10,
+          totalItems: 0,
+        },
+      };
 
   if (isLoading) {
     return (
@@ -97,7 +105,7 @@ export default function ProductList() {
           ],
           bodyRows:
             products.data &&
-            products.data.map((product: any) => {
+            products.data.map((product: IProduct) => {
               return {
                 onClickAction: () =>
                   router.push(`/admin/dashboard/products/${product.id}`),
@@ -108,11 +116,30 @@ export default function ProductList() {
                   { type: "body", text: product.category.name },
                   { type: "body", text: product.subcategory.name },
                   { type: "body", text: product.relevance },
-                  { type: "body", text: statusTranslate(product.status, "masc") },
-                  { type: "body", text: stringToDateToString(product.createdAt) },
-                  { type: "body", text: stringToDateToString(product.updatedAt) },
-                  { type: "body", text: product.archivedAt && stringToDateToString(product.archivedAt) },
-                  { type: "body", text: product.deletedAt && stringToDateToString(product.deletedAt) },
+                  {
+                    type: "body",
+                    text: statusTranslate(product.status, "masc"),
+                  },
+                  {
+                    type: "body",
+                    text: stringToDateToString(product.createdAt),
+                  },
+                  {
+                    type: "body",
+                    text: stringToDateToString(product.updatedAt),
+                  },
+                  {
+                    type: "body",
+                    text:
+                      product.archivedAt &&
+                      stringToDateToString(product.archivedAt),
+                  },
+                  {
+                    type: "body",
+                    text:
+                      product.deletedAt &&
+                      stringToDateToString(product.deletedAt),
+                  },
                 ],
                 className: statusRowClassGenerator(product),
               };
