@@ -83,20 +83,33 @@ export const ProductPage = () => {
               }}
               items={imageSrc.map((url, index) => [
                 { id: `${product.id}-img-${index}` },
-                <Image
-                  key={url}
-                  src={url}
-                  alt={product.name}
-                  className="w-full h-auto rounded-xl object-cover"
-                />,
+                <div className="relative w-full rounded-xl overflow-hidden">
+                  <Image
+                    key={url}
+                    src={url}
+                    alt={product.name}
+                    width={500}
+                    height={500}
+                    priority
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-full h-auto rounded-xl object-cover"
+                  />
+                  ,
+                </div>,
               ])}
             />
           ) : (
-            <Image
-              src={imageSrc[0]}
-              alt={product.name}
-              className="w-full h-auto rounded-xl object-cover"
-            />
+            <div className="relative h-full w-full rounded-xl overflow-hidden">
+              <Image
+                src={imageSrc[0]}
+                alt={product.name}
+                width={500}
+                height={500}
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="w-full h-auto rounded-xl object-cover"
+              />
+            </div>
           )}
         </div>
 

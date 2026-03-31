@@ -28,10 +28,12 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
         )}
       >
         {/* Image */}
-        <div className="w-full h-[70%] bg-gray-100">
+        <div className="relative w-full h-[70%] bg-gray-100 aspect-square">
           <Image
             src={imageSrc}
+            fill
             alt={product.name}
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
             className="w-full h-full object-cover"
           />
 

@@ -5,10 +5,12 @@ export const ImageItem = ({ item }: { item: ItemSection }) => {
   if (!item.imageUrl) return null;
 
   return (
-    <div className="relative overflow-hidden rounded-xl bg-gray-100 shadow-sm">
+    <div className="relative overflow-hidden rounded-xl bg-gray-100 shadow-sm aspect-square">
       <Image
         src={item.imageUrl}
         alt={item.title ?? "Imagen"}
+        fill
+        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
         className="w-full h-full object-cover aspect-[4/3]"
       />
 

@@ -22,13 +22,15 @@ export const ItemImageContent = ({ item }: ItemImageContentProps) => {
   return (
     <ItemCard item={item}>
       {/* Image */}
-      <div className="relative w-full flex-1 bg-gray-100 overflow-hidden">
+      <div className="relative w-full flex-1 bg-gray-100 overflow-hidden aspect-square">
         <Image
           src={imageSrc}
           alt={title ?? "Imagen de sección"}
+          fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           className="
             w-full h-full
-            object-cover
+            object-contain
             transition-transform duration-300
             group-hover:scale-[1.03]
           "

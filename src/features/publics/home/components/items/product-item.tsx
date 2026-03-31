@@ -21,10 +21,12 @@ export const ItemProductContent = ({ item }: ItemProductContentProps) => {
   return (
     <ItemCard item={item}>
       {/*Image */}
-      <div className="relative w-full flex-1 bg-gray-100 overflow-hidden">
+      <div className="relative w-full flex-1 bg-gray-100 overflow-hidden aspect-square">
         <Image
           src={imageSrc}
           alt={name}
+          fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           className="
             w-full h-full
             object-cover
