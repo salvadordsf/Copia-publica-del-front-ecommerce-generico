@@ -11,14 +11,17 @@ import {
 import UpdateUserDialog from "@/features/admin/users/components/update/user-update-dialog";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
+import { IUser } from "@/types/resources/user-type";
 
 export default function IdUserPage() {
   const { id } = useParams();
   const {
-    data: { success, data: user } = {},
+    data,
     isLoading,
     isError,
   } = useUserById(id as string);
+  const user = data?.success ? data.data : null;
+
   const deleteUser = useDeleteUser();
   const updateUser = useUpdateUser(id as string);
 
@@ -50,7 +53,7 @@ export default function IdUserPage() {
           }}
         />
 
-        <ResourceActionsHandler
+        <ResourceActionsHandler<IUser>
           resource={user}
           resourceType="users"
           updateResourceDialog={<UpdateUserDialog user={user} />}

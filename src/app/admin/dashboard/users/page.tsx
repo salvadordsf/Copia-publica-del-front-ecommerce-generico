@@ -1,6 +1,5 @@
 import UserSearcher from "@/features/admin/users/components/searcher/users-searcher";
 
-
 export default function ProductsPage() {
   return (
     <main className="flex flex-col gap-7 mt-4 pr-5">
