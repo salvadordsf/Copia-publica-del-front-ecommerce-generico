@@ -25,14 +25,14 @@ import ResourceActionsHandler from "@/components/dashboard/actions/actions-handl
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 import ResourceMigrateDialog from "@/features/admin/products/components/update/migration/products-update-migrate-dialog";
+import { ISubcategory } from "@/types/resources/subcategory-type";
+import { IProduct } from "@/types/resources/product-type";
 
 export default function IdSubcategoryPage() {
   const { id } = useParams();
-  const {
-    data: { success, data: subcategory } = {},
-    isLoading,
-    isError,
-  } = useSubcategoryById(id as string);
+  const { data, isLoading, isError } = useSubcategoryById(id as string);
+  const subcategory = data?.success ? data.data : null;
+
   const updateSubcategory = useUpdateSubcategory(id as string);
   const deleteSubcategory = useDeleteSubcategories();
 
@@ -64,7 +64,7 @@ export default function IdSubcategoryPage() {
         />
 
         {/* Action btns */}
-        <ResourceActionsHandler
+        <ResourceActionsHandler<ISubcategory>
           resource={subcategory}
           resourceType="subcategories"
           updateResourceDialog={
@@ -128,7 +128,7 @@ export default function IdSubcategoryPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {subcategory.products.map((product: any) => (
+                {subcategory.products.map((product: IProduct) => (
                   <TableRow key={product.id}>
                     <TableCell className="capitalize">{product.name}</TableCell>
                     <TableCell className="text-center">
