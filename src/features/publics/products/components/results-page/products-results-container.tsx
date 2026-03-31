@@ -3,9 +3,9 @@
 import { useProducts } from "@/features/admin/products/services/products-querys";
 import { Loader2 } from "lucide-react";
 import { useProductsFiltersStore } from "../../stores/products-filters";
-import { ProductResultCard } from "./product-result-card";
 import UiPagination from "@/components/dashboard/pagination/pagination";
 import { useEffect } from "react";
+import { ProductCard } from "@/components/public-store/home/cards/product-card";
 
 export function ProductsResultsContainer({ resetFilters = true }) {
   const filters = useProductsFiltersStore((s) => s.filters);
@@ -58,7 +58,7 @@ export function ProductsResultsContainer({ resetFilters = true }) {
         "
       >
         {products.map((product) => (
-          <ProductResultCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
 
