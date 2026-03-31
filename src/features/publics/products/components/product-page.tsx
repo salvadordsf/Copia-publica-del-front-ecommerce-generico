@@ -14,6 +14,8 @@ import { AddToCartButton } from "../../cart/components/add-to-cart";
 import { useCartStore } from "../../cart/stores/cart-store";
 import { useCartHydrated } from "../../cart/stores/use-cart-hydrated";
 import Image from "next/image";
+import Link from "next/link";
+import { slugify } from "@/utils/slugify";
 
 export const ProductPage = () => {
   //Get the productId from the path
@@ -218,6 +220,14 @@ export const ProductPage = () => {
               <ProductCard key={prod.id} product={prod} />,
             ])}
           />
+          <div className="flex justify-end">
+            <Link
+              className="text-neutral-500 text-md text-right hover:text-neutral-700 underline"
+              href={`/home/categoria/${slugify(product.category.name)}?id=${product.category.id}`}
+            >
+              Ver más relacionados
+            </Link>
+          </div>
         </article>
       )}
     </main>

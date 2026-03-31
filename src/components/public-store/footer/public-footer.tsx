@@ -5,7 +5,7 @@ import { MainNavLogo } from "../main-header/main-nav/main-nav-logo";
 
 export default function MainFooter() {
   return (
-    <footer className="w-full bg-black border-t z-50">
+    <footer className="w-full bg-black border-t z-50 mt-10">
       {/* Content */}
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Logo */}
