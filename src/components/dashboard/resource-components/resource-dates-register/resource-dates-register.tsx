@@ -1,7 +1,8 @@
 import { IGeneralResources } from "@/types/resources/general-resources";
+import { IOrder } from "@/types/resources/order-types";
 
 interface IResourceDatesRegisters {
-  resource: IGeneralResources
+  resource: IGeneralResources | IOrder
 }
 
 export default function ResourceDatesRegisters({
