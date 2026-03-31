@@ -18,14 +18,18 @@ import { useParams } from "next/navigation";
 import { useTagById } from "@/features/admin/tags/services/tags-querys";
 import { useDeleteTag, useUpdateTag } from "@/features/admin/tags/services/tags-mutations";
 import UpdateTagDialog from "@/features/admin/tags/components/update/tags-update-dialog";
+import { ITag } from "@/types/resources/tag-type";
+import { IProduct } from "@/types/resources/product-type";
 
 export default function IdTagPage() {
   const { id } = useParams();
   const {
-    data: { success, data: tag } = {},
+    data,
     isLoading,
     isError,
   } = useTagById(id as string);
+  const tag = data?.success ? data.data : null;
+
   const updateTag = useUpdateTag(id as string);
   const deleteTag = useDeleteTag();
 
@@ -52,7 +56,7 @@ export default function IdTagPage() {
         />
 
         {/* Action btns */}
-        <ResourceActionsHandler
+        <ResourceActionsHandler<ITag>
           resource={tag}
           resourceType="tags"
           updateResourceDialog={
@@ -82,7 +86,7 @@ export default function IdTagPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {tag.products.map((product: any) => (
+                {tag.products.map((product: IProduct) => (
                   <TableRow key={product.id}>
                     <TableCell className="capitalize">{product.name}</TableCell>
                     <TableCell>${product.price}</TableCell>
