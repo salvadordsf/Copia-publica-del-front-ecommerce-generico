@@ -44,7 +44,7 @@ export default function ProductBulkFiltersResults() {
   const {
     data: fullData,
     isLoading: isLoadingFull,
-    isError: isErrorFull,
+    isError: _isErrorFull,
   } = useProducts(
     showPreview
       ? {

@@ -26,7 +26,7 @@ export default function UiSelect({
   items,
   disabled = false,
   className,
-  defaultValue,
+//defaultValue,
 }: UiSelectProps) {
   if (!items) return <div>Error al crear el select</div>;
   return (

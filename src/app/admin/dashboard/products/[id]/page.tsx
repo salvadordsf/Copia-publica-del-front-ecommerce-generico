@@ -15,6 +15,7 @@ import ProductTagsManager from "@/features/admin/products/components/update/prod
 import { GenericItemsSlider } from "@/components/public-store/items-slider/generic-items-slider";
 import { IProduct } from "@/types/resources/product-type";
 import { ITag } from "@/types/resources/tag-type";
+import Image from "next/image";
 
 export default function IdProductPage() {
   const { id } = useParams();
@@ -61,7 +62,7 @@ export default function IdProductPage() {
               }}
               items={product.imageUrls.map((url: string, index: number) => [
                 { id: `${product.id}-img-${index}` },
-                <img
+                <Image
                   key={url}
                   src={url}
                   alt={`${product.name} - imagen ${index + 1}`}
@@ -70,7 +71,7 @@ export default function IdProductPage() {
               ])}
             />
           ) : (
-            <img
+            <Image
               src={
                 product.imageUrls[0] ??
                 "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"

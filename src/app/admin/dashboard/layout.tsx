@@ -2,7 +2,7 @@ import UiSidebar from "@/components/dashboard/sidebar/sidebar";
 import UiSidebarSkeleton from "@/components/dashboard/sidebar/sidebar-skeleton";
 import { CustomSidebarTrigger } from "@/components/public-store/sidebar/public-sidebar-toggle";
 import SidebarWidthResizer from "@/components/sidebar-width/sidebar-width-resizer";
-import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Suspense } from "react";
 
 export default function AdminDashboardLayout({

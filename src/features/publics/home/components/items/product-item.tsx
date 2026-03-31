@@ -3,6 +3,7 @@
 import React from "react";
 import { ItemSection } from "@/types/resources/home-section-types";
 import { ItemCard } from "@/features/admin/store-managment/components/items/items-card";
+import Image from "next/image";
 
 interface ItemProductContentProps {
   item: ItemSection;
@@ -21,7 +22,7 @@ export const ItemProductContent = ({ item }: ItemProductContentProps) => {
     <ItemCard item={item}>
       {/*Image */}
       <div className="relative w-full flex-1 bg-gray-100 overflow-hidden">
-        <img
+        <Image
           src={imageSrc}
           alt={name}
           className="

@@ -11,7 +11,7 @@ import { authClient } from "@/lib/auth-client";
 
 export const MainNav = () => {
   //try to get the user session if exist
-  const { data: session, isPending, error } = authClient.useSession();
+  const { data: session } = authClient.useSession();
 
   const hydrated = useCartHydrated();
   const items = useCartStore((s) => s.items);

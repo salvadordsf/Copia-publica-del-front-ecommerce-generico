@@ -45,7 +45,7 @@ export default function TagList({ query }: Props) {
     ) : (
       <p>
         No se encontraron tags al buscar{" "}
-        <span className="italic font-semibold">"{query.name}"</span>.
+        <span className="italic font-semibold">'{query.name}'</span>.
       </p>
     );
   }

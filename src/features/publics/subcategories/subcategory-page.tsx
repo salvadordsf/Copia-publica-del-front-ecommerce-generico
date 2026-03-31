@@ -18,7 +18,7 @@ export function SubcategoryPage() {
   useEffect(() => {
     resetFilters();
     setSubcategory(subcategoryId ?? undefined);
-  }, []);
+  }, [resetFilters, setSubcategory, subcategoryId]);
 
   const { data, isLoading, error } = useSubcategoryById(subcategoryId!);
 

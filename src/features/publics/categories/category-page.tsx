@@ -20,7 +20,7 @@ export function CategoryPage() {
   useEffect(() => {
     resetFilters();
     setCategory(categoryId ?? undefined);
-  }, []);
+  }, [resetFilters, setCategory, categoryId]);
 
   const { data, isLoading, error } = useCategoryById(categoryId!);
 
@@ -66,7 +66,7 @@ export function CategoryPage() {
             title="Subcategorías"
             items={data.data.subcategories.map((sub) => [
               { id: sub.id },
-              <SubcategoryCard subcategory={sub} />,
+              <SubcategoryCard subcategory={sub} key="subcategories-card-slider"/>,
             ])}
             slidesSpaceConfig={{
               slidesPerView: 2,

@@ -29,7 +29,7 @@ export default function UpdateSubcategoryDialog({
   initialCategoryId,
 }: Props) {
   //Get categories for select
-  let {
+  const {
     data,
     isLoading,
     isError: isErrorGetCategories,
@@ -102,6 +102,7 @@ export default function UpdateSubcategoryDialog({
       serverError={error}
       stepsAry={[
         <UpdateConfirmDialog
+          key="update-confirm-dialog-step"
           resource={[
             {
               label: "Nombre",

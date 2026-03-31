@@ -32,6 +32,9 @@ The admin panel provides full control over the store's content, users, and order
 ![category overview 1](screenshots/ADMIN/categories/categorye%20overview%201.PNG)
 ![category overview 2](screenshots/ADMIN/categories/categorye%20overview%202.PNG)
 
+**Migrate categorie´s products**
+![category migrate products 1](screenshots/ADMIN/categories/category%20migrate%20products.PNG)
+
 ### Subcategories
 ![subcategories overview](screenshots/ADMIN/subcategories/subcategory%20overview.PNG)
 

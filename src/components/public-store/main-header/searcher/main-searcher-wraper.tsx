@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { slugify } from "@/utils/slugify";
 import { IProduct } from "@/types/resources/product-type";
+import Image from "next/image";
 
 export const MiniSearchWrapper = ({
   products,
@@ -66,7 +67,7 @@ export const MiniSearchWrapper = ({
                     href={`/home/producto/${slugify(res.name)}?id=${res.id}`}
                   >
                     <li className="py-2 cursor-pointer hover:bg-neutral-100 px-2 rounded flex items-center gap-3">
-                      <img
+                      <Image
                         src={
                           res.imageUrls?.[0] ??
                           "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"

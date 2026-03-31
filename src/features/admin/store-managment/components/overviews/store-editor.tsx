@@ -6,9 +6,7 @@ import { AddSection } from "../sections/cards/add-section";
 import { SectionCard } from "../sections/cards/section-card";
 import { StoreViewerContainer } from "./store-viewer-conteiner";
 
-interface IStoreEditorProps {}
-
-export const StoreEditor = ({}: IStoreEditorProps) => {
+export const StoreEditor = () => {
   const { data, isLoading, error } = useSections({});
   const sections = data?.success ? data.data : [];
 

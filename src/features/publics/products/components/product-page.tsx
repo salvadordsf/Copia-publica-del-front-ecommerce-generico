@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { AddToCartButton } from "../../cart/components/add-to-cart";
 import { useCartStore } from "../../cart/stores/cart-store";
 import { useCartHydrated } from "../../cart/stores/use-cart-hydrated";
+import Image from "next/image";
 
 export const ProductPage = () => {
   //Get the productId from the path
@@ -28,7 +29,7 @@ export const ProductPage = () => {
     data: products,
     isLoading: isLoadingProducts,
     isError: isErrorProducts,
-  } = useProducts({ categoryId: product?.categoryId!, status: "ACTIVE" });
+  } = useProducts({ categoryId: product?.categoryId, status: "ACTIVE" });
   const relatedProducts = (
     products?.success ? products.data.data! : null
   )?.filter((prod) => prod.id !== productId);
@@ -82,7 +83,7 @@ export const ProductPage = () => {
               }}
               items={imageSrc.map((url, index) => [
                 { id: `${product.id}-img-${index}` },
-                <img
+                <Image
                   key={url}
                   src={url}
                   alt={product.name}
@@ -91,7 +92,7 @@ export const ProductPage = () => {
               ])}
             />
           ) : (
-            <img
+            <Image
               src={imageSrc[0]}
               alt={product.name}
               className="w-full h-auto rounded-xl object-cover"

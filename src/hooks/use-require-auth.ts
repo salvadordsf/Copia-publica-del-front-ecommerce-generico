@@ -45,7 +45,7 @@ export const useRequireRole = (requiredRoles: TUserRoles[]) => {
     return () => {
       isMounted = false;
     };
-  }, [pathname, router]);
+  }, [pathname, router, requiredRoles]);
 
   return { loading, havePermission };
 };

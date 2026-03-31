@@ -39,7 +39,7 @@ export default function OrderList() {
     ) : (
       <p>
         No se encontraron ordenes al buscar{" "}
-        <span className="italic font-semibold">"{filters.search}"</span>.
+        <span className="italic font-semibold">'{filters.search}'</span>.
       </p>
     );
   }

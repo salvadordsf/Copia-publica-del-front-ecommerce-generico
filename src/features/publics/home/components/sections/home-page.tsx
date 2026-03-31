@@ -12,7 +12,7 @@ import { useMemo } from "react";
 
 export const HomePage = () => {
   const { data } = useHome();
-  const sections = data?.success ? data.data : [];
+  const sections = useMemo(() => (data?.success ? data.data : []), [data]);
 
   const firstAnnouncement = useMemo(
     () =>

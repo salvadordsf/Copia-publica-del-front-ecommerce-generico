@@ -6,6 +6,7 @@ import { A11y, Autoplay } from "swiper/modules";
 import "swiper/swiper.css";
 
 import { HomeSection } from "@/types/resources/home-section-types";
+import Image from "next/image";
 
 interface BannerCarouselProps {
   section: HomeSection;
@@ -39,18 +40,18 @@ export const BannerCarousel = ({ section }: BannerCarouselProps) => {
           const banner = (
             <div className="w-full h-full flex items-center justify-center">
               {/* Image */}
-              <img
-                src={item.imageUrl}
+              <Image
+                src={item.imageUrl!}
                 alt={item.title ?? `Banner ${index + 1}`}
                 loading="lazy"
                 decoding="async"
                 className="
-          h-full
-          w-auto
-          max-w-full
-          object-contain
-          select-none
-        "
+                  h-full
+                  w-auto
+                  max-w-full
+                  object-contain
+                  select-none
+                "
               />
 
               {/* Overlay */}

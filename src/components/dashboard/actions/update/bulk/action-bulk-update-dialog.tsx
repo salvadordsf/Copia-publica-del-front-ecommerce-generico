@@ -94,7 +94,7 @@ export default function BulkUpdateDialog<TFormValues extends FieldValues>({
 
   useEffect(() => {
     if (open) useFormMethods.reset();
-  }, [open]);
+  }, [open, useFormMethods]);
 
   // keys values Translate
   const translateKey = (key: string) => {
@@ -159,7 +159,7 @@ export default function BulkUpdateDialog<TFormValues extends FieldValues>({
                 <h3 className="font-semibold text-lg">Cambios a aplicar:</h3>
                 <div className="border p-3 rounded-md bg-muted/30">
                   {Object.entries(formData as TFormValues)
-                    .filter(([_, value]) => value !== "" && value !== undefined)
+                    .filter(([_k, value]) => value !== "" && value !== undefined)
                     .map(([key, value]) => (
                       <p key={key}>
                         <span className="font-medium capitalize">

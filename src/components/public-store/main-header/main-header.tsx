@@ -8,7 +8,7 @@ import { AnnouncementCarousel } from "@/features/publics/home/components/section
 
 export const MainHeader = () => {
   const { data, isLoading } = useHome();
-  const sections = data?.success ? data.data : [];
+  const sections = useMemo(() => (data?.success ? data.data : []), [data]);
 
   const firstAnnouncement = useMemo(
     () =>

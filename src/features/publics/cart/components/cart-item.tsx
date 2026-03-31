@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useProductById } from "@/features/admin/products/services/products-querys";
 import { useCartHydrated } from "../stores/use-cart-hydrated";
 import { useCartStore } from "../stores/cart-store";
+import Image from "next/image";
 
 interface CartItemProps {
   productId: string;
@@ -54,7 +55,7 @@ export function CartItem({ productId, quantity }: CartItemProps) {
       <div className="flex gap-4">
         {/*Image*/}
         <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg border">
-          <img
+          <Image
             src={image}
             alt={product.name}
             className="h-full w-full object-cover"

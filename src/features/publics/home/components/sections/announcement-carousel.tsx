@@ -30,7 +30,7 @@ export const AnnouncementCarousel = ({
         {section.items.map((item) => {
           const content = (
             <span className="truncate text-xs tracking-wide text-neutral-100 font-semibold">
-              {item.title.toUpperCase()}
+              {item.title!.toUpperCase()}
             </span>
           );
 

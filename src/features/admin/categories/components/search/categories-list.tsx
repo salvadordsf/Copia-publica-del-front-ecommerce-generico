@@ -46,7 +46,7 @@ export default function CategoryList({ query }: Props) {
     ) : (
       <p>
         No se encontraron categorías al buscar{" "}
-        <span className="italic font-semibold">"{query.name}"</span>.
+        <span className="italic font-semibold">'{query.name}'</span>.
       </p>
     );
   }

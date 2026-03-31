@@ -1,11 +1,12 @@
 import { ItemSection } from "@/types/resources/home-section-types";
+import Image from "next/image";
 
 export const ImageItem = ({ item }: { item: ItemSection }) => {
   if (!item.imageUrl) return null;
 
   return (
     <div className="relative overflow-hidden rounded-xl bg-gray-100 shadow-sm">
-      <img
+      <Image
         src={item.imageUrl}
         alt={item.title ?? "Imagen"}
         className="w-full h-full object-cover aspect-[4/3]"

@@ -45,7 +45,7 @@ export default function ResourceActionsHandler<T>({
   updateResourceAction,
   deleteResourceAction,
 }: ResourceActionsHandlerProps<T>) {
-  let resourceEsName: string = getSpResourceName(resourceType);
+  const resourceEsName: string = getSpResourceName(resourceType);
 
   const router = useRouter();
 

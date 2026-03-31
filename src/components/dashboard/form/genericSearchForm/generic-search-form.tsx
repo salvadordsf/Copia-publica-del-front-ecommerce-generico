@@ -204,7 +204,6 @@ export default function GenericSearchForm({
                   width={15} 
                   color="green" className="cursor-pointer hover:-rotate-45 transition-all"
                   onClick={() => {
-                    let fieldName = field.name;
                     switch (field.name) {
                       case "price":
                         setValue("priceMin", undefined);

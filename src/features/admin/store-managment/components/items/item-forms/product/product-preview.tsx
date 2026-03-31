@@ -48,7 +48,7 @@ export default function ProductPreview({
   const {
     data: fullDataResponse,
     isLoading: isLoadingFull,
-    isError: isErrorFull,
+    isError: _isErrorFull,
   } = useProducts(
     showPreview
       ? {
@@ -99,6 +99,7 @@ export default function ProductPreview({
       }
     } catch (e) {
       toast.error("Error al agregar todos los productos a la sección");
+      console.error(e);
     } finally {
       setIsCreating(false);
       closeDialog();

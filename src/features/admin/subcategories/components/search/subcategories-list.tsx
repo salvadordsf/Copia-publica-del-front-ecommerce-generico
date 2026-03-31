@@ -47,7 +47,7 @@ export default function SubcategoryList({ query }: Props) {
     ) : (
       <p>
         No se encontraron subcategorías al buscar{" "}
-        <span className="italic font-semibold">"{query.name}"</span>.
+        <span className="italic font-semibold">'{query.name}'</span>.
       </p>
     );
   }

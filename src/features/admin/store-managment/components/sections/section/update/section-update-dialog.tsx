@@ -126,6 +126,7 @@ export default function UpdateSectionDialog({
       serverError={error}
       stepsAry={[
         <UpdateConfirmDialog
+          key="updateConfirm-sialog-step"
           resource={[
             {
               label: "Posición",

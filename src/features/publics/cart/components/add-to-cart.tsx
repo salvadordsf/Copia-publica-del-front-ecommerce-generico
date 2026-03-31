@@ -17,7 +17,7 @@ export function AddToCartButton({ product, quantity }: AddToCartButtonProps) {
   const hydrated = useCartHydrated();
 
   //try to get the user session if exist
-  const { data: session, isPending, error } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const router = useRouter();
 
   const addItem = useCartStore((s) => s.addItem);

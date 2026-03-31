@@ -37,7 +37,7 @@ export default function UserList() {
     ) : (
       <p>
         No se encontraron usuarios al buscar{" "}
-        <span className="italic font-semibold">"{filters.search}"</span>.
+        <span className="italic font-semibold">'{filters.search}'</span>.
       </p>
     );
   }

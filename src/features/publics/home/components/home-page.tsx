@@ -12,7 +12,7 @@ import { GridSection } from "./sections/grid";
 
 export const HomePage = () => {
   const { data } = useHome();
-  const sections = data?.success ? data.data : [];
+  const sections = useMemo( () => (data?.success ? data.data : []), [data])
 
   const firstAnnouncement = useMemo(
     () =>

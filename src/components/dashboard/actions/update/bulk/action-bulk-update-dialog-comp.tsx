@@ -53,8 +53,8 @@ export function BulkUpdateDialogComponent<
 
   const {
     data,
-    isLoading: isLoadingCategories,
-    isError: getCategoriesError,
+    isLoading: _isLoadingCategories,
+    isError: _getCategoriesError,
   } = useCategories({ subcategories: true });
   const categories = data?.success ? data.data : [];
 

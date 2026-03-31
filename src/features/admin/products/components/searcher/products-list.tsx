@@ -47,7 +47,7 @@ export default function ProductList() {
     ) : (
       <p>
         No se encontraron products al buscar{" "}
-        <span className="italic font-semibold">"{filters.search}"</span>.
+        <span className="italic font-semibold">'{filters.search}'</span>.
       </p>
     );
   }

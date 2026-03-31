@@ -72,6 +72,7 @@ export default function UpdateCategoryDialog({
       serverError={error}
       stepsAry={[
         <UpdateConfirmDialog
+          key="update-confirm-dialog-step"
           resource={[
             {
               label: "Nombre",

@@ -3,6 +3,7 @@ import { IProduct } from "@/types/resources/product-type";
 import { cn } from "@/lib/utils";
 import { slugify } from "@/utils/slugify";
 import Link from "next/link";
+import Image from "next/image";
 
 export const ProductCard = ({ product }: { product: IProduct }) => {
   const imageSrc =
@@ -28,7 +29,7 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
       >
         {/* Image */}
         <div className="w-full h-[70%] bg-gray-100">
-          <img
+          <Image
             src={imageSrc}
             alt={product.name}
             className="w-full h-full object-cover"

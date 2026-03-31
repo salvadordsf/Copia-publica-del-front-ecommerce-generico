@@ -165,6 +165,7 @@ export default function UpdateProductDialog({ product }: Props) {
       serverError={error}
       stepsAry={[
         <UpdateConfirmDialog
+          key="update-confirm-dialog-step"
           resource={[
             {
               label: "Nombre",

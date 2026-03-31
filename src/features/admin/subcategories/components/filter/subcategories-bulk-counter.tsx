@@ -38,7 +38,7 @@ export default function SubcategoriesBulkFiltersResults() {
   const {
     data: subsWithCatsData,
     isLoading: isLoadingFull,
-    isError: isErrorFull,
+    isError: _isErrorFull,
   } = useSubcategories(showPreview ? { category: true, ...filters } : {});
   const subcategoriesWithCats = subsWithCatsData?.success
     ? subsWithCatsData.data

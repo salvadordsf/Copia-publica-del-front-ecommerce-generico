@@ -17,7 +17,7 @@ export function ProductsResultsContainer({ resetFilters = true }) {
     if (resetFilters) {
       reset();
     }
-  }, []);
+  }, [resetFilters, reset]);
 
   const { data, isLoading, isError } = useProducts(filters);
 

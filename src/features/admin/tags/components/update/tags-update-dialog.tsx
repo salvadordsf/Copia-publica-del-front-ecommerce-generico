@@ -66,6 +66,7 @@ export default function UpdateTagDialog({ tagId, initialName }: Props) {
       serverError={error}
       stepsAry={[
         <UpdateConfirmDialog
+          key="update-confirm-dialog-step"
           resource={[
             {
               label: "Nombre",

@@ -176,6 +176,7 @@ export default function UpdateOrderDialog({ order }: { order: IOrder }) {
       serverError={error}
       stepsAry={[
         <UpdateConfirmDialog
+          key="update-confirm-dialog-step"
           resource={[
             {
               label: "Estado",

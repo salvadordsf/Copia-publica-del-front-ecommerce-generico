@@ -66,8 +66,14 @@ export default function AddCategoryForm({
 
     try {
       const idsToCreate = data.categoryIds.filter((id) => {
-        const isAlreadyOn = items.some((item: ItemSection) => item.categoryId === id);
-        isAlreadyOn ? isAlready++ : isNotAlready++;
+        const isAlreadyOn = items.some(
+          (item: ItemSection) => item.categoryId === id,
+        );
+        if (isAlreadyOn) {
+          isAlready++;
+        } else {
+          isNotAlready++;
+        }
         return !isAlreadyOn;
       });
 
@@ -94,6 +100,7 @@ export default function AddCategoryForm({
       }
     } catch (error) {
       toast.error("Error al agregar categoria/s");
+      console.error(error);
     } finally {
       isAlready = 0;
       isNotAlready = 0;

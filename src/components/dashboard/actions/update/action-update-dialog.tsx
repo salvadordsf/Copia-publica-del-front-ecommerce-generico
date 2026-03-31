@@ -68,7 +68,7 @@ export default function UpdateDialog<TFormValues extends FieldValues>({
     if (open) {
       useFormMethods.reset();
     }
-  }, [open]);
+  }, [open, useFormMethods]);
 
   //Dialog steps
   const [step, setStep] = useState<number>(1);

@@ -21,8 +21,7 @@ export const AddSectionForm = ({}) => {
   const router = useRouter();
 
   const { data, isLoading, error: getError } = useSections({});
-  const sections = data?.success ? data.data : [];
-
+  
   const {
     mutate,
     isPending: isCreating,
@@ -39,11 +38,14 @@ export const AddSectionForm = ({}) => {
     { value: "CUSTOM", label: "Personalizado" },
   ];
 
+  const sections = useMemo(() => (data?.success ? data.data : []), [data])
+
   const positionsAbl = useMemo(() => {
+
     const length = sections?.length ?? 0;
 
     return Array.from({ length: length + 1 }, (_, i) => i + 1);
-  }, [sections]);
+  }, []);
 
   const methods = useForm<ICreateSection>({
     resolver: zodResolver(CreateSectionSchema),

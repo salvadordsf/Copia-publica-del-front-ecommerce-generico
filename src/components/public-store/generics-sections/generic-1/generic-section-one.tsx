@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingBag, Truck, ShieldCheck } from "lucide-react";
 import TextSlider from "./generic-text-slider";
