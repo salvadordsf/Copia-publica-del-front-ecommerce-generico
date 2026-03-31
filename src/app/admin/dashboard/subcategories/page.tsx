@@ -1,4 +1,3 @@
-import UiBreadcrumb from "@/components/dashboard/breadcrumb/breadcrumb";
 import UiDivider from "@/components/dashboard/divider/divider";
 import CreateSubcategoryForm from "@/features/admin/subcategories/components/create/subcategories-create-form";
 import SubcategorySearcher from "@/features/admin/subcategories/components/search/subcategories-searcher";
