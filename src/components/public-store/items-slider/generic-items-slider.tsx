@@ -8,6 +8,7 @@ import { ReactElement } from "react";
 import { GenericItemsCard } from "./generic-items-card";
 import { GenericNextSliderBtn } from "./generic-next-slider";
 import { GenericPrevSliderBtn } from "./generic-prev-slider";
+import { cn } from "@/lib/utils";
 
 interface IGenericItemsSliderProps {
   itemsType: string;
@@ -48,7 +49,25 @@ export const GenericItemsSlider = ({
 
   return (
     <div className="p-2">
-      {title && <h3 className={isHomePageSlider ? "text-2xl font-bold pb-5" : "pb-2"}>{title}</h3>}
+      {title && (
+        <div
+          className={cn(
+            "flex flex-col gap-1",
+            isHomePageSlider ? "pb-6" : "pb-2",
+          )}
+        >
+          <h3
+            className={cn(
+              isHomePageSlider
+                ? "text-2xl font-semibold tracking-tight text-neutral-900"
+                : "text-sm font-medium text-neutral-500",
+            )}
+          >
+            {title}
+          </h3>
+          {isHomePageSlider && <div className="h-px w-8 bg-neutral-300" />}
+        </div>
+      )}
       <div className="relative">
         {btns && <GenericPrevSliderBtn id={btns.prev} />}
         <Swiper

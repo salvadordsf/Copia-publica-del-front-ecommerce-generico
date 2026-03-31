@@ -39,7 +39,14 @@ export const GridSection = ({ section }: GridSectionProps) => {
 
   return (
     <section className="p-2 my-2">
-      {section.title && <h3 className="text-2xl font-bold pb-5">{section.title}</h3>}
+      {section.title && (
+        <div className="flex flex-col gap-1 pb-6">
+          <h3 className="text-2xl font-semibold tracking-tight text-neutral-900">
+            {section.title}
+          </h3>
+          <div className="h-px w-8 bg-neutral-300" />
+        </div>
+      )}
       <div
         className="
           grid

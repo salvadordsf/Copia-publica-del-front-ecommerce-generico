@@ -14,13 +14,13 @@ export const CategoryCard = ({ category }: CategoryCardProps) => {
     <Link
       href={`/home/categoria/${slugify(category.name)}?id=${category.id}`}
       className={cn(
-        "group flex h-18 w-full max-w-[160px] items-center justify-center",
-        "rounded-xl border border-neutral-200 bg-white",
-        "transition-all duration-200 ease-out",
-        "hover:border-neutral-300 hover:shadow-md",
+        "group flex h-16 w-full max-w-[160px] items-center justify-center",
+        "rounded-xl border border-neutral-100 bg-white",
+        "shadow-sm transition-all duration-300 ease-out",
+        "hover:-translate-y-0.5 hover:shadow-md hover:border-neutral-200 mb-0.5",
       )}
     >
-      <span className="px-3 text-center text-xs font-semibold uppercase tracking-wide text-neutral-800 md:text-sm">
+      <span className="px-4 text-center text-[11px] font-medium tracking-wide text-neutral-500 group-hover:text-neutral-800 transition-colors duration-300">
         {category.name}
       </span>
     </Link>
