@@ -96,7 +96,7 @@ export default function GenericSearchForm({
                           label: option.label,
                         }))}
                         disabled={false}
-                        defaultValue={field.defaultValue}
+                        defaultValue={field.defaultValue as string | undefined}
                       />
                     )}
                   />
@@ -140,7 +140,7 @@ export default function GenericSearchForm({
                         label: option.label,
                       }))}
                       disabled={false}
-                      defaultValue={field.defaultValue}
+                      defaultValue={field.defaultValue as string | undefined}
                     />
                   )}
                 />
@@ -259,7 +259,7 @@ export default function GenericSearchForm({
                   render={({ field: controllerField }) => (
                     <UiSlider
                       field={controllerField}
-                      defaultValue={field.defaultValue}
+                      defaultValue={field.defaultValue as number}
                       min={field.min as number}
                       max={field.max as number}
                       step={field.step}
