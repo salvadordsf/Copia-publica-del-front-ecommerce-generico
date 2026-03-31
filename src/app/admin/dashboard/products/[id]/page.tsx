@@ -13,14 +13,18 @@ import ResourceActionsHandler from "@/components/dashboard/actions/actions-handl
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ProductTagsManager from "@/features/admin/products/components/update/product-tags-manager";
 import { GenericItemsSlider } from "@/components/public-store/items-slider/generic-items-slider";
+import { IProduct } from "@/types/resources/product-type";
+import { ITag } from "@/types/resources/tag-type";
 
 export default function IdProductPage() {
   const { id } = useParams();
   const {
-    data: { success, data: product } = {},
+    data,
     isLoading,
     isError,
   } = useProductById(id as string);
+  const product = data?.success ? data.data : null;
+
   const updateProduct = useUpdateProduct(id as string);
   const deleteProduct = useDeleteProducts();
 
@@ -93,7 +97,7 @@ export default function IdProductPage() {
         />
 
         {/* Action btns */}
-        <ResourceActionsHandler
+        <ResourceActionsHandler<IProduct>
           resource={product}
           resourceType="products"
           updateResourceDialog={<UpdateProductDialog product={product} />}
@@ -102,7 +106,7 @@ export default function IdProductPage() {
         />
         <ProductTagsManager
           product={product}
-          initialTags={product.tags.map((t: any) => t.id)}
+          initialTags={product.tags.map((t: ITag) => t.id)}
         />
       </div>
     </>
