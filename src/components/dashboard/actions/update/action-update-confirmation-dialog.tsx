@@ -30,8 +30,8 @@ const detectFieldUtil = (value: string | undefined) => {
 
 export default function UpdateConfirmDialog({ resource }: Props) {
   //Edited fields values
-  const editedFieldsAry: any[] = resource.filter((item) => {
-    console.log(item)
+  const editedFieldsAry = resource.filter((item) => {
+    console.log(item);
     if (item && item.original !== item.edited)
       return [item.original, item.edited];
   });
@@ -44,8 +44,9 @@ export default function UpdateConfirmDialog({ resource }: Props) {
           <div
             key={item.label}
             className={
-              item.alert &&
-              "p-2 rounded-lg bg-yellow-200 border-2 border-yellow-400"
+              item.alert
+                ? "p-2 rounded-lg bg-yellow-200 border-2 border-yellow-400"
+                : ""
             }
           >
             <strong className="font-bold">
@@ -67,7 +68,8 @@ export default function UpdateConfirmDialog({ resource }: Props) {
   } else {
     return (
       <p className="text-center text-neutral-500 cursor-pointe">
-        No se han modificado propiedades. Vuelva al paso anterior para editar el recurso o cancele la acción para dejar de editar.
+        No se han modificado propiedades. Vuelva al paso anterior para editar el
+        recurso o cancele la acción para dejar de editar.
       </p>
     );
   }
