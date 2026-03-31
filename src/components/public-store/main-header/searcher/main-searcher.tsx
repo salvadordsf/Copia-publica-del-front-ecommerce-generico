@@ -5,12 +5,13 @@ import { MiniSearchWrapper } from "./main-searcher-wraper";
 
 export function MainSearcher() {
   const { data, isLoading } = useSearchProducts();
-  const products = data ?? [];
+
+  if (!data) return null;
 
   return (
     <MiniSearchWrapper
-      key={products.length}
-      products={products}
+      key={data?.length}
+      products={data}
       isLoading={isLoading}
     />
   );
