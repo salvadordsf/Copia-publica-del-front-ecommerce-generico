@@ -48,7 +48,7 @@ export default function UpdateCategoryDialog({
   };
 
   return (
-    <UpdateDialog
+    <UpdateDialog<IUpdateCategory>
       useFormMethods={methods}
       openState={[open, setOpen]}
       dialogConfig={{
