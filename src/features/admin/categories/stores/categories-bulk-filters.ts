@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import { IFilterBulkCategoryQuery } from "../../schemas/categories-schema";
+import { IFilterBulkCategoryQuery } from "../schemas/categories-schema";
 
-interface ICategoriesFilters {
+export interface ICategoriesFilters {
   filters: IFilterBulkCategoryQuery;
   setFilters: (filters: Partial<IFilterBulkCategoryQuery>) => void;
   resetFilters: () => void;
