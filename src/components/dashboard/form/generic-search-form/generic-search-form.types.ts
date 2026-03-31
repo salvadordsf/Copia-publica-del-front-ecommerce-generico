@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 export interface GenericFormField {
   className?: string;
@@ -17,7 +18,7 @@ export interface GenericFormField {
     uxMinMax?: boolean;
     uxSteps?: boolean;
   };
-  defaultValue?: any;
+  defaultValue?: string | number;
   min?: number;
   max?: number;
   step?: number;
@@ -29,7 +30,7 @@ export interface IGenericSearchFormProps {
   defaultFields: GenericFormField[];
   filtersFields: GenericFormField[];
   className?: string;
-  onSubmitAction: (data: any) => void;
+  onSubmitAction: SubmitHandler<FieldValues> | ((data: FieldValues) => void) | (() => void);
   resetFiltersAction: () => void;
   children?: ReactNode;
 }

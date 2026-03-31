@@ -29,7 +29,7 @@ export default function GenericSearchForm({
 
   //toggle open extra filters
   const [openFilters, setOpenFilters] = useState<boolean>(false);
-  console.log(filtersFields);
+  
   return (
     <form
       onSubmit={handleSubmit(onSubmitAction)}
@@ -127,7 +127,7 @@ export default function GenericSearchForm({
                           disabled: false,
                         }))}
                         disabled={false}
-                        defaultValue={field.defaultValue}
+                        defaultValue={field.defaultValue as string | undefined}
                       />
                     )}
                   />
@@ -172,7 +172,7 @@ export default function GenericSearchForm({
                       disabled: false,
                     }))}
                     disabled={false}
-                    defaultValue={field.defaultValue}
+                    defaultValue={field.defaultValue as string | undefined}
                   />
                 )}
               />
@@ -321,7 +321,7 @@ export default function GenericSearchForm({
                   render={({ field: controllerField }) => (
                     <UiSlider
                       field={controllerField}
-                      defaultValue={field.defaultValue}
+                      defaultValue={field.defaultValue as number}
                       min={field.min as number}
                       max={field.max as number}
                       step={field.step}
