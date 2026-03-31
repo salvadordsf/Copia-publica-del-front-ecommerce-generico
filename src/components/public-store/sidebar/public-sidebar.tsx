@@ -33,13 +33,17 @@ import UiAdminFooterSidebar from "@/features/admin/dashboard/components/layout/s
 import { slugify } from "@/utils/slugify";
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
 import { CustomSidebarTrigger } from "./public-sidebar-toggle";
+import { ISubcategory } from "@/types/resources/subcategory-type";
 
 export default function PublicSidebar() {
   //get the pathname for chek active links
   const pathname = usePathname();
 
   //get the categories + subcategories
-  const { data, isLoading, isError } = useCategories({ subcategories: true });
+  const { data, isLoading, isError } = useCategories({
+    subcategories: true,
+    status: "ACTIVE",
+  });
 
   //create a boolean helper to get the active path
   const isActive = (url: string) => pathname === url;
@@ -52,7 +56,7 @@ export default function PublicSidebar() {
           <SidebarMenuItem>
             <div className="flex flex-row-reverse justify-between">
               <MainNavLogo />
-              <CustomSidebarTrigger className="max-[1600px]:block min-[1600px]:hidden"/>
+              <CustomSidebarTrigger className="max-[1600px]:block min-[1600px]:hidden" />
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -72,7 +76,7 @@ export default function PublicSidebar() {
         </SidebarMenu>
 
         {/* Categories*/}
-        {!isLoading && !isError && data && data.success &&(
+        {!isLoading && !isError && data && data.success && (
           <Collapsible className="group/collapsible">
             <SidebarGroup>
               <SidebarGroupLabel asChild>
@@ -131,6 +135,9 @@ export default function PublicSidebar() {
                             <CollapsibleContent className="w-[90%]">
                               <SidebarMenu className="ml-4 mt-1 space-y-1">
                                 {[...cat.subcategories]
+                                  .filter((sub: ISubcategory) => {
+                                    if (sub.status === "ACTIVE") return sub;
+                                  })
                                   .sort((a, b) => a.name.localeCompare(b.name))
                                   .map((sub) => (
                                     <SidebarMenuItem
