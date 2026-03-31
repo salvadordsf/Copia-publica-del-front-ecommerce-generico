@@ -1,11 +1,7 @@
+import { IGeneralResources } from "@/types/resources/general-resources";
+
 interface IResourceDatesRegisters {
-  resource: {
-    createdAt: string | Date;
-    updatedAt: string | Date;
-    archivedAt: string | undefined;
-    deletedAt: string | undefined;
-    status: "ACTIVE" | "ARCHIVED" | "DELETED";
-  };
+  resource: IGeneralResources
 }
 
 export default function ResourceDatesRegisters({
