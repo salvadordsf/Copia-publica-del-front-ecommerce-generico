@@ -18,7 +18,7 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
     >
       <div
         className={cn(
-          "relative flex flex-col overflow-hidden rounded-2xl bg-white",
+          "relative h-full flex flex-col overflow-hidden rounded-2xl bg-white",
           "border border-neutral-100 shadow-sm",
           "transition-all duration-300 ease-out",
           "hover:-translate-y-0.5 hover:shadow-md hover:border-neutral-200",

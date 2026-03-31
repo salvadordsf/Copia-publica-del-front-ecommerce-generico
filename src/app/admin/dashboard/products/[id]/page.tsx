@@ -19,11 +19,7 @@ import Image from "next/image";
 
 export default function IdProductPage() {
   const { id } = useParams();
-  const {
-    data,
-    isLoading,
-    isError,
-  } = useProductById(id as string);
+  const { data, isLoading, isError } = useProductById(id as string);
   const product = data?.success ? data.data : null;
 
   const updateProduct = useUpdateProduct(id as string);
@@ -65,6 +61,9 @@ export default function IdProductPage() {
                 <Image
                   key={url}
                   src={url}
+                  width={500}
+                  height={500}
+                  priority
                   alt={`${product.name} - imagen ${index + 1}`}
                   className="w-full h-48 rounded-xl object-cover"
                 />,
@@ -76,6 +75,9 @@ export default function IdProductPage() {
                 product.imageUrls[0] ??
                 "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
               }
+              width={500}
+              height={500}
+              priority
               alt={product.name}
               className="w-full h-48 rounded-xl object-cover"
             />

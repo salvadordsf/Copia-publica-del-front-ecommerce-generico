@@ -66,14 +66,16 @@ export const MiniSearchWrapper = ({
                     key={res.id}
                     href={`/home/producto/${slugify(res.name)}?id=${res.id}`}
                   >
-                    <li className="py-2 cursor-pointer hover:bg-neutral-100 px-2 rounded flex items-center gap-3">
+                    <li className="relative py-2 cursor-pointer hover:bg-neutral-100 px-2 rounded flex items-center gap-3">
                       <Image
                         src={
                           res.imageUrls?.[0] ??
                           "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
                         }
+                        width={30}
+                        height={30}
                         alt={res.name}
-                        className="w-8 h-8 object-cover rounded-md flex-shrink-0"
+                        className="w-10 h-10 object-cover rounded-md flex-shrink-0"
                       />
                       <div className="flex flex-col min-w-0">
                         <span className="font-medium truncate">{res.name}</span>
