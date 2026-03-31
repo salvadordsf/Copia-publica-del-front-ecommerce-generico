@@ -3,7 +3,6 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -30,11 +29,13 @@ import {
   Store,
   ChevronDown,
   LayoutTemplate,
+  LucideProps,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import UiAdminFooterSidebar from "@/features/admin/dashboard/components/layout/sidebar/admin-sidebar-footer";
 import { MainNavLogo } from "@/components/public-store/main-header/main-nav/main-nav-logo";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 interface ISidebarProps {
   title: string;
@@ -45,7 +46,9 @@ export default function UiSidebar({ title }: ISidebarProps) {
 
   interface IItemObj {
     type: "item";
-    icon: any;
+    icon: ForwardRefExoticComponent<
+      Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+    >;
     title: string;
     url: string;
     isActive: boolean;
@@ -219,7 +222,7 @@ export default function UiSidebar({ title }: ISidebarProps) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
-          )
+          ),
         )}
       </SidebarContent>
       <UiAdminFooterSidebar />
