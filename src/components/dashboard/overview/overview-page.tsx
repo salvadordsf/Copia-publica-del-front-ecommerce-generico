@@ -21,56 +21,92 @@ import { KpiCard } from "./kpi-card";
 import { QuickLink } from "./quick-link";
 
 const QUICK_LINKS = [
-  { href: "/admin/users", label: "Usuarios", icon: Users },
-  { href: "/admin/orders", label: "Órdenes", icon: ShoppingCart },
-  { href: "/admin/products", label: "Productos", icon: Package },
-  { href: "/admin/categories", label: "Categorías", icon: Folder },
-  { href: "/admin/subcategories", label: "Subcategorías", icon: FolderTree },
-  { href: "/admin/tags", label: "Tags", icon: Tags },
+  { href: "/admin/dashboard/users", label: "Usuarios", icon: Users },
+  { href: "/admin/dashboard/orders", label: "Órdenes", icon: ShoppingCart },
+  { href: "/admin/dashboard/products", label: "Productos", icon: Package },
+  { href: "/admin/dashboard/categories", label: "Categorías", icon: Folder },
+  {
+    href: "/admin/dashboard/subcategories",
+    label: "Subcategorías",
+    icon: FolderTree,
+  },
+  { href: "/admin/dashboard/tags", label: "Tags", icon: Tags },
 
   {
-    href: "/admin/bulk/products",
+    href: "/admin/dashboard/bulk/products",
     label: "Acciones - Productos",
     icon: Layers,
   },
   {
-    href: "/admin/bulk/categories",
+    href: "/admin/dashboard/bulk/categories",
     label: "Acciones - Categorías",
     icon: Folder,
   },
   {
-    href: "/admin/bulk/subcategories",
+    href: "/admin/dashboard/bulk/subcategories",
     label: "Acciones - Subcategorías",
     icon: FolderTree,
   },
-  { href: "/admin/bulk/tags", label: "Acciones - Tags", icon: Tags },
+  { href: "/admin/dashboard/bulk/tags", label: "Acciones - Tags", icon: Tags },
 
-  { href: "/admin/sales", label: "Ventas", icon: DollarSign },
-  { href: "/admin/store", label: "Gestor de tienda", icon: Store },
+  { href: "/admin/dashboard/sales", label: "Ventas", icon: DollarSign },
+  { href: "/admin/dashboard/store", label: "Gestor de tienda", icon: Store },
 ];
 
 export default function AdminDashboardOverviewPage() {
-  const {
-    data: { success: successUsers, data: users } = {},
-    isLoading: loadingUsers,
-  } = useUsers({ status: "ACTIVE", pageSize: "10" });
-  const {
-    data: { success: successOrders, data: orders } = {},
-    isLoading: loadingOrders,
-  } = useOrders({
+  const { data: userResponse, isLoading: loadingUsers } = useUsers({
+    status: "ACTIVE",
+    pageSize: "10",
+  });
+  const usersData = userResponse?.success
+    ? userResponse.data
+    : {
+        data: [],
+        pagination: {
+          currentPage: 1,
+          totalPages: 1,
+          pageSize: 10,
+          totalItems: 0,
+        },
+      };
+
+  const { data: ordersResponse, isLoading: loadingOrders } = useOrders({
     status: "PAID",
     pageSize: "1000",
     sortBy: "updatedAt",
     sortOrder: "desc",
   });
-  const {
-    data: { success: successProducts, data: products } = {},
-    isLoading: loadingProducts,
-  } = useProducts({ status: "ACTIVE", pageSize: "10" });
+  const ordersData = ordersResponse?.success
+    ? ordersResponse.data
+    : {
+        data: [],
+        pagination: {
+          currentPage: 1,
+          totalPages: 1,
+          pageSize: 10,
+          totalItems: 0,
+        },
+      };
 
-  const monthlyEarnings = orders
-    ? orders.data.reduce(
-        (sum: string, order: IOrder) => Number(sum) + Number(order.totalAmount),
+  const { data: productsResponse, isLoading: loadingProducts } = useProducts({
+    status: "ACTIVE",
+    pageSize: "10",
+  });
+  const products = productsResponse?.success
+    ? productsResponse.data
+    : {
+        data: [],
+        pagination: {
+          currentPage: 1,
+          totalPages: 1,
+          pageSize: 10,
+          totalItems: 0,
+        },
+      };
+
+  const monthlyEarnings = ordersData
+    ? ordersData.data.reduce(
+        (sum: number, order: IOrder) => sum + Number(order.totalAmount),
         0,
       )
     : 0;
@@ -82,27 +118,27 @@ export default function AdminDashboardOverviewPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        {loadingUsers || !successUsers ? (
+        {loadingUsers || !userResponse?.success ? (
           <KpiCard title="Usuarios" value="0" icon={<Users />} />
         ) : (
           <KpiCard
             title="Usuarios"
-            value={users.pagination.totalItems.toString() || "0"}
+            value={usersData.pagination.totalItems.toString() || "0"}
             icon={<Users />}
           />
         )}
 
-        {loadingOrders || !successOrders ? (
+        {loadingOrders || !ordersResponse?.success ? (
           <KpiCard title="Órdenes pagadas" value="0" icon={<ShoppingCart />} />
         ) : (
           <KpiCard
             title="Órdenes pagadas"
-            value={orders.pagination.totalItems.toString() || "0"}
+            value={ordersData.pagination.totalItems.toString() || "0"}
             icon={<ShoppingCart />}
           />
         )}
 
-        {loadingProducts || !successProducts || !products ? (
+        {loadingProducts || !productsResponse?.success || !products ? (
           <KpiCard title="Productos" value="0" icon={<Package />} />
         ) : (
           <KpiCard
@@ -112,7 +148,7 @@ export default function AdminDashboardOverviewPage() {
           />
         )}
 
-        {loadingOrders || !successOrders ? (
+        {loadingOrders || !ordersResponse?.success ? (
           <KpiCard title="Ganancias del mes" value="0" icon={<TrendingUp />} />
         ) : (
           <KpiCard
