@@ -2,7 +2,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { ControllerRenderProps } from "react-hook-form";
  
 interface ITextarea {
-  field: ControllerRenderProps<any, any>;
+  field: ControllerRenderProps;
   placeholder: string;
 }
 

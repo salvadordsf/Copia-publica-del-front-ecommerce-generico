@@ -10,7 +10,7 @@ import {
 import { ControllerRenderProps } from "react-hook-form";
 
 interface UiSelectProps {
-  field: ControllerRenderProps<any, any>;
+  field: ControllerRenderProps;
   placeholder?: string;
   label: string;
   items: { value: string | boolean; label: string, disabled?: boolean }[] | undefined;

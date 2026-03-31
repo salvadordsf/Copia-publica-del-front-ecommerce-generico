@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ControllerRenderProps } from "react-hook-form";
 
 interface UiSliderProps {
-  field: ControllerRenderProps<any, any>;
+  field: ControllerRenderProps;
   defaultValue: number;
   min: number;
   max: number;
