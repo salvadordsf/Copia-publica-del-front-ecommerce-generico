@@ -6,22 +6,45 @@ import ArchiveDialog from "./archive/action-archive-action";
 import ConfirmDeleteDialog from "./delete/action-delete-dialog";
 import { useRouter } from "next/navigation";
 import { getSpResourceName } from "./actions-handler-util";
+import { IOrder, OrderStatus } from "@/types/resources/order-types";
+import { TResourceStatus } from "@/types/resources/resource-status.types";
+import { ApiResponse } from "@/types/responses.type";
+import { IUpdateOrder } from "@/features/admin/orders/schemas/orders-schema";
 
-interface ResourceActionsHandlerProps {
-  resource: any;
-  resourceType: string;
-  updateResourceDialog: ReactNode;
-  updateResourceAction: any;
-  deleteResourceAction: UseMutateAsyncFunction<any, Error, string, unknown>;
-}
+type GenericResourceType<T> = T & {
+  id: string;
+  status: TResourceStatus;
+  name: string;
+};
 
-export default function ResourceActionsHandler({
+type ResourceActionsHandlerProps<T> =
+  | {
+      resourceType: "orders";
+      resource: IOrder;
+      updateResourceDialog: ReactNode;
+      updateResourceAction: UseMutateAsyncFunction<
+        ApiResponse<IOrder>,
+        Error,
+        IUpdateOrder,
+        unknown
+      >;
+      deleteResourceAction: UseMutateAsyncFunction<any, Error, string, unknown>;
+    }
+  | {
+      resourceType: string;
+      resource: GenericResourceType<T>;
+      updateResourceDialog: ReactNode;
+      updateResourceAction: any;
+      deleteResourceAction: UseMutateAsyncFunction<any, Error, string, unknown>;
+    };
+
+export default function ResourceActionsHandler<T>({
   resource,
   resourceType,
   updateResourceDialog,
   updateResourceAction,
   deleteResourceAction,
-}: ResourceActionsHandlerProps) {
+}: ResourceActionsHandlerProps<T>) {
   let resourceEsName: string = getSpResourceName(resourceType);
 
   const router = useRouter();
@@ -33,9 +56,9 @@ export default function ResourceActionsHandler({
           {updateResourceDialog}
           {resourceType !== "orders" && (
             <ArchiveDialog
-              resourceStatus={resource.status}
+              resourceStatus={resource.status as TResourceStatus}
               resourceType={resourceEsName}
-              resourceName={resource.name}
+              resourceName={(resource as GenericResourceType<T>).name}
               onConfirmAction={updateResourceAction}
             />
           )}
@@ -43,10 +66,10 @@ export default function ResourceActionsHandler({
       )}
       {resourceType === "orders" ? (
         resource.status === "CANCELLED" && (
-          <ConfirmDeleteDialog
-            resourceStatus={resource.status}
+          <ConfirmDeleteDialog<IOrder>
+            resourceStatus={resource.status as OrderStatus}
             resourceType={resourceEsName}
-            resourceName={resource.orderNumber}
+            resourceName={resource.orderNumber.toString()!}
             onConfirmActions={[
               () => {
                 deleteResourceAction(resource.id);
@@ -57,10 +80,10 @@ export default function ResourceActionsHandler({
           />
         )
       ) : (
-        <ConfirmDeleteDialog
+        <ConfirmDeleteDialog<T>
           resourceStatus={resource.status}
           resourceType={resourceEsName}
-          resourceName={resource.name}
+          resourceName={(resource as GenericResourceType<T>).name}
           onConfirmActions={[
             () => {
               deleteResourceAction(resource.id);
