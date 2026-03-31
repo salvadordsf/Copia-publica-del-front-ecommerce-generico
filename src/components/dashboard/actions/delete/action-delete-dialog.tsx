@@ -15,20 +15,26 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ActionStepCounter from "../action-step-counter";
+import { TResourceStatus } from "@/types/resources/resource-status.types";
+import { ApiResponse } from "@/types/responses.type";
+import { OrderStatus } from "@/types/resources/order-types";
 
-interface ConfirmDeleteDialogProps {
-  resourceStatus: "ACTIVE" | "ARCHIVED" | "DELETED";
+interface ConfirmDeleteDialogProps<T> {
+  resourceStatus: TResourceStatus | OrderStatus;
   resourceType: string;
   resourceName: string;
-  onConfirmActions: (Promise<any> | any)[];
+  onConfirmActions: (() =>
+    | Promise<ApiResponse<T>>
+    | void
+    | (({ status }: { status: TResourceStatus }) => Promise<ApiResponse<T>>))[];
 }
 
-export default function ConfirmDeleteDialog({
+export default function ConfirmDeleteDialog<T>({
   resourceStatus,
   resourceType,
   resourceName,
   onConfirmActions,
-}: ConfirmDeleteDialogProps) {
+}: ConfirmDeleteDialogProps<T>) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
   const [confirmationText, setConfirmationText] = useState("");
@@ -59,17 +65,23 @@ export default function ConfirmDeleteDialog({
         await onConfirmActions[0]();
       } else {
         //Restore
-        await onConfirmActions[1]({ status: "ARCHIVED" });
+        await (
+          onConfirmActions[1] as ({
+            status,
+          }: {
+            status: TResourceStatus;
+          }) => Promise<ApiResponse<T>>
+        )({ status: "ARCHIVED" });
       }
       toast.success(
         `${resourceType.toLocaleUpperCase()} "${resourceName}" ${
           isNotDeleted ? "eliminado" : "restaurado"
-        } correctamente.`
+        } correctamente.`,
       );
       setOpen(false);
     } catch {
       toast.error(
-        `Error al ${isNotDeleted ? "eliminar" : "restaurar"} el recurso.`
+        `Error al ${isNotDeleted ? "eliminar" : "restaurar"} el recurso.`,
       );
     } finally {
       setLoading(false);
@@ -119,8 +131,8 @@ export default function ConfirmDeleteDialog({
                 ? `Se borrará de manera permanente`
                 : "El recurso se restaurará"
               : isNotDeleted
-              ? `El recurso dejará de aparecer asociado a otros recursos que lo incluyan.`
-              : "El recurso dejará de estár borrado y se archivará."}
+                ? `El recurso dejará de aparecer asociado a otros recursos que lo incluyan.`
+                : "El recurso dejará de estár borrado y se archivará."}
           </DialogDescription>
         </DialogHeader>
 
@@ -162,12 +174,12 @@ export default function ConfirmDeleteDialog({
                     ? "Eliminando..."
                     : "Restaurando..."
                   : isNotDeleted
-                  ? step === 1
-                    ? "Eliminar"
-                    : "Confirmar eliminción"
-                  : step === 1
-                  ? "Restaurar"
-                  : "Confirmar restaurción"}
+                    ? step === 1
+                      ? "Eliminar"
+                      : "Confirmar eliminción"
+                    : step === 1
+                      ? "Restaurar"
+                      : "Confirmar restaurción"}
               </Button>
             </div>
 
