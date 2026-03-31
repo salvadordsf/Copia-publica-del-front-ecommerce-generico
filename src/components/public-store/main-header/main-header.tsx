@@ -7,24 +7,26 @@ import { useMemo } from "react";
 import { AnnouncementCarousel } from "@/features/publics/home/components/sections/announcement-carousel";
 
 export const MainHeader = () => {
-  const { data: { success, data: sections = [] } = {} } = useHome();
+  const { data, isLoading } = useHome();
+  const sections = data?.success ? data.data : [];
 
   const firstAnnouncement = useMemo(
     () =>
       (sections as HomeSection[]).find(
-        (section) => section.type === "ANNOUNCEMENT_CAROUSEL"
+        (section) => section.type === "ANNOUNCEMENT_CAROUSEL",
       ),
-    [sections]
+    [sections],
   );
 
+  if (isLoading) return <div className="text-center py-10">Cargando...</div>;
   return (
-      <div className="pt-20">
-    <header className="fixed top-0 left-0 right-0 z-30">
+    <div className="pt-20">
+      <header className="fixed top-0 left-0 right-0 z-30">
         {firstAnnouncement && (
           <AnnouncementCarousel section={firstAnnouncement} />
         )}
         <MainNav />
-    </header>
-      </div>
+      </header>
+    </div>
   );
 };
