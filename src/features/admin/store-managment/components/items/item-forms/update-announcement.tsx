@@ -36,7 +36,7 @@ export function UpdateAnnouncementItemForm({ item, closeDialog }: Props) {
     resolver: zodResolver(UpdateItemAnnouncementSchema),
     defaultValues: {
       title: item.title ?? undefined,
-      subtitle: item.subtitle ?? undefined,
+      subtitle: item.subtitle ?? null,
       linkUrl: item.linkUrl ?? undefined,
       position: item.position,
     },
@@ -72,9 +72,7 @@ export function UpdateAnnouncementItemForm({ item, closeDialog }: Props) {
         placeholder="Subtítulo (opcional)"
         {...methods.register("subtitle", {
           setValueAs: (value) =>
-            typeof value === "string" && value.trim() === ""
-              ? undefined
-              : value,
+            typeof value === "string" && value.trim() === "" ? null : value,
         })}
       />
 
@@ -83,9 +81,7 @@ export function UpdateAnnouncementItemForm({ item, closeDialog }: Props) {
         placeholder="Link"
         {...methods.register("linkUrl", {
           setValueAs: (value) =>
-            typeof value === "string" && value.trim() === ""
-              ? undefined
-              : value,
+            typeof value === "string" && value.trim() === "" ? null : value,
         })}
       />
       {methods.formState.errors.linkUrl && (

@@ -176,13 +176,14 @@ export const UpdateItemAnnouncementSchema = z
       .string()
       .trim()
       .max(200, "El subtítulo debe tener como máximo 120 caracteres")
+      .nullable()
       .optional(),
     position: z
       .number()
       .int()
       .min(0, "La posición debe ser un entero mayor a 0")
       .optional(),
-    linkUrl: z.string().url("URL inválida").optional(),
+    linkUrl: z.string().url("URL inválida").nullable().optional(),
   })
   .strict();
 
@@ -215,18 +216,20 @@ export const UpdateItemImageSchema = z
       .string()
       .trim()
       .max(120, "El título debe tener como máximo 120 caracteres")
+      .nullable()
       .optional(),
     subtitle: z
       .string()
       .trim()
       .max(200, "El subtítulo debe tener como máximo 120 caracteres")
+      .nullable()
       .optional(),
     position: z
       .number()
       .int()
       .min(0, "La posición debe ser un entero mayor a 0")
       .optional(),
-    linkUrl: z.string().url("URL inválida").optional(),
+    linkUrl: z.string().url("URL inválida").nullable().optional(),
     imageUrl: z.string().url("URL inválida").optional(),
   })
   .strict();
@@ -273,13 +276,14 @@ export const UpdateItemTextSchema = z
       .string()
       .trim()
       .max(200, "El subtítulo debe tener como máximo 120 caracteres")
+      .nullable()
       .optional(),
     position: z
       .number()
       .int()
       .min(0, "La posición debe ser un entero mayor a 0")
       .optional(),
-    linkUrl: z.string().url("URL inválida").optional(),
+    linkUrl: z.string().url("URL inválida").nullable().optional(),
   })
   .strict();
 
@@ -316,6 +320,7 @@ export const UpdateItemLinkSchema = z
       .string()
       .trim()
       .max(200, "El subtítulo debe tener como máximo 120 caracteres")
+      .nullable()
       .optional(),
     position: z
       .number()

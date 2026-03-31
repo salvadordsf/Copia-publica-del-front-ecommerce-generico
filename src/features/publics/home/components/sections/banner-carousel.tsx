@@ -52,6 +52,8 @@ export const BannerCarousel = ({ section }: BannerCarouselProps) => {
                   object-contain
                   select-none
                 "
+                width={100}
+                height={50}
               />
 
               {/* Overlay */}
