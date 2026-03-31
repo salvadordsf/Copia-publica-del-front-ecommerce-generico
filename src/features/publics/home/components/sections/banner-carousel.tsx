@@ -38,22 +38,26 @@ export const BannerCarousel = ({ section }: BannerCarouselProps) => {
       >
         {items.map((item, index) => {
           const banner = (
-            <div className="w-full h-full flex items-center justify-center">
-              {/* Image */}
+            <div className="relative w-full h-full">
+              {/* Fondo borroso con la misma imagen */}
+              <Image
+                src={item.imageUrl!}
+                alt=""
+                fill
+                className="object-cover scale-110 blur-xl brightness-75 select-none"
+                sizes="100vw"
+                aria-hidden
+              />
+
+              {/* Imagen principal encima */}
               <Image
                 src={item.imageUrl!}
                 alt={item.title ?? `Banner ${index + 1}`}
-                loading="lazy"
+                fill
+                className="object-contain select-none"
+                sizes="100vw"
+                priority={index === 0}
                 decoding="async"
-                className="
-                  h-full
-                  w-auto
-                  max-w-full
-                  object-contain
-                  select-none
-                "
-                width={100}
-                height={50}
               />
 
               {/* Overlay */}
@@ -61,18 +65,30 @@ export const BannerCarousel = ({ section }: BannerCarouselProps) => {
 
               {/* Text */}
               {(item.title || item.subtitle) && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 gap-2 pointer-events-none">
-                  {item.title && (
-                    <h2 className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold drop-shadow">
-                      {item.title}
-                    </h2>
-                  )}
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 gap-3 pointer-events-none">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/10" />
 
-                  {item.subtitle && (
-                    <p className="text-white/90 text-sm sm:text-base max-w-2xl drop-shadow">
-                      {item.subtitle}
-                    </p>
-                  )}
+                  <div className="relative z-10 flex flex-col items-center gap-3 max-w-3xl">
+
+                    {item.title && (
+                      <h2 className="text-white text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight tracking-tight drop-shadow-lg">
+                        {item.title}
+                      </h2>
+                    )}
+
+                    <div className="w-12 h-px bg-white/50 mt-1" />
+                    {item.subtitle && (
+                      <p className="text-white/70 text-xs sm:text-sm font-medium tracking-[0.2em] uppercase drop-shadow">
+                        {item.subtitle}
+                      </p>
+                    )}
+
+                    {item.linkUrl && (
+                      <span className="mt-2 inline-block text-xs sm:text-sm font-medium text-white border border-white/50 rounded-full px-6 py-2 backdrop-blur-sm bg-white/10 hover:bg-white/20 transition-colors">
+                        Ver más
+                      </span>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
