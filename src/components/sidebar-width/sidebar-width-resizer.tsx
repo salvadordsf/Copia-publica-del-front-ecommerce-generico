@@ -1,17 +1,14 @@
 "use client";
 
-import { useSidebarWidth } from "@/hooks/use-sidebar-width";
 import { ReactNode } from "react";
+import { useSidebar } from "../ui/sidebar";
 
 export default function SidebarWidthResizer({
-  useSidebar,
   children,
 }: {
-  useSidebar: any;
   children: ReactNode;
 }) {
   const { open, isMobile } = useSidebar();
-  const { width: sidebarWidth } = useSidebarWidth();
 
   return (
     <div
