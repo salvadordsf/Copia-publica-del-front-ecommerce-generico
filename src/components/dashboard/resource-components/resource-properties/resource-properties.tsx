@@ -3,9 +3,10 @@ import ResourceStatus from "../resource-status/resource-status-resource";
 import ResourcePropertie from "./resource-properti";
 import { TUserRoles } from "@/types/roles/users-roles.types";
 import ResourceUserRole from "../resource-user-role/resource-user-role";
+import { ITag } from "@/types/resources/tag-type";
 
 interface IResourceProperties {
-  properties?: { key: string; value: string; link?: string }[];
+  properties?: { key: string; value: string | number; link?: string }[];
   optionals?: {
     status?: {
       include: boolean;
@@ -17,7 +18,7 @@ interface IResourceProperties {
     };
     tags?: {
       include: boolean;
-      resourceTags: any[];
+      resourceTags: ITag[];
     };
   };
 }
@@ -33,7 +34,7 @@ export default function ResourceProperties({
         properties.map((prop) => (
           <ResourcePropertie
             key={prop.key}
-            value={prop.value}
+            value={prop.value.toString()}
             resourcekey={prop.key}
             link={
               prop.link
@@ -54,7 +55,7 @@ export default function ResourceProperties({
             {optionals.tags?.resourceTags.length <= 0 && (
               <span className="italic">Sin etiquetas</span>
             )}
-            {optionals.tags?.resourceTags.map((tag: any) => (
+            {optionals.tags?.resourceTags.map((tag: ITag) => (
               <div
                 key={tag.id}
                 className="min-w-15 py-0.5 px-2 border-1 border-neutral-400 bg-gray-300/80 rounded-3xl text-sm text-center shadow"
