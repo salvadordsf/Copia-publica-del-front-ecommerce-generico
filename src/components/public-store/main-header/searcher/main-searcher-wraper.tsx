@@ -15,8 +15,15 @@ export const MiniSearchWrapper = ({
   const [searchValue, setSearchValue] = useState("");
   const { search, searchResults, clearSearch, suggestions, autoSuggest } =
     useMiniSearch(products, {
-      fields: ["name", "description", "category", "subcategory", "tags"],
-      storeFields: ["id", "name", "category", "subcategory", "tags"],
+      fields: [
+        "name",
+        "description",
+        "category",
+        "subcategory",
+        "tags",
+        "relevance",
+      ],
+      storeFields: ["id", "name", "category", "subcategory", "tags", "imageUrls", "relevance"],
       searchOptions: {
         prefix: true,
         fuzzy: 0.25,
@@ -34,8 +41,6 @@ export const MiniSearchWrapper = ({
 
     search(query);
     autoSuggest(query);
-
-    console.log("searchResults:", searchResults);
   };
 
   return (
@@ -58,7 +63,7 @@ export const MiniSearchWrapper = ({
                 .map((res) => (
                   <Link
                     key={res.id}
-                    href={`/home/productos/${slugify(res.name)}`}
+                    href={`/home/producto/${slugify(res.name)}?id=${res.id}`}
                   >
                     <li className="py-2 cursor-pointer hover:bg-neutral-100 px-2 rounded flex items-center gap-3">
                       <img
@@ -72,7 +77,7 @@ export const MiniSearchWrapper = ({
                       <div className="flex flex-col min-w-0">
                         <span className="font-medium truncate">{res.name}</span>
                         <div className="text-xs opacity-60 truncate">
-                          {res.category} • {res.subcategory}
+                          {res.category.name} • {res.subcategory.name}
                         </div>
                       </div>
                     </li>
