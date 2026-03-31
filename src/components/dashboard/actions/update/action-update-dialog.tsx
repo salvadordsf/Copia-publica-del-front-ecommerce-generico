@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import GenericForm from "../../form/generic-create-form/generic-create-form";
-import { FormProvider, UseFormReturn } from "react-hook-form";
+import { FieldValues, FormProvider, UseFormReturn } from "react-hook-form";
 import { GenericFormField } from "../../form/generic-create-form/generic-create-form.types";
 import { toastError } from "@/utils/toast-error-utility";
 import { ReactNode, useEffect, useState } from "react";
 import ActionStepCounter from "../action-step-counter";
 
-interface IUpdateDialog {
-  useFormMethods: UseFormReturn<any>;
+interface IUpdateDialog<TFormValues extends FieldValues> {
+  useFormMethods: UseFormReturn<TFormValues>;
   isDisabled?: boolean;
   openState: [boolean, (val: boolean) => void];
   dialogConfig: {
@@ -30,12 +30,12 @@ interface IUpdateDialog {
     type: "create" | "search" | "update" | "delete";
   };
   stepsAry: ReactNode[];
-  onSubmitAction: (data: any) => void;
+  onSubmitAction: (data: TFormValues) => void;
   isError: boolean;
-  serverError: any;
+  serverError: unknown;
 }
 
-export default function UpdateDialog({
+export default function UpdateDialog<TFormValues extends FieldValues>({
   useFormMethods,
   isDisabled = false,
   openState,
@@ -52,7 +52,7 @@ export default function UpdateDialog({
   onSubmitAction,
   isError,
   serverError,
-}: IUpdateDialog) {
+}: IUpdateDialog<TFormValues>) {
   //Detect any problem and trhow an toast error
   if (isDisabled) toastError({ status: 3000 }, "general");
 
