@@ -11,7 +11,6 @@ import { AxiosError } from "axios";
 import { ItemSection } from "@/types/resources/home-section-types";
 import { useSectionById } from "../../../services/sections/sections-query";
 import {
-  IUpdateItemLink,
   IUpdateItemText,
   UpdateItemTextSchema,
 } from "../../../schemas/items/items-schema";
@@ -41,7 +40,7 @@ export function UpdateTextItemForm({ item, closeDialog }: Props) {
     },
   });
 
-  const onSubmit = (data: IUpdateItemLink) => {
+  const onSubmit = (data: IUpdateItemText) => {
     mutate(data, {
       onSuccess: () => {
         toast.success(`Item texto actualizado exitosamente.`);
@@ -71,9 +70,7 @@ export function UpdateTextItemForm({ item, closeDialog }: Props) {
         placeholder="Subtítulo (opcional)"
         {...methods.register("subtitle", {
           setValueAs: (value) =>
-            typeof value === "string" && value.trim() === ""
-              ? undefined
-              : value,
+            typeof value === "string" && value.trim() === "" ? null : value,
         })}
       />
 
@@ -82,9 +79,7 @@ export function UpdateTextItemForm({ item, closeDialog }: Props) {
         placeholder="Link"
         {...methods.register("linkUrl", {
           setValueAs: (value) =>
-            typeof value === "string" && value.trim() === ""
-              ? undefined
-              : value,
+            typeof value === "string" && value.trim() === "" ? null : value,
         })}
       />
       {methods.formState.errors.linkUrl && (

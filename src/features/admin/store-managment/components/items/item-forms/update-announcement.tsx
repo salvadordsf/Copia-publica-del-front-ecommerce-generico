@@ -36,7 +36,7 @@ export function UpdateAnnouncementItemForm({ item, closeDialog }: Props) {
     resolver: zodResolver(UpdateItemAnnouncementSchema),
     defaultValues: {
       title: item.title ?? undefined,
-      subtitle: item.subtitle ?? null,
+      subtitle: item.subtitle ?? undefined,
       linkUrl: item.linkUrl ?? undefined,
       position: item.position,
     },

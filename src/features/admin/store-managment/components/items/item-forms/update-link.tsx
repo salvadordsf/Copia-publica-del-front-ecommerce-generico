@@ -70,9 +70,7 @@ export function UpdateLinkItemForm({ item, closeDialog }: Props) {
         placeholder="Subtítulo (opcional)"
         {...methods.register("subtitle", {
           setValueAs: (value) =>
-            typeof value === "string" && value.trim() === ""
-              ? undefined
-              : value,
+            typeof value === "string" && value.trim() === "" ? null : value,
         })}
       />
 

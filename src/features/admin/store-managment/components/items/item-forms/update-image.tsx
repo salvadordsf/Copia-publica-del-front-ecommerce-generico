@@ -59,7 +59,13 @@ export function UpdateImageItemForm({ item, closeDialog }: Props) {
   return (
     <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
       {/* TITLE */}
-      <Input placeholder="Título de la imagen" {...methods.register("title")} />
+      <Input
+        placeholder="Título de la imagen"
+        {...methods.register("title", {
+          setValueAs: (value) =>
+            typeof value === "string" && value.trim() === "" ? null : value,
+        })}
+      />
       {methods.formState.errors.title && (
         <p className="text-sm text-red-500">
           {methods.formState.errors.title.message}
@@ -71,9 +77,7 @@ export function UpdateImageItemForm({ item, closeDialog }: Props) {
         placeholder="Subtítulo (opcional)"
         {...methods.register("subtitle", {
           setValueAs: (value) =>
-            typeof value === "string" && value.trim() === ""
-              ? undefined
-              : value,
+            typeof value === "string" && value.trim() === "" ? null : value,
         })}
       />
 
@@ -82,9 +86,7 @@ export function UpdateImageItemForm({ item, closeDialog }: Props) {
         placeholder="Link externo"
         {...methods.register("linkUrl", {
           setValueAs: (value) =>
-            typeof value === "string" && value.trim() === ""
-              ? undefined
-              : value,
+            typeof value === "string" && value.trim() === "" ? null : value,
         })}
       />
       {methods.formState.errors.linkUrl && (
