@@ -14,7 +14,8 @@ import { statusTranslate } from "@/utils/status-translate";
 import { stringToDateToString } from "@/utils/date-to-string-utility";
 import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
 import { BulkUpdateDialogComponent } from "@/components/dashboard/actions/update/bulk/action-bulk-update-dialog-comp";
-import { UpdateBulkCategoriesSchema } from "../../schemas/categories-schema";
+import { IFilterBulkCategoryQuery, IUpdateBulkCategories, UpdateBulkCategoriesSchema } from "../../schemas/categories-schema";
+import { ICategory } from "@/types/resources/category-type";
 
 export default function CategoriesBulkFiltersResults() {
   const { filters } = useCategoriesBulkFilters();
@@ -26,18 +27,22 @@ export default function CategoriesBulkFiltersResults() {
   }, [filters]);
 
   const {
-    data: { success, data: categories } = {},
+    data: categoriesResponse,
     isLoading: isLoadingCategories,
     isError: getCategoriesError,
   } = useCategories(filters);
+  const categories = categoriesResponse?.success ? categoriesResponse.data : [];
 
   const total = categories?.length ?? 0;
 
   const {
-    data: { data: categoriesWithSub = [] } = {},
+    data: categoriesWithSubResponse,
     isLoading: isLoadingFull,
     isError: isErrorFull,
   } = useCategories(showPreview ? { subcategories: true, ...filters } : {});
+  const categoriesWithSub = categoriesWithSubResponse?.success
+    ? categoriesWithSubResponse.data
+    : [];
 
   console.log(filters);
 
@@ -54,7 +59,7 @@ export default function CategoriesBulkFiltersResults() {
 
         {total > 0 && (
           <div className="flex flex-col sm:flex-row gap-5">
-            <BulkUpdateDialogComponent
+            <BulkUpdateDialogComponent<IFilterBulkCategoryQuery, IUpdateBulkCategories>
               resourceType={"categorías"}
               resourceGenre={"fem"}
               fields={["status"]}
@@ -125,7 +130,7 @@ export default function CategoriesBulkFiltersResults() {
             ],
             bodyRows:
               categoriesWithSub &&
-              categoriesWithSub.map((category: any) => {
+              categoriesWithSub.map((category: ICategory) => {
                 return {
                   rowCells: [
                     { type: "body", text: category.name },
