@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useProductsFiltersStore } from "../products/stores/products-filters";
 import { ProductsResultsContainer } from "../products/components/results-page/products-results-container";
-import { ChevronRight, Link2 } from "lucide-react";
+import { ChevronRight, Loader2 } from "lucide-react";
 import { useSubcategoryById } from "@/features/admin/subcategories/services/subcategories-querys";
 import { useEffect } from "react";
 import Link from "next/link";
@@ -24,46 +24,62 @@ export function SubcategoryPage() {
 
   if (isLoading)
     return (
-      <div className="flex justify-center py-16">
-        <Link2 className="animate-spin text-neutral-400" size={32} />
+      <div className="flex items-center justify-center py-32">
+        <Loader2 className="animate-spin text-neutral-300" size={28} />
       </div>
     );
 
   if (!data?.success || error)
     return (
       <div className="max-w-4xl mx-auto py-16 px-4">
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+        <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-500">
           Error al cargar la subcategoría
         </div>
       </div>
     );
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 space-y-10">
-      <header className="space-y-2">
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
+    <div className="max-w-5xl mx-auto px-4 py-12 space-y-10">
+
+      {/* Breadcrumb + header */}
+      <header className="flex flex-col gap-2">
+        <nav className="flex items-center gap-1.5 text-xs text-neutral-400">
+          <Link
+            href="/home/categorias"
+            className="hover:text-neutral-600 transition-colors"
+          >
+            Categorías
+          </Link>
+          <ChevronRight size={12} />
           <Link
             href={`/home/categoria/${slugify(data.data.category.name)}?id=${data.data.category.id}`}
-            className="font-extralight cursor-pointer text-neutral-500 hover:underline hover:text-neutral-600 transition-all"
+            className="hover:text-neutral-600 transition-colors"
           >
             {data.data.category.name}
-          </Link>{" "}
-          <ChevronRight className="inline" />{" "}
+          </Link>
+          <ChevronRight size={12} />
+          <span className="text-neutral-600 font-medium">{data.data.name}</span>
+        </nav>
+
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900">
           {data.data.name}
         </h1>
-
-        <div className="h-px w-full bg-neutral-200" />
+        <div className="h-px w-10 bg-neutral-200" />
       </header>
 
+      {/* products */}
       {data.data.products.length > 0 && (
         <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-medium">Productos</h2>
+          <div className="flex flex-col gap-1">
+            <p className="text-xs font-medium tracking-widest text-neutral-400 uppercase">
+              Resultados
+            </p>
+            <h2 className="text-xl font-semibold tracking-tight text-neutral-900">
+              Productos
+            </h2>
+            <div className="h-px w-8 bg-neutral-200" />
           </div>
-
-          <div className="p-3 md:p-4">
-            <ProductsResultsContainer resetFilters={false}/>
-          </div>
+          <ProductsResultsContainer resetFilters={false} />
         </section>
       )}
     </div>
