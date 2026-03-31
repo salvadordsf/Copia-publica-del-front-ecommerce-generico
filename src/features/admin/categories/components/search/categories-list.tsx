@@ -8,6 +8,7 @@ import UiTable from "@/components/dashboard/table/table";
 import { statusTranslate } from "@/utils/status-translate";
 import { stringToDateToString } from "@/utils/date-to-string-utility";
 import { statusRowClassGenerator } from "@/utils/status-row-class-generator";
+import { ICategory } from "@/types/resources/category-type";
 
 interface Props {
   query: IGetCategoryQuery;
@@ -17,7 +18,7 @@ export default function CategoryList({ query }: Props) {
   const router = useRouter();
 
   const {
-    data: { success, data: categories } = {},
+    data: categoriesResponse,
     isLoading,
     isError,
   } = useCategories({
@@ -26,6 +27,7 @@ export default function CategoryList({ query }: Props) {
     subcategories: query.subcategories ? query.subcategories : undefined,
     products: query.products ? query.products : undefined,
   });
+  const categories = categoriesResponse?.success ? categoriesResponse.data : [];
 
   if (isLoading) {
     return (
@@ -90,7 +92,7 @@ export default function CategoryList({ query }: Props) {
         ],
         bodyRows:
           categories &&
-          categories.map((category: any) => {
+          categories.map((category: ICategory) => {
             return {
               onClickAction: () =>
                 router.push(`/admin/dashboard/categories/${category.id}`),
