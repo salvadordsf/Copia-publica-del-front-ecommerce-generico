@@ -27,8 +27,8 @@ export default function AdminDashboardLayout({
             <h1 className="text-2xl p-2">Panel de administrador</h1>
           </div>
 
-          {/* Contenido principal con resizer */}
-          <SidebarWidthResizer useSidebar={useSidebar}>
+          {/* main content with resizer */}
+          <SidebarWidthResizer>
             <div className="pl-5">
               {children}
             </div>
