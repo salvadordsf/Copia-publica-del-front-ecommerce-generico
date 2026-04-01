@@ -1,16 +1,5 @@
 "use client";
 
-/**
- * Order detail page (client-side).
- * This page fetches a single order by id, shows its details and
- * handles a temporary frontend-based expiration flow.
- *
- * IMPORTANT:
- * The expiration and auto-cancel logic implemented here
- * is only a temporary solution.
- * In the future, this logic must be handled entirely on the backend when get by id the order.
- */
-
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -19,9 +8,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useOrderById } from "@/features/admin/orders/services/orders-querys";
 import { ORDER_STATUS_COLOR, ORDER_STATUS_LABEL } from "./order-status-label";
-import { useEffect, useRef } from "react";
-import { useUpdateOrder } from "@/features/admin/orders/services/orders-mutations";
-import { IOrderProduct } from "@/types/resources/order-types";
+import { IOrderProduct, OrderStatus } from "@/types/resources/order-types";
 
 export default function OrderDetailPage() {
   //get the orderId
@@ -32,9 +19,6 @@ export default function OrderDetailPage() {
   const { data, isPending, isError } = useOrderById(orderId!);
   const order = data?.success ? data.data : null;
 
-  //get the update fn for update order status
-  const { mutateAsync: updateOrder } = useUpdateOrder(orderId!);
-
   //calculate the order total
   const totalToPay =
     order?.products.reduce(
@@ -42,50 +26,10 @@ export default function OrderDetailPage() {
       0,
     ) ?? 0;
 
-  /**
-   * -----------------------------
-   * Expiration calculation
-   * -----------------------------
-   *
-   * The order expires 24 hours after its creation time.
-   *
-   * ⚠️ TEMPORARY FRONTEND LOGIC
-   * This expiration calculation will be moved to the backend
-   * in a future version.
-   */
-  const expiredAt = new Date(
-    new Date(order?.createdAt ?? "").getTime() + 24 * 60 * 60 * 1000,
-  );
-  const isExpired = new Date() > expiredAt;
-
-  //Prevents multiple cancel requests on re-renders
-  const alreadyCancelledRef = useRef(false);
-
-  //Auto-cancel expired orders:
-
-  //If the order is expired and still in a payable state, it will be automatically marked as CANCELLED.
-
-  //⚠️ IMPORTANT:
-  //This logic should NOT live in the frontend.
-  //In the future, expiration and cancellation must be handled by the backend (cron / background job / validation on payment).
-  useEffect(() => {
-    if (!order) return;
-
-    //avoid executing more than once
-    if (alreadyCancelledRef.current) return;
-
-    // Only run if the order is actually expired
-    if (!isExpired) return;
-
-    // Do not cancel orders that are already finalized
-    if (["CANCELLED", "RADY", "PAID", "SHIPPED"].includes(order.status)) return;
-
-    alreadyCancelledRef.current = true;
-
-    updateOrder({
-      status: "CANCELLED",
-    }).catch(() => {});
-  }, [isExpired, order, updateOrder]);
+  // The order expires 3 days after its creation time.
+  const isExpired = order?.expireAt
+    ? new Date() > new Date(order.expireAt)
+    : false;
 
   if (isPending) {
     return (
@@ -147,26 +91,12 @@ export default function OrderDetailPage() {
                 "rounded-full px-3 py-1 text-xs font-medium",
                 isExpired
                   ? ORDER_STATUS_COLOR["CANCELLED"]
-                  : ORDER_STATUS_COLOR[
-                      order.status as
-                        | "PENDING"
-                        | "READY"
-                        | "PAID"
-                        | "SHIPPED"
-                        | "CANCELLED"
-                    ],
+                  : ORDER_STATUS_COLOR[order.status as OrderStatus],
               )}
             >
               {isExpired
                 ? "ORDEN EXPIRADA"
-                : ORDER_STATUS_LABEL[
-                    order.status as
-                      | "PENDING"
-                      | "READY"
-                      | "PAID"
-                      | "SHIPPED"
-                      | "CANCELLED"
-                  ]}
+                : ORDER_STATUS_LABEL[order.status as OrderStatus]}
             </span>
           </div>
 
@@ -187,9 +117,7 @@ export default function OrderDetailPage() {
           {/* Expiration date */}
           <p className="text-xs font-semibold text-muted-foreground">
             Expira el{" "}
-            {new Date(
-              new Date(order.createdAt).getTime() + 24 * 60 * 60 * 1000,
-            ).toLocaleString("es-AR", {
+            {new Date(order.expireAt).toLocaleString("es-AR", {
               dateStyle: "medium",
               timeStyle: "short",
             })}

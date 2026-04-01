@@ -42,20 +42,20 @@ export default function ShippingForm({
   };
 
   const onSubmit = (data: IShippingForm) => {
-  if (data.type === "pickup") {
-    onNextAction({
-      ...data,
-      shippingStreet: "[calle y dirección de la tienda]",
-      shippingCity: "[ciudad de la tienda]",
-      shippingProvince: "[provincia de la tienda]",
-      shippingPostal: "[código postal]",
-      shippingCountry: "Argentina",
-      shippingNotes: "Retiro en local - Horario: [horario]",
-    });
-  } else {
-    onNextAction(data);
-  }
-};
+    if (data.type === "pickup") {
+      onNextAction({
+        ...data,
+        shippingStreet: "[calle y dirección de la tienda]",
+        shippingCity: "[ciudad de la tienda]",
+        shippingProvince: "[provincia de la tienda]",
+        shippingPostal: "[código postal]",
+        shippingCountry: "Argentina",
+        shippingNotes: "Retiro en local - Horario: [horario]",
+      });
+    } else {
+      onNextAction(data);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -89,7 +89,10 @@ export default function ShippingForm({
       {/* delivery */}
       {type === "delivery" && (
         <div className="space-y-2">
-          <Input placeholder="Calle" {...register("shippingStreet")} />
+          <Input
+            placeholder="Calle y dirección"
+            {...register("shippingStreet")}
+          />
           {errors.shippingStreet && <p>{errors.shippingStreet.message}</p>}
 
           <Input placeholder="Ciudad" {...register("shippingCity")} />
@@ -110,7 +113,11 @@ export default function ShippingForm({
             Calcular envío
           </Button>
 
-          {shippingCost && <p>Costo: ${shippingCost}</p>}
+          {shippingCost && (
+            <p>
+              Costo de envío: <span className="font-semibold">${shippingCost}</span>
+            </p>
+          )}
         </div>
       )}
 

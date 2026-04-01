@@ -35,6 +35,7 @@ export interface IOrder {
 
   createdAt: string;
   updatedAt: string;
+  expireAt: string;
 
   products: IOrderProduct[];
   user: IUser;
