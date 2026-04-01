@@ -151,7 +151,10 @@ export default function OrderDetailPage() {
             <p className="font-semibold">Esta orden se encuentra expirada</p>
 
             <p className="mt-1">
-              El plazo para realizar el pago venció. Si querés comprar
+              El plazo para realizar el pago venció el {new Date(order.expireAt).toLocaleString("es-AR", {
+              dateStyle: "medium",
+              timeStyle: "short",
+            })}. Si querés comprar
               nuevamente estos productos, deberás generar una nueva orden desde
               el carrito.
             </p>
@@ -218,7 +221,7 @@ export default function OrderDetailPage() {
                   <p className="font-semibold">⚠️ IMPORTANTE</p>
                   <p className="mt-1">
                     Las ordenes expiran{" "}
-                    <span className="font-semibold">24 horas</span> desde su
+                    <span className="font-semibold">3 días despues</span> desde su
                     creación si no se concreta el pago.{" "}
                     <span className="font-semibold">
                       La transferencia de una orden expirada no tendrá validez.
