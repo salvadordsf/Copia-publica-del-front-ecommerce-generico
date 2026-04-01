@@ -14,7 +14,7 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
   return (
     <Link
       href={`/home/producto/${slug}?id=${product.id}`}
-      className="group block"
+      className="group block h-full"
     >
       <div
         className={cn(
@@ -46,7 +46,7 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
         </div>
 
         {/* Content */}
-        <div className="flex flex-col gap-1.5 px-3 py-2.5">
+        <div className="flex flex-col flex-1 justify-between gap-1.5 px-3 py-2.5">
           <h3 className="text-xs font-medium text-neutral-700 line-clamp-2 leading-snug group-hover:text-neutral-900 transition-colors duration-200">
             {product.name}
           </h3>

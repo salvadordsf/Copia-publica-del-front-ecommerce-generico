@@ -68,7 +68,7 @@ export const GenericItemsSlider = ({
           {isHomePageSlider && <div className="h-px w-8 bg-neutral-300" />}
         </div>
       )}
-      <div className="relative">
+      <div className={cn(itemsType === "producto" ? "relative flex" : "relative")}>
         {btns && <GenericPrevSliderBtn id={btns.prev} />}
         <Swiper
           modules={[A11y, Navigation, Pagination]}
