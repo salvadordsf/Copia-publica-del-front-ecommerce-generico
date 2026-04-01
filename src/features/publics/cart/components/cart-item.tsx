@@ -6,6 +6,8 @@ import { useProductById } from "@/features/admin/products/services/products-quer
 import { useCartHydrated } from "../stores/use-cart-hydrated";
 import { useCartStore } from "../stores/cart-store";
 import Image from "next/image";
+import Link from "next/link";
+import { slugify } from "@/utils/slugify";
 
 interface CartItemProps {
   productId: string;
@@ -54,10 +56,12 @@ export function CartItem({ productId, quantity }: CartItemProps) {
     <div className="rounded-xl border bg-background p-4 shadow-sm">
       <div className="flex gap-4">
         {/*Image*/}
-        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg border">
+        <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border">
           <Image
             src={image}
             alt={product.name}
+            width={200}
+            height={200}
             className="h-full w-full object-cover"
           />
         </div>
@@ -66,8 +70,10 @@ export function CartItem({ productId, quantity }: CartItemProps) {
         <div className="flex flex-1 flex-col justify-between gap-2">
           {/*Name + delete btn*/}
           <div className="flex items-start justify-between gap-3">
-            <h3 className="text-sm font-medium leading-snug line-clamp-2">
-              {product.name}
+            <h3 className="text-sm font-medium leading-snug line-clamp-2 hover:underline cursor-pointer">
+              <Link href={`/home/producto/${slugify(product.name)}?id=${product.id}`}>
+                {product.name}
+              </Link>
             </h3>
 
             <Button
