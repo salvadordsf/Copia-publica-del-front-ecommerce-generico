@@ -85,9 +85,8 @@ export const ProductPage = () => {
               }}
               items={imageSrc.map((url, index) => [
                 { id: `${product.id}-img-${index}` },
-                <div className="relative w-full rounded-xl overflow-hidden">
+                <div key={url} className="relative w-full rounded-xl overflow-hidden">
                   <Image
-                    key={url}
                     src={url}
                     alt={product.name}
                     width={500}
