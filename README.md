@@ -1,6 +1,7 @@
 # E-commerce Frontend
 
 A full-featured e-commerce frontend built with Next.js 15, featuring a complete public storefront and a powerful admin panel for managing every aspect of the store.
+
 🖥️ **Demo** https://ecommerce-frontend-bice-eta.vercel.app/home
 📖 **Auto-generated docs:** https://deepwiki.com/salvadordsf/Copia-publica-del-front-ecommerce-generico  
 🔗 **Backend repo:** private
