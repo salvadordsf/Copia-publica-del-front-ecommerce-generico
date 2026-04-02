@@ -10,26 +10,29 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { FormProvider, UseFormReturn } from "react-hook-form";
+import { FieldValues, FormProvider, UseFormReturn } from "react-hook-form";
 import { useEffect, useState } from "react";
 import GenericForm from "../../../form/generic-create-form/generic-create-form";
 import { GenericFormField } from "../../../form/generic-create-form/generic-create-form.types";
 import ActionStepCounter from "../../action-step-counter";
 import { toast } from "sonner";
+import { ApiResponse } from "@/types/responses.type";
 
-interface IBulkUpdateDialog {
-  useFormMethods: UseFormReturn<any>;
+interface IBulkUpdateDialog<TFormValues extends FieldValues> {
+  useFormMethods: UseFormReturn<TFormValues>;
   openState: [boolean, (val: boolean) => void];
-  onSubmitAction: (data: any) => Promise<void> | void;
+  onSubmitAction: (
+    data: TFormValues,
+  ) => Promise<ApiResponse<{ count: number }>> | void;
   fields: GenericFormField[];
   isDisabled?: boolean;
   isError?: boolean;
-  serverError?: any;
+  serverError?: unknown;
   resourceType?: string;
   totalResources?: number;
 }
 
-export default function BulkUpdateDialog({
+export default function BulkUpdateDialog<TFormValues extends FieldValues>({
   useFormMethods,
   openState,
   onSubmitAction,
@@ -39,11 +42,11 @@ export default function BulkUpdateDialog({
   serverError,
   resourceType = "recursos",
   totalResources = 0,
-}: IBulkUpdateDialog) {
+}: IBulkUpdateDialog<TFormValues>) {
   const [open, setOpen] = openState;
   const [step, setStep] = useState<1 | 2>(1);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<any>(null);
+  const [formData, setFormData] = useState<TFormValues | null>(null);
 
   const handleOpenChange = (val: boolean) => {
     if (!val) {
@@ -59,7 +62,7 @@ export default function BulkUpdateDialog({
     setOpen(false);
   };
 
-  const handleNext = (data: any) => {
+  const handleNext = (data: TFormValues) => {
     setFormData(data);
     setStep(2);
   };
@@ -76,7 +79,7 @@ export default function BulkUpdateDialog({
           totalResources === 1 ? "actualizó" : "actualizaron"
         } correctamente ${totalResources} ${
           totalResources === 1 ? resourceType.slice(0, -1) : resourceType
-        }.`
+        }.`,
       );
       setOpen(false);
       useFormMethods.reset();
@@ -91,14 +94,14 @@ export default function BulkUpdateDialog({
 
   useEffect(() => {
     if (open) useFormMethods.reset();
-  }, [open]);
+  }, [open, useFormMethods]);
 
   // keys values Translate
   const translateKey = (key: string) => {
     const map: Record<string, string> = {
       status: "Estado",
       relevance: "Relevancia",
-      categoryid: "Categoría"
+      categoryid: "Categoría",
     };
     return map[key.toLowerCase()] || key;
   };
@@ -155,8 +158,8 @@ export default function BulkUpdateDialog({
               <div className="space-y-4 mt-4">
                 <h3 className="font-semibold text-lg">Cambios a aplicar:</h3>
                 <div className="border p-3 rounded-md bg-muted/30">
-                  {Object.entries(formData)
-                    .filter(([_, value]) => value !== "" && value !== undefined)
+                  {Object.entries(formData as TFormValues)
+                    .filter(([_k, value]) => value !== "" && value !== undefined)
                     .map(([key, value]) => (
                       <p key={key}>
                         <span className="font-medium capitalize">
@@ -165,8 +168,8 @@ export default function BulkUpdateDialog({
                         <strong>{translateValue(String(value))}</strong>
                       </p>
                     ))}
-                  {Object.values(formData).every(
-                    (value) => value === "" || value === undefined
+                  {Object.values(formData as TFormValues).every(
+                    (value) => value === "" || value === undefined,
                   ) && <p>No hay cambios seleccionados.</p>}
                 </div>
               </div>

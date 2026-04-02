@@ -3,7 +3,6 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -12,7 +11,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -30,10 +28,14 @@ import {
   ChartSpline,
   Store,
   ChevronDown,
+  LayoutTemplate,
+  LucideProps,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import UiAdminFooterSidebar from "@/features/dashboard/components/layout/sidebar/admin-sidebar-footer";
+import UiAdminFooterSidebar from "@/features/admin/dashboard/components/layout/sidebar/admin-sidebar-footer";
+import { MainNavLogo } from "@/components/public-store/main-header/main-nav/main-nav-logo";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 interface ISidebarProps {
   title: string;
@@ -44,7 +46,9 @@ export default function UiSidebar({ title }: ISidebarProps) {
 
   interface IItemObj {
     type: "item";
-    icon: any;
+    icon: ForwardRefExoticComponent<
+      Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+    >;
     title: string;
     url: string;
     isActive: boolean;
@@ -154,10 +158,17 @@ export default function UiSidebar({ title }: ISidebarProps) {
     },
     {
       type: "item",
-      icon: Store,
-      title: "Inicio de tienda",
-      url: "/",
+      icon: LayoutTemplate,
+      title: "Gestor de home público",
+      url: "/admin/dashboard/home-store",
       isActive: pathname === "/",
+    },
+    {
+      type: "item",
+      icon: Store,
+      title: "Tienda pública",
+      url: "/home",
+      isActive: pathname === "/home",
     },
   ];
 
@@ -165,7 +176,8 @@ export default function UiSidebar({ title }: ISidebarProps) {
     <Sidebar id="ui-sidebar-id">
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
+          <SidebarMenuItem className="flex flex-col-reverse  items-center gap-2">
+            <MainNavLogo />
             <span className="font-semibold">{title}</span>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -210,10 +222,10 @@ export default function UiSidebar({ title }: ISidebarProps) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
-          )
+          ),
         )}
       </SidebarContent>
-      <UiAdminFooterSidebar userName="nombre" email="mail"/>
+      <UiAdminFooterSidebar />
       <SidebarRail />
     </Sidebar>
   );

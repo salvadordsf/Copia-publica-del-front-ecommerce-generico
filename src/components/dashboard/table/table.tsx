@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IUiTable } from "./table.types";
+import { IUiTable, IUiTableBodyRow } from "./table.types";
 
 export default function UiTable({
   rows,
@@ -36,11 +36,11 @@ export default function UiTable({
         <TableBody>
           {rows.bodyRows.map((row, i) => (
             <TableRow
-              key={`${row.rowCells[0].text}-${i}`}
-              onClick={row.onClickAction}
+              key={`${(row as IUiTableBodyRow).rowCells[0].text}-${i}`}
+              onClick={(row as IUiTableBodyRow).onClickAction}
               className={row.className && row.className}
             >
-              {row.rowCells.map((cell, ii) => (
+              {(row as IUiTableBodyRow).rowCells.map((cell, ii) => (
                 <TableCell
                   key={`${i}-${ii}-${cell.text}`}
                   className={`

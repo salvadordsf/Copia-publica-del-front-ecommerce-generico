@@ -1,4 +1,7 @@
+import { ICategory } from "./category-type";
 import { TResourceStatus } from "./resource-status.types";
+import { ISubcategory } from "./subcategory-type";
+import { ITag } from "./tag-type";
 
 export interface IProduct {
   id: string;
@@ -8,16 +11,14 @@ export interface IProduct {
   stock: number;
   relevance: number;
   status: TResourceStatus;
+  imageUrls: string[];
   categoryId: string;
   subcategoryId: string;
+  category: ICategory;
+  subcategory: ISubcategory;
+  tags: ITag[];
   createdAt: string;
   updatedAt: string;
-  archivedAt: string;
-  deletedAt: string;
-}
-
-export interface IProductWithAll extends IProduct {
-  category: any;
-  subcategory: any;
-  tags: any[]
+  archivedAt: string | null;
+  deletedAt: string | null;
 }

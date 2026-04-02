@@ -3,9 +3,10 @@ import ResourceStatus from "../resource-status/resource-status-resource";
 import ResourcePropertie from "./resource-properti";
 import { TUserRoles } from "@/types/roles/users-roles.types";
 import ResourceUserRole from "../resource-user-role/resource-user-role";
+import { ITag } from "@/types/resources/tag-type";
 
 interface IResourceProperties {
-  properties?: { key: string; value: string }[];
+  properties?: { key: string; value: string | number; link?: string }[];
   optionals?: {
     status?: {
       include: boolean;
@@ -17,7 +18,7 @@ interface IResourceProperties {
     };
     tags?: {
       include: boolean;
-      resourceTags: any[];
+      resourceTags: ITag[];
     };
   };
 }
@@ -29,13 +30,22 @@ export default function ResourceProperties({
   return (
     <div className="flex flex-col gap-4 mt-4">
       {/*Resource properties*/}
-      {properties && properties.map((prop) => (
-        <ResourcePropertie
-          key={prop.key}
-          value={prop.value}
-          resourcekey={prop.key}
-        />
-      ))}
+      {properties &&
+        properties.map((prop) => (
+          <ResourcePropertie
+            key={prop.key}
+            value={prop.value.toString()}
+            resourcekey={prop.key}
+            link={
+              prop.link
+                ? {
+                    enabled: true,
+                    to: prop.link,
+                  }
+                : undefined
+            }
+          />
+        ))}
 
       {/*Tags*/}
       {optionals && optionals.tags && optionals.tags?.include && (
@@ -45,7 +55,7 @@ export default function ResourceProperties({
             {optionals.tags?.resourceTags.length <= 0 && (
               <span className="italic">Sin etiquetas</span>
             )}
-            {optionals.tags?.resourceTags.map((tag: any) => (
+            {optionals.tags?.resourceTags.map((tag: ITag) => (
               <div
                 key={tag.id}
                 className="min-w-15 py-0.5 px-2 border-1 border-neutral-400 bg-gray-300/80 rounded-3xl text-sm text-center shadow"

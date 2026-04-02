@@ -1,7 +1,6 @@
-import UiBreadcrumb from "@/components/dashboard/breadcrumb/breadcrumb";
 import UiDivider from "@/components/dashboard/divider/divider";
-import CreateTagForm from "@/features/tags/components/create/tags-create-form";
-import TagSearcher from "@/features/tags/components/search/tags-searcher";
+import CreateTagForm from "@/features/admin/tags/components/create/tags-create-form";
+import TagSearcher from "@/features/admin/tags/components/search/tags-searcher";
 
 export default function TagsPage() {
   return (

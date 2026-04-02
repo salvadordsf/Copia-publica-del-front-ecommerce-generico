@@ -3,22 +3,25 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useParams } from "next/navigation";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
-import { useUserById } from "@/features/users/services/users-querys";
+import { useUserById } from "@/features/admin/users/services/users-querys";
 import {
   useDeleteUser,
   useUpdateUser,
-} from "@/features/users/services/users-mutations";
-import UpdateUserDialog from "@/features/users/components/update/user-update-dialog";
+} from "@/features/admin/users/services/users-mutations";
+import UpdateUserDialog from "@/features/admin/users/components/update/user-update-dialog";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
+import { IUser } from "@/types/resources/user-type";
 
 export default function IdUserPage() {
   const { id } = useParams();
   const {
-    data: { success, data: user } = {},
+    data,
     isLoading,
     isError,
   } = useUserById(id as string);
+  const user = data?.success ? data.data : null;
+
   const deleteUser = useDeleteUser();
   const updateUser = useUpdateUser(id as string);
 
@@ -50,7 +53,7 @@ export default function IdUserPage() {
           }}
         />
 
-        <ResourceActionsHandler
+        <ResourceActionsHandler<IUser>
           resource={user}
           resourceType="users"
           updateResourceDialog={<UpdateUserDialog user={user} />}

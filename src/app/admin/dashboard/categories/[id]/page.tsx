@@ -11,26 +11,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useParams, useRouter } from "next/navigation";
-import { useCategoryById } from "@/features/categories/services/categories-querys";
+import { useCategoryById } from "@/features/admin/categories/services/categories-querys";
 import {
   useDeleteCategory,
   useUpdateCategory,
-} from "@/features/categories/services/categories-mutations";
-import UpdateCategoryDialog from "@/features/categories/components/update/categories-update-dialog";
+} from "@/features/admin/categories/services/categories-mutations";
+import UpdateCategoryDialog from "@/features/admin/categories/components/update/categories-update-dialog";
 import UiDivider from "@/components/dashboard/divider/divider";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
-import ResourceMigrateDialog from "@/features/products/components/update/migration/products-update-migrate-dialog";
+import ResourceMigrateDialog from "@/features/admin/products/components/update/migration/products-update-migrate-dialog";
+import { ICategory } from "@/types/resources/category-type";
+import { ISubcategory } from "@/types/resources/subcategory-type";
+import { IProduct } from "@/types/resources/product-type";
 
 export default function IdCategoryPage() {
   const { id } = useParams();
   const router = useRouter();
-  const {
-    data: { success, data: category } = {},
-    isLoading,
-    isError,
-  } = useCategoryById(id as string);
+  const { data, isLoading, isError } = useCategoryById(id as string);
+  const category = data?.success ? data.data : null;
+
   const updateCategory = useUpdateCategory(id as string);
   const deleteCategory = useDeleteCategory();
 
@@ -65,7 +66,7 @@ export default function IdCategoryPage() {
         />
 
         {/* Action btns */}
-        <ResourceActionsHandler
+        <ResourceActionsHandler<ICategory>
           resource={category}
           resourceType="categories"
           updateResourceDialog={
@@ -102,12 +103,12 @@ export default function IdCategoryPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {category.subcategories.map((subcategory: any) => (
+                {category.subcategories.map((subcategory: ISubcategory) => (
                   <TableRow
                     className="cursor-pointer"
                     onClick={() =>
                       router.push(
-                        `/admin/dashboard/subcategories/${subcategory.id}`
+                        `/admin/dashboard/subcategories/${subcategory.id}`,
                       )
                     }
                     key={subcategory.id}
@@ -159,7 +160,7 @@ export default function IdCategoryPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {category.products.map((product: any) => (
+                {category.products.map((product: IProduct) => (
                   <TableRow key={product.id}>
                     <TableCell className="capitalize">{product.name}</TableCell>
                     <TableCell className="text-center">

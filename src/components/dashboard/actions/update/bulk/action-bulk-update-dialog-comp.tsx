@@ -1,29 +1,40 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { DefaultValues, FieldValues, useForm } from "react-hook-form";
 import BulkUpdateDialog from "./action-bulk-update-dialog";
 import { useState } from "react";
-import { ZodSchema } from "zod";
+import { ZodTypeAny } from "zod";
 import { GenericFormField } from "@/components/dashboard/form/generic-create-form/generic-create-form.types";
-import { useCategories } from "@/features/categories/services/categories-querys";
+import { useCategories } from "@/features/admin/categories/services/categories-querys";
+import { StoreApi, UseBoundStore } from "zustand";
+import { ICategory } from "@/types/resources/category-type";
 
-interface IBulkUpdateDialogProps {
-  useResourceBulkFiltersStore: () => { filters: any };
+interface IBulkUpdateDialogProps<TFilters, TFormValues extends FieldValues> {
+  useResourceBulkFiltersStore: UseBoundStore<StoreApi<{ filters: TFilters }>>;
   useUpdateManyResources: () => {
-    mutateAsync: ({ filters, data }: { filters: any; data: any }) => void;
+    mutateAsync: ({
+      filters,
+      data,
+    }: {
+      filters: TFilters;
+      data: TFormValues;
+    }) => void;
     isError: boolean;
     error: unknown;
   };
   totalResources: number;
   resourceType: string;
   resourceGenre: "fem" | "masc";
-  updateBulkResourceSchema: ZodSchema;
-  defaultUpdateValues: any;
+  updateBulkResourceSchema: ZodTypeAny;
+  defaultUpdateValues: DefaultValues<TFormValues>;
   fields: ("status" | "relevance" | "categoryId")[];
 }
 
-export const BulkUpdateDialogComponent = ({
+export function BulkUpdateDialogComponent<
+  TFilters,
+  TFormValues extends FieldValues,
+>({
   totalResources,
   resourceType,
   resourceGenre,
@@ -32,7 +43,7 @@ export const BulkUpdateDialogComponent = ({
   updateBulkResourceSchema,
   defaultUpdateValues,
   fields,
-}: IBulkUpdateDialogProps) => {
+}: IBulkUpdateDialogProps<TFilters, TFormValues>) {
   const { filters } = useResourceBulkFiltersStore();
   const {
     mutateAsync: updateManyAction,
@@ -41,14 +52,15 @@ export const BulkUpdateDialogComponent = ({
   } = useUpdateManyResources();
 
   const {
-    data: { success, data: categories } = {},
-    isLoading: isLoadingCategories,
-    isError: getCategoriesError,
+    data,
+    isLoading: _isLoadingCategories,
+    isError: _getCategoriesError,
   } = useCategories({ subcategories: true });
+  const categories = data?.success ? data.data : [];
 
   const [isBulkOpen, setIsBulkOpen] = useState(false);
 
-  const methods = useForm({
+  const methods = useForm<TFormValues>({
     resolver: zodResolver(updateBulkResourceSchema),
     defaultValues: defaultUpdateValues,
   });
@@ -87,7 +99,7 @@ export const BulkUpdateDialogComponent = ({
       selectLabel: "Categorías",
       placeholder: "Seleccionar nueva categoría",
       type: "select",
-      options: categories.map((category: any) => {
+      options: categories.map((category: ICategory) => {
         return { value: category.id, label: category.name };
       }),
       className: "sm:col-span-2 sm:row-start-3",
@@ -95,7 +107,7 @@ export const BulkUpdateDialogComponent = ({
   ].filter(Boolean) as GenericFormField[];
 
   return (
-    <BulkUpdateDialog
+    <BulkUpdateDialog<TFormValues>
       useFormMethods={methods}
       openState={[isBulkOpen, setIsBulkOpen]}
       fields={updateFields}
@@ -106,4 +118,4 @@ export const BulkUpdateDialogComponent = ({
       resourceType={resourceType}
     />
   );
-};
+}

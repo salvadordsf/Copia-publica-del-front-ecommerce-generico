@@ -6,11 +6,10 @@ import {
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination";
 import { getPagesForPagination } from "./get-pages-for-pagination-utility";
 import UiPageSize from "./page-size-input";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface IUiPagination {
 	currentPage: number;
@@ -36,11 +35,11 @@ export default function UiPagination({
 				<Pagination className="col-span-2">
 					<PaginationContent>
 						<PaginationItem>
-							<PaginationPrevious
+							<PaginationLink
 								className={
-									currentPage <= 1
+									`w-full ${currentPage <= 1
 										? "pointer-events-none opacity-50"
-										: "cursor-pointer"
+										: "cursor-pointer"}`
 								}
 								onClick={(e) => {
 									e.preventDefault();
@@ -49,8 +48,8 @@ export default function UiPagination({
 									}
 								}}
 							>
-								← Anterior
-							</PaginationPrevious>
+								<ChevronLeft />
+							</PaginationLink>
 						</PaginationItem>
 
 						{pagesForPagination.map((page, index) =>
@@ -75,7 +74,7 @@ export default function UiPagination({
 						)}
 
 						<PaginationItem>
-							<PaginationNext
+							<PaginationLink
 								className={
 									currentPage >= totalPages
 										? "pointer-events-none opacity-50"
@@ -88,8 +87,8 @@ export default function UiPagination({
 									}
 								}}
 							>
-								Siguiente →
-							</PaginationNext>
+								<ChevronRight />
+							</PaginationLink>
 						</PaginationItem>
 					</PaginationContent>
 				</Pagination>

@@ -13,12 +13,14 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { TResourceStatus } from "@/types/resources/resource-status.types";
+import { OrderStatus } from "@/types/resources/order-types";
 
 interface ArchiveDialogProps {
-  resourceStatus: "ACTIVE" | "ARCHIVED" | "DELETED";
+  resourceStatus: TResourceStatus;
   resourceType: string;
   resourceName: string;
-  onConfirmAction: any;
+  onConfirmAction: ({ status }: { status: TResourceStatus | OrderStatus }) => Promise<void>;
 }
 
 export default function ArchiveDialog({
@@ -45,12 +47,12 @@ export default function ArchiveDialog({
           !isArchived
             ? "archivado correctamente."
             : "desarchivado correctamente"
-        }`
+        }`,
       );
       setOpen(false);
     } catch {
       toast.error(
-        `${!isArchived ? "Error al archivar." : "Error al desarchivar"}`
+        `${!isArchived ? "Error al archivar." : "Error al desarchivar"}`,
       );
     } finally {
       setLoading(false);
@@ -105,8 +107,8 @@ export default function ArchiveDialog({
                 ? "Archivando..."
                 : "Desarchivando..."
               : !isArchived
-              ? "Archivar"
-              : "Desarchivar"}
+                ? "Archivar"
+                : "Desarchivar"}
           </Button>
         </DialogFooter>
       </DialogContent>

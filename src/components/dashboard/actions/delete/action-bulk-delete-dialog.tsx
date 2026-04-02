@@ -14,12 +14,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ActionStepCounter from "../action-step-counter";
+import { ApiResponse } from "@/types/responses.type";
 
 interface ConfirmBulkDeleteDialogProps {
   totalResources: number;
   resourceType: string;
-  onConfirmActions: Array<() => Promise<any> | any>;
-  resourceGenre: "fem" | "masc"
+  onConfirmActions: Array<() => Promise<ApiResponse<{ count: number}>>>;
+  resourceGenre: "fem" | "masc";
 }
 
 export default function ConfirmBulkDeleteDialog({
@@ -53,15 +54,19 @@ export default function ConfirmBulkDeleteDialog({
       const res = await onConfirmActions[0]();
       if (res.success) {
         toast.success(
-          `${totalResources} ${resourceType} eliminad${aux}s correctamente.`
+          `${totalResources} ${resourceType} eliminad${aux}s correctamente.`,
         );
       } else if (!res.success) {
         console.error(res.error);
-        toast.error(`Error al eliminar l${aux}s ${totalResources} ${resourceType}.`);
+        toast.error(
+          `Error al eliminar l${aux}s ${totalResources} ${resourceType}.`,
+        );
       }
     } catch (e) {
       console.error(e);
-      toast.error(`Error al eliminar l${aux}s ${totalResources} ${resourceType}.`);
+      toast.error(
+        `Error al eliminar l${aux}s ${totalResources} ${resourceType}.`,
+      );
     } finally {
       setLoading(false);
       setOpen(false);
@@ -134,8 +139,8 @@ export default function ConfirmBulkDeleteDialog({
                 {loading
                   ? "Eliminando..."
                   : step === 1
-                  ? "Eliminar"
-                  : "Confirmar"}
+                    ? "Eliminar"
+                    : "Confirmar"}
               </Button>
             </div>
             <ActionStepCounter step={step + 1} stepCount={2} />

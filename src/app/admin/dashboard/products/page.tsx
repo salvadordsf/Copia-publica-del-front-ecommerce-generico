@@ -1,6 +1,6 @@
 import UiDivider from "@/components/dashboard/divider/divider";
-import CreateProductForm from "@/features/products/components/create/products-create-form";
-import ProductSearcher from "@/features/products/components/searcher/products-searcher";
+import CreateProductForm from "@/features/admin/products/components/create/products-create-form";
+import ProductSearcher from "@/features/admin/products/components/searcher/products-searcher";
 
 export default function ProductsPage() {
   return (

@@ -1,5 +1,5 @@
-import ProductBulkFiltersResults from "@/features/products/components/filter/product-bulk-counter";
-import ProductBulkFilters from "@/features/products/components/filter/products-filters";
+import ProductBulkFiltersResults from "@/features/admin/products/components/filter/product-bulk-counter";
+import ProductBulkFilters from "@/features/admin/products/components/filter/products-filters";
 
 export default function ProductsPage() {
   return (

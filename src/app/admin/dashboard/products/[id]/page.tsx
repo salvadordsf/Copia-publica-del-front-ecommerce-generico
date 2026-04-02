@@ -2,24 +2,26 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useParams } from "next/navigation";
-import { useProductById } from "@/features/products/services/products-querys";
+import { useProductById } from "@/features/admin/products/services/products-querys";
 import {
   useDeleteProducts,
   useUpdateProduct,
-} from "@/features/products/services/products-mutations";
-import UpdateProductDialog from "@/features/products/components/update/products-update-dialog";
+} from "@/features/admin/products/services/products-mutations";
+import UpdateProductDialog from "@/features/admin/products/components/update/products-update-dialog";
 import ResourceProperties from "@/components/dashboard/resource-components/resource-properties/resource-properties";
 import ResourceActionsHandler from "@/components/dashboard/actions/actions-handler-component";
 import ResourceNameDate from "@/components/dashboard/resource-components/resource-name-dates.tsx/resource-name-dates";
-import ProductTagsManager from "@/features/products/components/update/product-tags-manager";
+import ProductTagsManager from "@/features/admin/products/components/update/product-tags-manager";
+import { GenericItemsSlider } from "@/components/public-store/items-slider/generic-items-slider";
+import { IProduct } from "@/types/resources/product-type";
+import { ITag } from "@/types/resources/tag-type";
+import Image from "next/image";
 
 export default function IdProductPage() {
   const { id } = useParams();
-  const {
-    data: { success, data: product } = {},
-    isLoading,
-    isError,
-  } = useProductById(id as string);
+  const { data, isLoading, isError } = useProductById(id as string);
+  const product = data?.success ? data.data : null;
+
   const updateProduct = useUpdateProduct(id as string);
   const deleteProduct = useDeleteProducts();
 
@@ -39,6 +41,48 @@ export default function IdProductPage() {
     <>
       <div className="pt-5 space-y-6">
         <ResourceNameDate resource={product} />
+        {/* IMAGES */}
+        <div className="w-full max-w-xs">
+          {product.imageUrls.length > 1 ? (
+            <GenericItemsSlider
+              title=""
+              itemsType="producto"
+              btns={{
+                prev: `swiper-prev-btn-product-${product.id}`,
+                next: `swiper-next-btn-product-${product.id}`,
+              }}
+              paginationDots={true}
+              slidesSpaceConfig={{
+                slidesPerView: 1,
+                spaceBetween: 8,
+              }}
+              items={product.imageUrls.map((url: string, index: number) => [
+                { id: `${product.id}-img-${index}` },
+                <Image
+                  key={url}
+                  src={url}
+                  width={500}
+                  height={500}
+                  priority
+                  alt={`${product.name} - imagen ${index + 1}`}
+                  className="w-full h-48 rounded-xl object-cover"
+                />,
+              ])}
+            />
+          ) : (
+            <Image
+              src={
+                product.imageUrls[0] ??
+                "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+              }
+              width={500}
+              height={500}
+              priority
+              alt={product.name}
+              className="w-full h-48 rounded-xl object-cover"
+            />
+          )}
+        </div>
         <ResourceProperties
           properties={[
             { key: "Nombre", value: product.name },
@@ -56,7 +100,7 @@ export default function IdProductPage() {
         />
 
         {/* Action btns */}
-        <ResourceActionsHandler
+        <ResourceActionsHandler<IProduct>
           resource={product}
           resourceType="products"
           updateResourceDialog={<UpdateProductDialog product={product} />}
@@ -65,7 +109,7 @@ export default function IdProductPage() {
         />
         <ProductTagsManager
           product={product}
-          initialTags={product.tags.map((t: any) => t.id)}
+          initialTags={product.tags.map((t: ITag) => t.id)}
         />
       </div>
     </>

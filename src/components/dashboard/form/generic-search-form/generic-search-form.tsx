@@ -29,7 +29,7 @@ export default function GenericSearchForm({
 
   //toggle open extra filters
   const [openFilters, setOpenFilters] = useState<boolean>(false);
-  console.log(filtersFields);
+  
   return (
     <form
       onSubmit={handleSubmit(onSubmitAction)}
@@ -127,7 +127,7 @@ export default function GenericSearchForm({
                           disabled: false,
                         }))}
                         disabled={false}
-                        defaultValue={field.defaultValue}
+                        defaultValue={field.defaultValue as string | undefined}
                       />
                     )}
                   />
@@ -157,27 +157,33 @@ export default function GenericSearchForm({
                   />
                 </label>
               </div>
+            ) : field.type === "status" ? (
+              <Controller
+                name={field.name}
+                control={control}
+                render={({ field: controllerField }) => (
+                  <UiSelect
+                    field={controllerField}
+                    placeholder={field.placeholder}
+                    label={field.selectLabel as string}
+                    items={field.options?.map((option) => ({
+                      value: option.value,
+                      label: option.label,
+                      disabled: false,
+                    }))}
+                    disabled={false}
+                    defaultValue={field.defaultValue as string | undefined}
+                  />
+                )}
+              />
             ) : (
-              field.type === "status" && (
-                <Controller
-                  name={field.name}
-                  control={control}
-                  render={({ field: controllerField }) => (
-                    <UiSelect
-                      field={controllerField}
-                      placeholder={field.placeholder}
-                      label={field.selectLabel as string}
-                      items={field.options?.map((option) => ({
-                        value: option.value,
-                        label: option.label,
-                        disabled: false,
-                      }))}
-                      disabled={false}
-                      defaultValue={field.defaultValue}
-                    />
-                  )}
-                />
-              )
+              <Input
+                type="text"
+                {...register(field.name)}
+                placeholder={field.placeholder}
+                min={field.min}
+                max={field.max}
+              />
             )}
           </label>
         </div>
@@ -315,7 +321,7 @@ export default function GenericSearchForm({
                   render={({ field: controllerField }) => (
                     <UiSlider
                       field={controllerField}
-                      defaultValue={field.defaultValue}
+                      defaultValue={field.defaultValue as number}
                       min={field.min as number}
                       max={field.max as number}
                       step={field.step}

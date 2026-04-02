@@ -1,5 +1,11 @@
 import GlobalProviders from "./provider";
 import "@/styles/globals.css";
+import { Outfit } from "next/font/google";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export default function RootLayout({
   children,
@@ -9,7 +15,9 @@ export default function RootLayout({
   return (
     <GlobalProviders>
       <html lang="es">
-        <body>{children}</body>
+        <body className={outfit.variable}>
+          {children}
+          </body>
       </html>
     </GlobalProviders>
   );

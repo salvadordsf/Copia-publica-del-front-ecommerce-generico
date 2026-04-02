@@ -1,17 +1,14 @@
+import AdminLayout from "@/components/dashboard/admin-layout";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Admin Panel",
 };
 
-export default function AdminLayout({
+export default function AdminProvidersLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="">
-      {children}
-    </div>
-  );
+  return <AdminLayout>{children}</AdminLayout>;
 }

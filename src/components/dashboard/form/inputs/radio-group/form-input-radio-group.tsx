@@ -3,7 +3,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { ControllerRenderProps } from "react-hook-form";
 
 interface IUiRadioGroup {
-	field: ControllerRenderProps<any, any>;
+	field: ControllerRenderProps;
 	items: {
 		value: string,
 		label: string,

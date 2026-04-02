@@ -4,7 +4,7 @@ interface IUiTableCell {
   className?: string;
 }
 
-interface IUiTableBodyRow {
+export interface IUiTableBodyRow {
   rowCells: (Omit<IUiTableCell, "type"> & { type: "body" })[];
   onClickAction: () => void;
   className?: string;
@@ -13,7 +13,7 @@ interface IUiTableBodyRow {
 export interface IUiTable {
   rows: {
     headerRow: (Omit<IUiTableCell, "type"> & { type: "header" })[];
-    bodyRows: IUiTableBodyRow[];
+    bodyRows: (IUiTableBodyRow | { className: string })[];
   }
   caption?: string;
   className?: string;

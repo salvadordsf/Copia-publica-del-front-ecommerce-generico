@@ -96,7 +96,7 @@ export default function GenericSearchForm({
                           label: option.label,
                         }))}
                         disabled={false}
-                        defaultValue={field.defaultValue}
+                        defaultValue={field.defaultValue as string | undefined}
                       />
                     )}
                   />
@@ -140,7 +140,7 @@ export default function GenericSearchForm({
                         label: option.label,
                       }))}
                       disabled={false}
-                      defaultValue={field.defaultValue}
+                      defaultValue={field.defaultValue as string | undefined}
                     />
                   )}
                 />
@@ -204,7 +204,6 @@ export default function GenericSearchForm({
                   width={15} 
                   color="green" className="cursor-pointer hover:-rotate-45 transition-all"
                   onClick={() => {
-                    let fieldName = field.name;
                     switch (field.name) {
                       case "price":
                         setValue("priceMin", undefined);
@@ -259,7 +258,7 @@ export default function GenericSearchForm({
                   render={({ field: controllerField }) => (
                     <UiSlider
                       field={controllerField}
-                      defaultValue={field.defaultValue}
+                      defaultValue={field.defaultValue as number}
                       min={field.min as number}
                       max={field.max as number}
                       step={field.step}

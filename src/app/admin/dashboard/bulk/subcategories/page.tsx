@@ -1,5 +1,5 @@
-import SubcategoriesBulkFiltersResults from "@/features/subcategories/components/filter/subcategories-bulk-counter";
-import SubcategoryBulkFilters from "@/features/subcategories/components/filter/subcategories-filters";
+import SubcategoriesBulkFiltersResults from "@/features/admin/subcategories/components/filter/subcategories-bulk-counter";
+import SubcategoryBulkFilters from "@/features/admin/subcategories/components/filter/subcategories-filters";
 
 export default function ProductsPage() {
   return (

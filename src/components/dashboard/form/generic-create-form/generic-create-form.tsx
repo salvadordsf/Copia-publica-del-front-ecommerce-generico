@@ -1,23 +1,28 @@
-import { Controller, FieldError, useFormContext } from "react-hook-form";
+import {
+  Controller,
+  FieldError,
+  FieldValues,
+  SubmitHandler,
+  useFormContext,
+} from "react-hook-form";
 import { IGenericFormProps } from "./generic-create-form.types";
 import UiSelect from "../inputs/select/form-input-select";
 import UiTextarea from "../inputs/textarea/form-input-textarea";
 import UiRadioGroup from "../inputs/radio-group/form-input-radio-group";
-import ToggleCreateTagInput from "@/features/tags/components/create/tags-toggle-create-input";
 import UiSlider from "../inputs/slider/form-input-slider";
 import { Input } from "@/components/ui/input";
 import { FormError } from "../form-error-input";
 import MethodsBtns from "../../btns/btn-request-method";
+import ToggleCreateTagInput from "@/features/admin/tags/components/create/tags-toggle-create-input";
 
-
-export default function GenericForm({
+export default function GenericForm<TFormValues>({
   fields,
   submitButtonText,
   submitButtonType,
   btnClassName,
   onSubmitAction,
   className,
-}: IGenericFormProps) {
+}: IGenericFormProps<TFormValues>) {
   const {
     register,
     handleSubmit,
@@ -28,7 +33,7 @@ export default function GenericForm({
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmitAction)}
+      onSubmit={handleSubmit(onSubmitAction as SubmitHandler<FieldValues>)}
       className={className ? className : `flex flex-col gap-4 max-w-2xl`}
     >
       {fields.map((field, i) => {
@@ -44,9 +49,9 @@ export default function GenericForm({
         //Subcategory depends on category select options filter system
         let fieldOptions = field.options;
         if (field.name === "subcategoryId" && field.dependsOn) {
-          console.log(fieldOptions)
+          console.log(fieldOptions);
           fieldOptions = field.options?.filter(
-            (option) => option?.categoryId === dependentValue
+            (option) => option?.categoryId === dependentValue,
           );
         }
 
@@ -108,7 +113,7 @@ export default function GenericForm({
                   control={control}
                   render={({ field: controllerField }) => (
                     <ToggleCreateTagInput
-                      initialValue={field.defaultValue ?? []}
+                      initialValue={(field.defaultValue as string[] | undefined) ?? []}
                       value={controllerField.value ?? []}
                       onChangeAction={controllerField.onChange}
                     />
@@ -121,7 +126,7 @@ export default function GenericForm({
                   render={({ field: controllerField }) => (
                     <UiSlider
                       field={controllerField}
-                      defaultValue={field.defaultValue}
+                      defaultValue={field.defaultValue as number}
                       min={field.min as number}
                       max={field.max as number}
                       step={field.step}
@@ -135,7 +140,7 @@ export default function GenericForm({
                   type={field.type}
                   {...register(
                     field.name,
-                    field.type === "number" ? { valueAsNumber: true } : {}
+                    field.type === "number" ? { valueAsNumber: true } : {},
                   )}
                   placeholder={field.placeholder}
                   disabled={isDisabled}
@@ -151,9 +156,11 @@ export default function GenericForm({
       })}
       <div className={btnClassName}>
         <div className="flex justify-between space-x-4">
-          { submitButtonText && <MethodsBtns selectedType={submitButtonType}>
-            {submitButtonText}
-          </MethodsBtns>}
+          {submitButtonText && (
+            <MethodsBtns selectedType={submitButtonType}>
+              {submitButtonText}
+            </MethodsBtns>
+          )}
         </div>
       </div>
     </form>

@@ -1,0 +1,103 @@
+"use client";
+
+import React from "react";
+import { HomeSection } from "@/types/resources/home-section-types";
+import { ItemAnnouncementContent } from "@/features/publics/home/components/items/announcement";
+import { ItemProductContent } from "@/features/publics/home/components/items/product-item";
+import { ItemCategoryContent } from "@/features/publics/home/components/items/category-item";
+import { ItemImageContent } from "@/features/publics/home/components/items/image-item";
+import { ItemLinkContent } from "@/features/publics/home/components/items/link-item";
+import { ItemTextContent } from "@/features/publics/home/components/items/text-item";
+import { ITEM_TYPE_LABELS } from "../../utils/items-translations";
+
+interface ItemListProps {
+  section: HomeSection;
+}
+
+export const ItemList = ({ section }: ItemListProps) => {
+  const items = React.useMemo(() => {
+    if (!section.items) return [];
+
+    if (section.type === "PRODUCT_CAROUSEL") {
+      return [...section.items].sort((a, b) => {
+        if (a.position !== b.position) {
+          return a.position - b.position;
+        }
+
+        return b.product.relevance - a.product.relevance;
+      });
+    }
+
+    return section.items.sort((a, b) => a.position - b.position);
+  }, [section.items, section.type]);
+
+  if (!items || items.length === 0) {
+    return (
+      <div
+        className="
+          border border-dashed rounded-xl p-8
+          text-center text-sm text-gray-500
+        "
+      >
+        No hay elementos asociados en esta sección
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="
+        grid gap-4
+        grid-cols-1
+        sm:grid-cols-2
+        lg:grid-cols-4
+        xl:grid-cols-5
+      "
+    >
+      {items.map((item) => {
+        switch (item.itemType) {
+          case "ANNOUNCEMENT":
+            return <ItemAnnouncementContent key={item.id} item={item} />;
+
+          case "PRODUCT":
+            return <ItemProductContent key={item.id} item={item} />;
+
+          case "CATEGORY":
+            return <ItemCategoryContent key={item.id} item={item} />;
+
+          case "IMAGE":
+            return <ItemImageContent key={item.id} item={item} />;
+
+          case "LINK":
+            return <ItemLinkContent key={item.id} item={item} />;
+
+          case "TEXT":
+            return <ItemTextContent key={item.id} item={item} />;
+
+          default:
+            return (
+              <div
+                key={item.id}
+                className="
+                  w-full
+                  rounded-xl border p-4
+                  text-sm transition-all
+                  hover:shadow-sm
+                "
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium text-gray-600 uppercase">
+                    {ITEM_TYPE_LABELS[item.itemType] ?? item.itemType}
+                  </span>
+
+                  <span className="text-xs text-gray-400">
+                    Posición {item.position}
+                  </span>
+                </div>
+              </div>
+            );
+        }
+      })}
+    </div>
+  );
+};
