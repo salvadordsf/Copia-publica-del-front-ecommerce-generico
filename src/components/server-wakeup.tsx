@@ -7,7 +7,7 @@ export default function ServerWakeUp() {
   const [status, setStatus] = useState<Status>("idle");
 
   useEffect(() => {
-    const timeout = setTimeout(() => setStatus("waking"), 2500);
+    const timeout = setTimeout(() => setStatus("waking"), 4000);
 
     const ping = async () => {
       try {
