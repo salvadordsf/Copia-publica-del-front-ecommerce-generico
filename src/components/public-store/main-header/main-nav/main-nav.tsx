@@ -11,7 +11,7 @@ import { authClient } from "@/lib/auth-client";
 
 export const MainNav = () => {
   //try to get the user session if exist
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
 
   const hydrated = useCartHydrated();
   const items = useCartStore((s) => s.items);
@@ -33,7 +33,12 @@ export const MainNav = () => {
 
         {/* User profile + cart */}
         <div className="flex items-center gap-3">
-          {!session?.user ? (
+          {isPending ? (
+            <>
+              <LogIn className="cursor-pointer" />
+              <ShoppingCart className="cursor-pointer" />
+            </>
+          ) : !session?.user ? (
             <>
               <Link href="/auth/login">
                 <LogIn className="cursor-pointer" />

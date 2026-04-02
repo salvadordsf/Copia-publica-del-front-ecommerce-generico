@@ -5,6 +5,7 @@ import Link from "next/link";
 import { slugify } from "@/utils/slugify";
 import { IProduct } from "@/types/resources/product-type";
 import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const MiniSearchWrapper = ({
   products,
@@ -24,7 +25,15 @@ export const MiniSearchWrapper = ({
         "tags",
         "relevance",
       ],
-      storeFields: ["id", "name", "category", "subcategory", "tags", "imageUrls", "relevance"],
+      storeFields: [
+        "id",
+        "name",
+        "category",
+        "subcategory",
+        "tags",
+        "imageUrls",
+        "relevance",
+      ],
       searchOptions: {
         prefix: true,
         fuzzy: 0.25,
@@ -44,6 +53,7 @@ export const MiniSearchWrapper = ({
     autoSuggest(query);
   };
 
+  if (isLoading) return <Skeleton className="w-full border p-2 rounded-xl" />;
   return (
     <div className="relative w-full max-w-md mx-auto">
       <input

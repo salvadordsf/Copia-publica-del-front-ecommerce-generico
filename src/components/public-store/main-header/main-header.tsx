@@ -5,6 +5,7 @@ import { MainNav } from "./main-nav/main-nav";
 import { HomeSection } from "@/types/resources/home-section-types";
 import { useMemo } from "react";
 import { AnnouncementCarousel } from "@/features/publics/home/components/sections/announcement-carousel";
+import { HeaderSkeleton } from "@/components/skeletons/public/header/header-skeleton";
 
 export const MainHeader = () => {
   const { data, isLoading } = useHome();
@@ -18,7 +19,7 @@ export const MainHeader = () => {
     [sections],
   );
 
-  if (isLoading) return <div className="text-center py-10">Cargando...</div>;
+  if (isLoading) return <HeaderSkeleton />;
   return (
     <div className="pt-20">
       <header className="fixed top-0 left-0 right-0 z-30">
