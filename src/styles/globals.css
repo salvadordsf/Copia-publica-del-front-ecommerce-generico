@@ -41,7 +41,7 @@
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
 
-  /* Tus colores custom */
+  /* CUSTOM COLORS */
   --method-get: rgb(36, 166, 36);
   --method-post: rgb(255, 200, 0);
   --method-put: oklch(0.6 0.2 265);
@@ -49,17 +49,17 @@
 }
 
 @theme inline {
-  /* Fuentes */
+  /* FONTS */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 
-  /* Radios */
+  /* RADIUS */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Colores shadcn */
+  /* SHADCN COLORS */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -92,33 +92,85 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Colores custom */
+  /* CUSTOM COLORS */
   --color-method-get: var(--method-get);
   --color-method-post: var(--method-post);
   --color-method-put: var(--method-put);
   --color-method-delete: var(--method-delete);
 
-  /* Animaciones migradas desde tailwind.config.js */
+  /* ANIMATIONS*/
   --animate-float-y: floatY 6s ease-in-out infinite;
   --animate-float-y-reverse: floatYReverse 7s ease-in-out infinite;
   --animate-float-x: floatX 8s ease-in-out infinite;
   --animate-float-x-reverse: floatXReverse 9s ease-in-out infinite;
 
   @keyframes floatY {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-6px); }
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-6px);
+    }
   }
   @keyframes floatYReverse {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(6px); }
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(6px);
+    }
   }
   @keyframes floatX {
-    0%, 100% { transform: translateX(0px); }
-    50% { transform: translateX(6px); }
+
+    0%,
+    100% {
+      transform: translateX(0px);
+    }
+
+    50% {
+      transform: translateX(6px);
+    }
   }
   @keyframes floatXReverse {
-    0%, 100% { transform: translateX(0px); }
-    50% { transform: translateX(-6px); }
+
+    0%,
+    100% {
+      transform: translateX(0px);
+    }
+
+    50% {
+      transform: translateX(-6px);
+    }
+  }
+
+  --animate-progress: progress 55s linear forwards;
+  --animate-fade-in: fadeIn 0.4s ease;
+  
+  @keyframes progress {
+    0% {
+      width: 0%;
+    }
+
+    100% {
+      width: 100%;
+    }
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
@@ -164,6 +216,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
