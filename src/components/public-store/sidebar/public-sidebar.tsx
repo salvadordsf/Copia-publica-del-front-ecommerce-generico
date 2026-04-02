@@ -34,6 +34,7 @@ import { slugify } from "@/utils/slugify";
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
 import { CustomSidebarTrigger } from "./public-sidebar-toggle";
 import { ISubcategory } from "@/types/resources/subcategory-type";
+import PublicSidebarSkeleton from "@/components/skeletons/public/sidebar/sidebar-skeleton";
 
 export default function PublicSidebar() {
   //get the pathname for chek active links
@@ -64,172 +65,195 @@ export default function PublicSidebar() {
 
       {/* Content */}
       <SidebarContent className="py-2">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/home")}>
-              <Link href="/home">
-                <Home />
-                <span>Inicio</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-
-        {/* Categories*/}
-        {!isLoading && !isError && data && data.success && (
-          <Collapsible className="group/collapsible">
-            <SidebarGroup>
-              <SidebarGroupLabel asChild>
-                <CollapsibleTrigger className="flex items-center cursor-pointer">
-                  <Link
-                    href="/home/categorias"
-                    className="flex-1 flex items-center text-sm font-semibold hover:underline"
-                  >
-                    Categorías
+        {isLoading ? (
+          <PublicSidebarSkeleton />
+        ) : (
+          <>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isActive("/home")}>
+                  <Link href="/home">
+                    <Home />
+                    <span>Inicio</span>
                   </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
 
-                  <ChevronDown
-                    className="
+            {/* Categories*/}
+            {!isLoading && !isError && data && data.success && (
+              <Collapsible className="group/collapsible">
+                <SidebarGroup>
+                  <SidebarGroupLabel asChild>
+                    <CollapsibleTrigger className="flex items-center cursor-pointer">
+                      <Link
+                        href="/home/categorias"
+                        className="flex-1 flex items-center text-sm font-semibold hover:underline"
+                      >
+                        Categorías
+                      </Link>
+
+                      <ChevronDown
+                        className="
                     ml-2 h-4 w-4 transition-transform 
                     group-data-[state=open]/collapsible:rotate-180
                   "
-                  />
-                </CollapsibleTrigger>
-              </SidebarGroupLabel>
+                      />
+                    </CollapsibleTrigger>
+                  </SidebarGroupLabel>
 
-              <CollapsibleContent className="overflow-hidden pr-2">
-                <SidebarGroupContent>
-                  <SidebarMenu className="ml-2">
-                    {[...data.data]
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((cat) => (
-                        <Collapsible key={cat.name} className="group/subcat">
-                          <SidebarMenuItem>
-                            {/* Category */}
-                            <CollapsibleTrigger className="flex w-full cursor-pointer">
-                              <SidebarMenuButton
-                                asChild
-                                isActive={isActive(
-                                  `/home/categoria/${slugify(cat.name)}?id=${cat.id}`,
-                                )}
-                              >
-                                <Link
-                                  href={`/home/categoria/${slugify(cat.name)}?id=${cat.id}`}
-                                  className="flex-1 hover:underline"
-                                >
-                                  <span>{cat.name}</span>
-                                </Link>
-                              </SidebarMenuButton>
+                  <CollapsibleContent className="overflow-hidden pr-2">
+                    <SidebarGroupContent>
+                      <SidebarMenu className="ml-2">
+                        {[...data.data]
+                          .sort((a, b) => a.name.localeCompare(b.name))
+                          .map((cat) => (
+                            <Collapsible
+                              key={cat.name}
+                              className="group/subcat"
+                            >
+                              <SidebarMenuItem>
+                                {/* Category */}
+                                <CollapsibleTrigger className="flex w-full cursor-pointer">
+                                  <SidebarMenuButton
+                                    asChild
+                                    isActive={isActive(
+                                      `/home/categoria/${slugify(cat.name)}?id=${cat.id}`,
+                                    )}
+                                  >
+                                    <Link
+                                      href={`/home/categoria/${slugify(cat.name)}?id=${cat.id}`}
+                                      className="flex-1 hover:underline"
+                                    >
+                                      <span>{cat.name}</span>
+                                    </Link>
+                                  </SidebarMenuButton>
 
-                              {cat.subcategories.length > 0 && (
-                                <ChevronDown
-                                  className="
+                                  {cat.subcategories.length > 0 && (
+                                    <ChevronDown
+                                      className="
                               ml-1 h-4 w-4 opacity-70 transition-transform 
                               group-data-[state=open]/subcat:rotate-180
                             "
-                                />
-                              )}
-                            </CollapsibleTrigger>
+                                    />
+                                  )}
+                                </CollapsibleTrigger>
 
-                            {/* Subcategory */}
-                            <CollapsibleContent className="w-[90%]">
-                              <SidebarMenu className="ml-4 mt-1 space-y-1">
-                                {[...cat.subcategories]
-                                  .filter((sub: ISubcategory) => {
-                                    if (sub.status === "ACTIVE") return sub;
-                                  })
-                                  .sort((a, b) => a.name.localeCompare(b.name))
-                                  .map((sub) => (
-                                    <SidebarMenuItem
-                                      key={sub.name}
-                                      className="hover:underline"
-                                    >
-                                      <SidebarMenuButton
-                                        asChild
-                                        isActive={isActive(
-                                          `/home/subcategoria/${slugify(sub.name)}?id=${sub.id}`,
-                                        )}
-                                        className="text-sm"
-                                      >
-                                        <Link
-                                          href={`/home/subcategoria/${slugify(sub.name)}?id=${sub.id}`}
-                                          className="flex-1 hover:underline"
+                                {/* Subcategory */}
+                                <CollapsibleContent className="w-[90%]">
+                                  <SidebarMenu className="ml-4 mt-1 space-y-1">
+                                    {[...cat.subcategories]
+                                      .filter((sub: ISubcategory) => {
+                                        if (sub.status === "ACTIVE") return sub;
+                                      })
+                                      .sort((a, b) =>
+                                        a.name.localeCompare(b.name),
+                                      )
+                                      .map((sub) => (
+                                        <SidebarMenuItem
+                                          key={sub.name}
+                                          className="hover:underline"
                                         >
-                                          <span>{sub.name}</span>
-                                        </Link>
-                                      </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                  ))}
-                              </SidebarMenu>
-                            </CollapsibleContent>
-                          </SidebarMenuItem>
-                        </Collapsible>
-                      ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </CollapsibleContent>
-            </SidebarGroup>
-          </Collapsible>
+                                          <SidebarMenuButton
+                                            asChild
+                                            isActive={isActive(
+                                              `/home/subcategoria/${slugify(sub.name)}?id=${sub.id}`,
+                                            )}
+                                            className="text-sm"
+                                          >
+                                            <Link
+                                              href={`/home/subcategoria/${slugify(sub.name)}?id=${sub.id}`}
+                                              className="flex-1 hover:underline"
+                                            >
+                                              <span>{sub.name}</span>
+                                            </Link>
+                                          </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                      ))}
+                                  </SidebarMenu>
+                                </CollapsibleContent>
+                              </SidebarMenuItem>
+                            </Collapsible>
+                          ))}
+                      </SidebarMenu>
+                    </SidebarGroupContent>
+                  </CollapsibleContent>
+                </SidebarGroup>
+              </Collapsible>
+            )}
+
+            {/* Products */}
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/home/productos")}
+                >
+                  <Link href="/home/productos">
+                    <ShoppingBasket />
+                    <span>Productos</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+
+            {/* Generics */}
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/home/generic-1")}
+                >
+                  <Link href="/home/generic-1">
+                    <Boxes />
+                    <span>Sección genérica 1</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/home/generic-2")}
+                >
+                  <Link href="/home/generic-2">
+                    <Boxes />
+                    <span>Sección genérica 2</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+
+            {/* Faq */}
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isActive("/home/faq")}>
+                  <Link href="/home/faq">
+                    <HelpCircle />
+                    <span>Preguntas frecuentes</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+
+            {/* Contact */}
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/home/contacto")}
+                >
+                  <Link href="/home/contacto">
+                    <Phone />
+                    <span>Contacto</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </>
         )}
-
-        {/* Products */}
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/home/productos")}>
-              <Link href="/home/productos">
-                <ShoppingBasket />
-                <span>Productos</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-
-        {/* Generics */}
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/home/generic-1")}>
-              <Link href="/home/generic-1">
-                <Boxes />
-                <span>Sección genérica 1</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/home/generic-2")}>
-              <Link href="/home/generic-2">
-                <Boxes />
-                <span>Sección genérica 2</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-
-        {/* Faq */}
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/home/faq")}>
-              <Link href="/home/faq">
-                <HelpCircle />
-                <span>Preguntas frecuentes</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-
-        {/* Contact */}
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/home/contacto")}>
-              <Link href="/home/contacto">
-                <Phone />
-                <span>Contacto</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
       </SidebarContent>
 
       {/* Footer */}
