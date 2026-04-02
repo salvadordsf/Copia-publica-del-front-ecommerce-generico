@@ -6,6 +6,7 @@ import { useProductsFiltersStore } from "../../stores/products-filters";
 import UiPagination from "@/components/dashboard/pagination/pagination";
 import { useEffect } from "react";
 import { ProductCard } from "@/components/public-store/home/cards/product-card";
+import { ProductGridSkeleton } from "@/components/skeletons/public/products/products-results-container-skeleton";
 
 export function ProductsResultsContainer({ resetFilters = true }) {
   const filters = useProductsFiltersStore((s) => s.filters);
@@ -25,11 +26,7 @@ export function ProductsResultsContainer({ resetFilters = true }) {
   const pagination = data?.success ? data.data.pagination : null;
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center py-10">
-        <Loader2 className="animate-spin" />
-      </div>
-    );
+    return (<ProductGridSkeleton count={12} />);
   }
 
   if (isError || !data || !data.success) {

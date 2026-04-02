@@ -39,7 +39,7 @@ export const BannerCarousel = ({ section }: BannerCarouselProps) => {
         {items.map((item, index) => {
           const banner = (
             <div className="relative w-full h-full">
-              {/* Fondo borroso con la misma imagen */}
+              {/* blur bg with the same image */}
               <Image
                 src={item.imageUrl!}
                 alt=""
@@ -47,9 +47,10 @@ export const BannerCarousel = ({ section }: BannerCarouselProps) => {
                 className="object-cover scale-110 blur-xl brightness-75 select-none"
                 sizes="100vw"
                 aria-hidden
+                priority
               />
 
-              {/* Imagen principal encima */}
+              {/* Main image */}
               <Image
                 src={item.imageUrl!}
                 alt={item.title ?? `Banner ${index + 1}`}
