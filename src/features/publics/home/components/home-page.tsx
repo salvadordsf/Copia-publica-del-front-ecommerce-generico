@@ -9,9 +9,10 @@ import { ProductCarousel } from "./sections/product-carousel";
 import { CategoriesCarousel } from "./sections/category-carousel";
 import { TextSection } from "./sections/text";
 import { GridSection } from "./sections/grid";
+import { HomePageSkeleton } from "@/components/skeletons/public/home/home-skeletons";
 
 export const HomePage = () => {
-  const { data } = useHome();
+  const { data, isLoading } = useHome();
   const sections = useMemo( () => (data?.success ? data.data : []), [data])
 
   const firstAnnouncement = useMemo(
@@ -22,6 +23,7 @@ export const HomePage = () => {
     [sections],
   );
 
+  if (true) return <HomePageSkeleton />
   if (!data?.success || !sections.length) return null;
 
   return (

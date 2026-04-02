@@ -2,13 +2,13 @@
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Navigation, Pagination } from "swiper/modules";
-import "swiper/swiper.css";
-import "swiper/css/navigation";
 import { ReactElement } from "react";
 import { GenericItemsCard } from "./generic-items-card";
 import { GenericNextSliderBtn } from "./generic-next-slider";
 import { GenericPrevSliderBtn } from "./generic-prev-slider";
 import { cn } from "@/lib/utils";
+import "swiper/swiper.css";
+import "swiper/css/navigation";
 
 interface IGenericItemsSliderProps {
   itemsType: string;
