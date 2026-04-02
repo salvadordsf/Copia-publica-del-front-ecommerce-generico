@@ -23,7 +23,7 @@ export const HomePage = () => {
     [sections],
   );
 
-  if (true) return <HomePageSkeleton />
+  if (isLoading) return <HomePageSkeleton />
   if (!data?.success || !sections.length) return null;
 
   return (

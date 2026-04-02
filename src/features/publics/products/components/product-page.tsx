@@ -16,6 +16,7 @@ import { useCartHydrated } from "../../cart/stores/use-cart-hydrated";
 import Image from "next/image";
 import Link from "next/link";
 import { slugify } from "@/utils/slugify";
+import { ProductPageSkeleton } from "@/components/skeletons/public/products/product-page-skeleton";
 
 export const ProductPage = () => {
   //Get the productId from the path
@@ -51,12 +52,11 @@ export const ProductPage = () => {
     : (product?.stock ?? 0);
 
   //Return if any of this cant load
-  if (isLoading) return <Loader2 />;
+  if (isLoading || isLoadingProducts) return <ProductPageSkeleton />;
   if (isError || !response || !response.success)
     return <p>Error al cargar producto desde el hook</p>;
   if (!product) return <p>Error al cargar producto desde el hook</p>;
 
-  if (isLoadingProducts) return <Loader2 className="" />;
   if (isErrorProducts || !products || !products.success)
     return <p>Error al cargar productos relacionados desde el hook</p>;
   if (!relatedProducts)
@@ -85,7 +85,10 @@ export const ProductPage = () => {
               }}
               items={imageSrc.map((url, index) => [
                 { id: `${product.id}-img-${index}` },
-                <div key={url} className="relative w-full rounded-xl overflow-hidden">
+                <div
+                  key={url}
+                  className="relative w-full rounded-xl overflow-hidden"
+                >
                   <Image
                     src={url}
                     alt={product.name}
