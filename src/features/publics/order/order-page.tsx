@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useOrderById } from "@/features/admin/orders/services/orders-querys";
 import { ORDER_STATUS_COLOR, ORDER_STATUS_LABEL } from "./order-status-label";
 import { IOrderProduct, OrderStatus } from "@/types/resources/order-types";
+import OrderDetailPageSkeleton from "@/components/skeletons/public/orders/order-detail-page-skeleton";
 
 export default function OrderDetailPage() {
   //get the orderId
@@ -32,21 +33,7 @@ export default function OrderDetailPage() {
     : false;
 
   if (isPending) {
-    return (
-      <div className="mx-auto max-w-2xl px-4 py-10">
-        <Card>
-          <CardHeader className="space-y-2">
-            <Skeleton className="h-6 w-48" />
-            <Skeleton className="h-4 w-32" />
-          </CardHeader>
-
-          <CardContent className="space-y-4">
-            <Skeleton className="h-24 w-full" />
-            <Skeleton className="h-32 w-full" />
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return (<OrderDetailPageSkeleton />);
   }
 
   if (isError || !order) {

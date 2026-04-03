@@ -8,6 +8,7 @@ import { useCartStore } from "../stores/cart-store";
 import Image from "next/image";
 import Link from "next/link";
 import { slugify } from "@/utils/slugify";
+import { CartItemSkeleton } from "@/components/skeletons/public/cart/cart-item-skeleton";
 
 interface CartItemProps {
   productId: string;
@@ -26,11 +27,7 @@ export function CartItem({ productId, quantity }: CartItemProps) {
   if (!hydrated) return null;
 
   if (isLoading) {
-    return (
-      <div className="flex items-center gap-4 py-4">
-        <Loader2 className="animate-spin" />
-      </div>
-    );
+    return (<CartItemSkeleton />);
   }
 
   if (isError || !data || !data.success) return null;

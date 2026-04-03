@@ -6,9 +6,10 @@ import { ProductsResultsContainer } from "../products/components/results-page/pr
 import { useCategoryById } from "@/features/admin/categories/services/categories-querys";
 import { GenericItemsSlider } from "@/components/public-store/items-slider/generic-items-slider";
 import { SubcategoryCard } from "../subcategories/subcategory-card";
-import { ChevronRight, Loader2 } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useEffect } from "react";
 import Link from "next/link";
+import { CategoryPageSkeleton } from "@/components/skeletons/public/categories/category-page-skeleton";
 
 export function CategoryPage() {
   const searchParams = useSearchParams();
@@ -24,12 +25,7 @@ export function CategoryPage() {
 
   const { data, isLoading, error } = useCategoryById(categoryId!);
 
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center py-32">
-        <Loader2 className="animate-spin text-neutral-300" size={28} />
-      </div>
-    );
+  if (isLoading) return <CategoryPageSkeleton />;
 
   if (!data?.success || error)
     return (

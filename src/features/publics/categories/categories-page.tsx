@@ -3,10 +3,10 @@
 import { useCategories } from "@/features/admin/categories/services/categories-querys";
 import { ICategory } from "@/types/resources/category-type";
 import { slugify } from "@/utils/slugify";
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { CategoryPageGridSkeleton } from "@/components/skeletons/public/categories/categories-page/categories-home-page-grid-skeleton";
+import { CategoriesPageSkeleton } from "@/components/skeletons/public/categories/categories-page/categories-page-skeleton";
 
 export const CategoriesPublicPage = () => {
   const { data, isLoading, isError } = useCategories({
@@ -16,12 +16,7 @@ export const CategoriesPublicPage = () => {
   });
   const categories = data?.success ? data.data : [];
 
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center py-32">
-        <Loader2 className="animate-spin text-neutral-300" size={28} />
-      </div>
-    );
+  if (isLoading) return <CategoriesPageSkeleton />
 
   if (isError || !data?.success)
     return (
