@@ -66,7 +66,7 @@ export default function ServerWakeUp() {
     );
 
   return (
-    <div className="bg-blue-50 border border-blue-200 rounded-xl px-5 py-5 mb-4 animate-fade-in">
+    <div className="bg-blue-50 border border-blue-200 rounded-xl px-5 py-5 mb-4 animate-fade-in mt-30">
       <div className="flex items-center gap-4">
         <div className="w-9 h-9 rounded-full border-2 border-blue-200 border-t-blue-600 animate-spin shrink-0" />
         <div className="flex-1 min-w-0">
