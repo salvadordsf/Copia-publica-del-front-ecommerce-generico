@@ -9,7 +9,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider defaultOpen={false}>
+    <SidebarProvider defaultOpen={false} className="!block relative">
       <PublicSidebar />
       <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
         <MainHeader />
