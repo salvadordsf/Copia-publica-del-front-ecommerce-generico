@@ -3,11 +3,11 @@
 import { authClient } from "@/lib/auth-client";
 import { useUserById } from "@/features/admin/users/services/users-querys";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { PencilIcon, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import ProfileOrders from "./profile-orders";
+import ProfilePageSkeleton from "@/components/skeletons/public/profile/profile-skeleton";
 
 export default function ProfilePage() {
   const { data: session, isPending: isSessionPending } =
@@ -22,38 +22,12 @@ export default function ProfilePage() {
     isError,
   } = useUserById(userId, !!userId);
 
-  if (isSessionPending) {
-    return (
-      <div className="max-w-xl mx-auto py-10">
-        <Card>
-          <CardHeader className="flex flex-row items-center gap-4">
-            <Skeleton className="h-14 w-14 rounded-full" />
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-40" />
-              <Skeleton className="h-3 w-52" />
-            </div>
-          </CardHeader>
-        </Card>
-      </div>
-    );
+  if (isSessionPending || isUserPending) {
+    return <ProfilePageSkeleton />;
   }
 
   if (session === null) router.push("/auth/login");
-  if (isUserPending) {
-    return (
-      <div className="max-w-xl mx-auto py-10">
-        <Card>
-          <CardHeader className="flex flex-row items-center gap-4">
-            <Skeleton className="h-14 w-14 rounded-full" />
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-40" />
-              <Skeleton className="h-3 w-52" />
-            </div>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  }
+
   if (isError || !data.success)
     return (
       <div className="max-w-xl mx-auto py-10 text-sm text-muted-foreground">
