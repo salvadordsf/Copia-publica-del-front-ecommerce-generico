@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProductCarouselSkeleton } from "../products/product-carousel-skeleton";
 import { ProductGridSkeleton } from "../products/products-results-container-skeleton";
-import { CategoryCarouselSkeleton } from "../categories/category-carousel-skeleton";
+import { CategoryCarouselSkeleton } from "../categories/categories-home/category-carousel-skeleton";
 
 export const HomePageSkeleton = () => {
   return (
