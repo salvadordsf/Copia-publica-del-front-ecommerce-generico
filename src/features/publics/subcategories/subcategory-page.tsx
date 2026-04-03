@@ -8,6 +8,7 @@ import { useSubcategoryById } from "@/features/admin/subcategories/services/subc
 import { useEffect } from "react";
 import Link from "next/link";
 import { slugify } from "@/utils/slugify";
+import { SubcategoryPageSkeleton } from "@/components/skeletons/public/subcategories/subcategory-page-skeleton";
 
 export function SubcategoryPage() {
   const searchParams = useSearchParams();
@@ -23,11 +24,7 @@ export function SubcategoryPage() {
   const { data, isLoading, error } = useSubcategoryById(subcategoryId!);
 
   if (isLoading)
-    return (
-      <div className="flex items-center justify-center py-32">
-        <Loader2 className="animate-spin text-neutral-300" size={28} />
-      </div>
-    );
+    return (<SubcategoryPageSkeleton />);
 
   if (!data?.success || error)
     return (

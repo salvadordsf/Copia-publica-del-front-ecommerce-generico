@@ -169,7 +169,7 @@ export function ProductsFilters() {
                 }}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Todas las categorías" />
+                  <SelectValue placeholder={isLoading ? "Cargando categorías..." : "Todas las categorías"} />
                 </SelectTrigger>
 
                 <SelectContent>
