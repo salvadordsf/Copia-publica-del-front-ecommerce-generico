@@ -6,6 +6,7 @@ import { slugify } from "@/utils/slugify";
 import { IProduct } from "@/types/resources/product-type";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import cloudinaryLoader from "@/lib/cloudinary/cloudinary-loader";
 
 export const MiniSearchWrapper = ({
   products,
@@ -82,10 +83,13 @@ export const MiniSearchWrapper = ({
                           res.imageUrls?.[0] ??
                           "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
                         }
-                        width={30}
-                        height={30}
+                        width={40}
+                        height={40}
                         alt={res.name}
                         className="w-10 h-10 object-cover rounded-md flex-shrink-0"
+                        loader={cloudinaryLoader}
+                        sizes="40px"
+                        quality={60}
                       />
                       <div className="flex flex-col min-w-0">
                         <span className="font-medium truncate">{res.name}</span>

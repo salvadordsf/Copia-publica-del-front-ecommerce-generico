@@ -8,7 +8,6 @@ import {
   useProductById,
   useProducts,
 } from "@/features/admin/products/services/products-querys";
-import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AddToCartButton } from "../../cart/components/add-to-cart";
 import { useCartStore } from "../../cart/stores/cart-store";
@@ -17,6 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { slugify } from "@/utils/slugify";
 import { ProductPageSkeleton } from "@/components/skeletons/public/products/product-page-skeleton";
+import cloudinaryLoader from "@/lib/cloudinary/cloudinary-loader";
 
 export const ProductPage = () => {
   //Get the productId from the path
@@ -94,12 +94,14 @@ export const ProductPage = () => {
                     alt={product.name}
                     width={500}
                     height={500}
-                    priority
+                    fill
+                    priority={index === 0}
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="w-full h-auto rounded-xl object-cover"
+                    className="rounded-xl object-cover"
+                    loader={cloudinaryLoader}
+                    quality={85}
                   />
-                  ,
-                </div>,
+                </div>
               ])}
             />
           ) : (
@@ -111,7 +113,10 @@ export const ProductPage = () => {
                 height={500}
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="w-full h-auto rounded-xl object-cover"
+                fill
+                className="rounded-xl object-cover"
+                loader={cloudinaryLoader}
+                quality={85}
               />
             </div>
           )}

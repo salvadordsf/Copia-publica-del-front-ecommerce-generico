@@ -4,6 +4,7 @@ import React from "react";
 import { ItemSection } from "@/types/resources/home-section-types";
 import { ItemCard } from "@/features/admin/store-managment/components/items/items-card";
 import Image from "next/image";
+import cloudinaryLoader from "@/lib/cloudinary/cloudinary-loader";
 
 interface ItemImageContentProps {
   item: ItemSection;
@@ -29,11 +30,12 @@ export const ItemImageContent = ({ item }: ItemImageContentProps) => {
           fill
           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           className="
-            w-full h-full
             object-contain
             transition-transform duration-300
             group-hover:scale-[1.03]
           "
+          quality={75}
+          loader={cloudinaryLoader}
         />
 
         {/* Gradient overlay */}

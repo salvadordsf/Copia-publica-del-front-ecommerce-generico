@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { slugify } from "@/utils/slugify";
 import Link from "next/link";
 import Image from "next/image";
+import cloudinaryLoader from "@/lib/cloudinary/cloudinary-loader";
 
 export const ProductCard = ({ product }: { product: IProduct }) => {
   const imageSrc =
@@ -32,8 +33,10 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
             src={imageSrc}
             fill
             alt={product.name}
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            sizes="(max-width: 640px) 150px, (max-width: 1024px) 170px, 200px"
+            quality={75}
             className="object-cover transition-transform duration-500 group-hover:scale-105"
+            loader={cloudinaryLoader}
           />
 
           {outOfStock && (

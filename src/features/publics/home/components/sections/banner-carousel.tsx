@@ -7,6 +7,7 @@ import "swiper/swiper.css";
 
 import { HomeSection } from "@/types/resources/home-section-types";
 import Image from "next/image";
+import cloudinaryLoader from "@/lib/cloudinary/cloudinary-loader";
 
 interface BannerCarouselProps {
   section: HomeSection;
@@ -47,7 +48,9 @@ export const BannerCarousel = ({ section }: BannerCarouselProps) => {
                 className="object-cover scale-110 blur-xl brightness-75 select-none"
                 sizes="100vw"
                 aria-hidden
-                priority
+                priority={index === 0}
+                loader={cloudinaryLoader}
+                quality={20}
               />
 
               {/* Main image */}
@@ -58,7 +61,8 @@ export const BannerCarousel = ({ section }: BannerCarouselProps) => {
                 className="object-contain select-none"
                 sizes="100vw"
                 priority={index === 0}
-                decoding="async"
+                quality={85}
+                loader={cloudinaryLoader}
               />
 
               {/* Overlay */}

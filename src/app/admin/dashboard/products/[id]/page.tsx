@@ -16,6 +16,7 @@ import { GenericItemsSlider } from "@/components/public-store/items-slider/gener
 import { IProduct } from "@/types/resources/product-type";
 import { ITag } from "@/types/resources/tag-type";
 import Image from "next/image";
+import cloudinaryLoader from "@/lib/cloudinary/cloudinary-loader";
 
 export default function IdProductPage() {
   const { id } = useParams();
@@ -63,9 +64,12 @@ export default function IdProductPage() {
                   src={url}
                   width={500}
                   height={500}
-                  priority
+                  priority={index === 0}
                   alt={`${product.name} - imagen ${index + 1}`}
                   className="w-full h-48 rounded-xl object-cover"
+                  loader={cloudinaryLoader}
+                  sizes="(max-width: 768px) 100vw, 320px"
+                  quality={80}
                 />,
               ])}
             />
@@ -80,6 +84,9 @@ export default function IdProductPage() {
               priority
               alt={product.name}
               className="w-full h-48 rounded-xl object-cover"
+              loader={cloudinaryLoader}
+              sizes="320px"
+              quality={80}
             />
           )}
         </div>
