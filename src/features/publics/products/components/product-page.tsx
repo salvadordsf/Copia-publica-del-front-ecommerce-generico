@@ -87,13 +87,11 @@ export const ProductPage = () => {
                 { id: `${product.id}-img-${index}` },
                 <div
                   key={url}
-                  className="relative w-full rounded-xl overflow-hidden"
+                  className="relative w-full rounded-xl overflow-hidden aspect-[2/3]"
                 >
                   <Image
                     src={url}
                     alt={product.name}
-                    width={500}
-                    height={500}
                     fill
                     priority={index === 0}
                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -105,12 +103,10 @@ export const ProductPage = () => {
               ])}
             />
           ) : (
-            <div className="relative h-full w-full rounded-xl overflow-hidden">
+            <div className="relative h-full w-full rounded-xl overflow-hidden aspect-[2/3]">
               <Image
                 src={imageSrc[0]}
                 alt={product.name}
-                width={500}
-                height={500}
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
                 fill
