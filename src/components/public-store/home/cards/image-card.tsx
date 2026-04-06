@@ -1,3 +1,4 @@
+import cloudinaryLoader from "@/lib/cloudinary/cloudinary-loader";
 import { ItemSection } from "@/types/resources/home-section-types";
 import Image from "next/image";
 
@@ -12,6 +13,8 @@ export const ImageItem = ({ item }: { item: ItemSection }) => {
         fill
         sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
         className="w-full h-full object-cover aspect-[4/3]"
+        loader={cloudinaryLoader}
+        quality={75}
       />
 
       {(item.title || item.subtitle) && (

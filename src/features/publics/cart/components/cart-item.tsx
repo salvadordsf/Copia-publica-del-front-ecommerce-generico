@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { slugify } from "@/utils/slugify";
 import { CartItemSkeleton } from "@/components/skeletons/public/cart/cart-item-skeleton";
+import cloudinaryLoader from "@/lib/cloudinary/cloudinary-loader";
 
 interface CartItemProps {
   productId: string;
@@ -57,9 +58,11 @@ export function CartItem({ productId, quantity }: CartItemProps) {
           <Image
             src={image}
             alt={product.name}
-            width={200}
-            height={200}
-            className="h-full w-full object-cover"
+            fill
+            sizes="80px"
+            quality={70}
+            className="object-cover"
+            loader={cloudinaryLoader}
           />
         </div>
 
