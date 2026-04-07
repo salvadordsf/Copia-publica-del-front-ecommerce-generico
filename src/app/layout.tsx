@@ -55,7 +55,7 @@ const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
-});
+}); 
 
 export default function RootLayout({
   children,
