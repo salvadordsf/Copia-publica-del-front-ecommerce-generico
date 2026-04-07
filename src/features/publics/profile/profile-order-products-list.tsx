@@ -2,7 +2,6 @@ import { IOrder } from "@/types/resources/order-types";
 
 export default function OrderProductsList({ order }: { order: IOrder }) {
   const products = order.products;
-  console.log("as", order)
   if (products) return (
     <div className="space-y-2">
       {products.map((item) => (

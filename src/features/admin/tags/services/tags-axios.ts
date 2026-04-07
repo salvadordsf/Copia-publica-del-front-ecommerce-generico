@@ -24,13 +24,11 @@ export const getTags = async (
   const res = await axiosInstance.get("/tags", {
     params,
   });
-  console.log(res);
   return res.data;
 };
 
 export const getTagById = async (id: string): Promise<ApiResponse<ITag>> => {
   const res = await axiosInstance.get(`/tags/${id}`);
-  console.log(res);
   return res.data;
 };
 
@@ -38,8 +36,6 @@ export const createTag = async (
   data: ICreateTagSchema,
 ): Promise<ApiResponse<ITag>> => {
   const res = await axiosInstance.post("/tags", data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
@@ -47,8 +43,6 @@ export const toggleCreateTag = async (
   data: ICreateTagSchema,
 ): Promise<ApiResponse<IToggleCreateTag>> => {
   const res = await axiosInstance.post("/tags/toggleCreate", data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
@@ -57,14 +51,11 @@ export const updateTag = async (
   data: IUpdateTag,
 ): Promise<ApiResponse<ITag>> => {
   const res = await axiosInstance.put(`/tags/${id}`, data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
 export const deleteTag = async (id: string): Promise<ApiResponse<ITag>> => {
   const res = await axiosInstance.delete(`/tags/${id}`);
-  console.log(res);
   return res.data;
 };
 
@@ -83,7 +74,6 @@ export const updateManyTags = async (
 
   const res = await axiosInstance.put("/tags", update, { params });
 
-  console.log(res);
   return res.data;
 };
 
@@ -97,6 +87,5 @@ export const deleteManyTags = async (
 
   const res = await axiosInstance.delete("/tags", { params });
 
-  console.log(res);
   return res.data;
 };

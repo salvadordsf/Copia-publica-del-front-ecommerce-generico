@@ -12,6 +12,7 @@ import OrderProductsList from "./profile-order-products-list";
 import { useUpdateOrder } from "@/features/admin/orders/services/orders-mutations";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function OrderCard({
   order,
@@ -23,7 +24,7 @@ export default function OrderCard({
   const [open, setOpen] = useState(false);
   const [render, setRender] = useState(true);
   const router = useRouter();
-  const { mutate } = useUpdateOrder(order.id);
+  const { mutate, isPending } = useUpdateOrder(order.id);
 
   const handleCancel = async () => {
     mutate(
@@ -132,8 +133,8 @@ export default function OrderCard({
             <Button variant="default" size="sm" onClick={()=>router.push(`/home/orden?id=${order.id}`)}>
               Finalizar compra
             </Button>
-            <Button variant="destructive" size="sm" onClick={handleCancel}>
-              Cancelar orden
+            <Button variant="destructive" size="sm" onClick={handleCancel} disabled={isPending}>
+              {isPending ? <Spinner /> : "Cancelar orden"}
             </Button>
           </div>
         )}

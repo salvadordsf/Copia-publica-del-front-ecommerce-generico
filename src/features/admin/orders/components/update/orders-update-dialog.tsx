@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -41,9 +41,6 @@ export default function UpdateOrderDialog({ order }: { order: IOrder }) {
   //Get user role
   const { data } = useGetSession();
   const user = data?.user;
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   //State for open/close dialog
   const [open, setOpen] = useState(false);

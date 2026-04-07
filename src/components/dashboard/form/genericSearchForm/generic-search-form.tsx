@@ -213,7 +213,6 @@ export default function GenericSearchForm({
                         setValue("relevance", "0");
                         break;
                       default:
-                        console.log(field.name, field.defaultValue)
                         setValue(field.name, undefined);
                         break;
                     }

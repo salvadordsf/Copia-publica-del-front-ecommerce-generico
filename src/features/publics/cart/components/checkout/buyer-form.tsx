@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BuyerSchema, IBuyer } from "./schemas/buyer-schema";
+import { Spinner } from "@/components/ui/spinner";
 
 interface BuyerFormProps {
   onNextAction: (data: IBuyer) => void;
@@ -18,7 +19,7 @@ export default function BuyerForm({
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<IBuyer>({
     resolver: zodResolver(BuyerSchema),
     mode: "onChange",
@@ -80,8 +81,8 @@ export default function BuyerForm({
           Volver
         </Button>
 
-        <Button type="submit" className="flex-1" disabled={!isValid}>
-          Finalizar pedido
+        <Button type="submit" className="flex-1" disabled={!isValid || isSubmitting}>
+          {isSubmitting ? <Spinner /> : "Finalizar pedido"}
         </Button>
       </div>
     </form>

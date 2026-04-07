@@ -20,6 +20,7 @@ import { authClient } from "@/lib/auth-client";
 import { LoginSchema } from "../../schemas/auth-schemas";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
 
 type LoginValues = z.infer<typeof LoginSchema>;
 
@@ -127,7 +128,7 @@ export default function LoginForm() {
                 ¿No recuerdas tu contraseña?{" "}
                 <span
                   onClick={() => {
-                    console.log("Forgot password clicked");
+                    toast.info("Próximamente disponible.");
                   }}
                   className="text-primary font-semibold hover:underline cursor-pointer"
                 >
@@ -153,13 +154,15 @@ export default function LoginForm() {
             </div>
 
             {/* Server Error */}
-            {serverError && <div className="min-h-[20px] flex justify-center">
-              {serverError && (
-                <p className="text-red-600 text-sm font-medium text-center">
-                  {serverError}
-                </p>
-              )}
-            </div>}
+            {serverError && (
+              <div className="min-h-[20px] flex justify-center">
+                {serverError && (
+                  <p className="text-red-600 text-sm font-medium text-center">
+                    {serverError}
+                  </p>
+                )}
+              </div>
+            )}
 
             {/* Submit */}
             <Button

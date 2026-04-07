@@ -58,7 +58,6 @@ export default function CheckoutSteps() {
       {step === 1 && (
         <ShippingForm
           onNextAction={(data: IShippingForm) => {
-            console.log(data);
             setShippingData({
               shippingStreet: data.shippingStreet,
               shippingCity: data.shippingCity,
@@ -76,7 +75,6 @@ export default function CheckoutSteps() {
         <BuyerForm
           onBackAction={() => setStep(1)}
           onNextAction={(data: IBuyer) => {
-            console.log(data);
             setBuyerData(data);
             handleCreateOrder();
           }}

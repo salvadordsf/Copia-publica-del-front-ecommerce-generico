@@ -28,14 +28,12 @@ export const getSubcategories = async (
   const res = await axiosInstance.get("/subcategories", {
     params,
   });
-  console.log(res);
   return res.data;
 };
 export const getSubcategoryById = async (
   id: string,
 ): Promise<ApiResponse<ISubcategory>> => {
   const res = await axiosInstance.get(`/subcategories/${id}`);
-  console.log(res);
   return res.data;
 };
 
@@ -43,8 +41,6 @@ export const createSubcategory = async (
   data: ICreateSubcategory,
 ): Promise<ApiResponse<ISubcategory>> => {
   const res = await axiosInstance.post("/subcategories", data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
@@ -53,8 +49,6 @@ export const updateSubcategory = async (
   data: IUpdateSubcategory,
 ): Promise<ApiResponse<ISubcategory>> => {
   const res = await axiosInstance.put(`/subcategories/${id}`, data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
@@ -62,14 +56,13 @@ export const deleteSubcategory = async (
   id: string,
 ): Promise<ApiResponse<ISubcategory>> => {
   const res = await axiosInstance.delete(`/subcategories/${id}`);
-  console.log(res);
   return res.data;
 };
 
 export const updateManySubcategories = async (
   filter: IFilterBulkSubcategoriesQuery,
   data: IUpdateBulkSubcategories,
-): Promise<ApiResponse<{ count: number }>>  => {
+): Promise<ApiResponse<{ count: number }>> => {
   const params: IFilterBulkSubcategoriesQuery = {
     ...(filter?.name && { name: filter?.name }),
     ...(filter?.status && { status: filter?.status }),
@@ -83,7 +76,6 @@ export const updateManySubcategories = async (
 
   const res = await axiosInstance.put("/subcategories", update, { params });
 
-  console.log(res);
   return res.data;
 };
 
@@ -98,6 +90,5 @@ export const deleteManySubcategories = async (
 
   const res = await axiosInstance.delete("/subcategories", { params });
 
-  console.log(res);
   return res.data;
 };

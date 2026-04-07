@@ -58,8 +58,6 @@ export default function ProductBulkFiltersResults() {
 
   const products = fullData?.success ? (fullData.data?.data ?? []) : [];
 
-  console.log(filters);
-
   if (isLoadingProducts) return <div>Loading products...</div>;
   if (getProductsError) return <div>Error al obtener productos filtrados</div>;
 

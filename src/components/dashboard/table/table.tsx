@@ -16,7 +16,6 @@ export default function UiTable({
   caption = "",
   className = "",
 }: IUiTable) {
-  console.log(rows);
   return (
     <div>
       <Table className={className}>
