@@ -3,7 +3,16 @@ import UiSidebarSkeleton from "@/components/dashboard/sidebar/sidebar-skeleton";
 import { CustomSidebarTrigger } from "@/components/public-store/sidebar/public-sidebar-toggle";
 import SidebarWidthResizer from "@/components/sidebar-width/sidebar-width-resizer";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Panel de administrador",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function AdminDashboardLayout({
   children,
@@ -13,7 +22,6 @@ export default function AdminDashboardLayout({
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full overflow-hidden">
-        
         {/* Sidebar */}
         <Suspense fallback={<UiSidebarSkeleton length={5} />}>
           <UiSidebar title="Panel de administrador" />
@@ -29,9 +37,7 @@ export default function AdminDashboardLayout({
 
           {/* main content with resizer */}
           <SidebarWidthResizer>
-            <div className="pl-5">
-              {children}
-            </div>
+            <div className="pl-5">{children}</div>
           </SidebarWidthResizer>
         </div>
       </div>
