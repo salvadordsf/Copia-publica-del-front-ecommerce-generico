@@ -65,6 +65,9 @@ export default function RootLayout({
   return (
     <GlobalProviders>
       <html lang="es">
+        <head>
+          <link rel="preconnect" href="https://res.cloudinary.com" />
+        </head>
         <body className={outfit.variable}>{children}</body>
       </html>
     </GlobalProviders>
