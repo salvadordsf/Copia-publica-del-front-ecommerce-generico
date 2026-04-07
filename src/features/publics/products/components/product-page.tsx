@@ -112,7 +112,7 @@ export const ProductPage = () => {
                 fill
                 className="rounded-xl object-cover"
                 loader={cloudinaryLoader}
-                quality={85}
+                quality={70}
               />
             </div>
           )}

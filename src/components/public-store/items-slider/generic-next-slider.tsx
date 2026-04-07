@@ -16,6 +16,7 @@ export const GenericNextSliderBtn = ({ id }: { id: string }) => {
         "hover:shadow-lg hover:border-neutral-300",
         "active:scale-95"
       )}
+      aria-label="siguiente"
     >
       <ChevronRight className="h-6 w-6 text-neutral-600" />
     </div>

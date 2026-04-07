@@ -34,7 +34,7 @@ export const ProductCard = ({ product }: { product: IProduct }) => {
             fill
             alt={product.name}
             sizes="(max-width: 640px) 150px, (max-width: 1024px) 170px, 200px"
-            quality={75}
+            quality={60}
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             loader={cloudinaryLoader}
           />

@@ -66,6 +66,7 @@ export default function RootLayout({
     <GlobalProviders>
       <html lang="es">
         <head>
+          <link rel="preconnect" href="https://ecommerce-backend-sjr5.onrender.com" />
           <link rel="preconnect" href="https://res.cloudinary.com" />
         </head>
         <body className={outfit.variable}>{children}</body>
