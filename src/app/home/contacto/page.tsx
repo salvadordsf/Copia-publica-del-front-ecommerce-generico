@@ -1,4 +1,15 @@
 import ContactForm from "@/components/public-store/contact-form/contact-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contáctanos",
+  description: "Contáctanos para obtener más información sobre nuestro ecommerce genérico.",
+  openGraph: {
+    title: "Contáctanos",
+    description: "Contáctanos para obtener más información sobre nuestro ecommerce genérico.",
+    url: "/home/contacto",
+  },
+};
 
 export default function ContactoPage() {
   return (
