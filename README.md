@@ -8,6 +8,9 @@ A full-featured e-commerce frontend built with Next.js 15, featuring a complete 
 
 🔗 **Backend repo:** private
 
+🚀 **Lighthouse score**
+![lighthouse score](screenshots/PUBLIC/Lighthouse/lighthouse.PNG)
+
 ---
 
 ## Tech Stack
