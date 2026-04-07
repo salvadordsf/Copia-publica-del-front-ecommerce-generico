@@ -1,18 +1,20 @@
 "use client";
 
 import { useProducts } from "@/features/admin/products/services/products-querys";
-import { Loader2 } from "lucide-react";
 import { useProductsFiltersStore } from "../../stores/products-filters";
 import UiPagination from "@/components/dashboard/pagination/pagination";
 import { useEffect } from "react";
 import { ProductCard } from "@/components/public-store/home/cards/product-card";
 import { ProductGridSkeleton } from "@/components/skeletons/public/products/products-results-container-skeleton";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export function ProductsResultsContainer({ resetFilters = true }) {
   const filters = useProductsFiltersStore((s) => s.filters);
   const reset = useProductsFiltersStore((s) => s.resetFilters);
   const setPage = useProductsFiltersStore((s) => s.setPage);
   const setPageSize = useProductsFiltersStore((s) => s.setPageSize);
+  const router = useRouter();
 
   useEffect(() => {
     if (resetFilters) {
@@ -26,7 +28,7 @@ export function ProductsResultsContainer({ resetFilters = true }) {
   const pagination = data?.success ? data.data.pagination : null;
 
   if (isLoading) {
-    return (<ProductGridSkeleton count={12} />);
+    return <ProductGridSkeleton count={12} />;
   }
 
   if (isError || !data || !data.success) {
@@ -39,8 +41,18 @@ export function ProductsResultsContainer({ resetFilters = true }) {
 
   if (products.length === 0) {
     return (
-      <div className="py-10 text-center text-sm text-muted-foreground">
-        No se encontraron productos
+      <div className="flex flex-col items-center">
+        <div className="py-10 text-center text-sm text-muted-foreground">
+          {filters.search
+            ? `No se encontraron productos para "${filters.search}"`
+            : "No se encontraron productos"}
+        </div>
+        <Button
+          onClick={() => router.push("/home")}
+          className="max-w-xl cursor-pointer hover:bg-neutral-800"
+        >
+          Volver a la página principal
+        </Button>
       </div>
     );
   }
