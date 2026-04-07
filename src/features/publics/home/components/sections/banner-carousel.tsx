@@ -3,11 +3,12 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay } from "swiper/modules";
-import "swiper/swiper.css";
-
 import { HomeSection } from "@/types/resources/home-section-types";
 import Image from "next/image";
 import cloudinaryLoader from "@/lib/cloudinary/cloudinary-loader";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 interface BannerCarouselProps {
   section: HomeSection;

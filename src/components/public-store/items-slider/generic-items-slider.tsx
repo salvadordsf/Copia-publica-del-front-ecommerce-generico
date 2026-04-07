@@ -8,6 +8,7 @@ import { GenericNextSliderBtn } from "./generic-next-slider";
 import { GenericPrevSliderBtn } from "./generic-prev-slider";
 import { cn } from "@/lib/utils";
 import "swiper/swiper.css";
+import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 interface IGenericItemsSliderProps {

@@ -5,6 +5,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, A11y } from "swiper/modules";
 import { HomeSection } from "@/types/resources/home-section-types";
 import Link from "next/link";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 interface AnnouncementCarouselProps {
   section: HomeSection;
