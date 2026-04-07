@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 type FormValues = {
   name: string;
@@ -23,8 +24,8 @@ export default function ContactForm({
     formState: { isSubmitting },
   } = useForm<FormValues>();
 
-  const onSubmit = (data: FormValues) => {
-    console.log("Future feature:", data);
+  const onSubmit = (_data: FormValues) => {
+    toast.info("Esta funcionalidad estará disponible próximamente.");
   };
 
   return (

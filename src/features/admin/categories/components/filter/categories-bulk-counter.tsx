@@ -44,8 +44,6 @@ export default function CategoriesBulkFiltersResults() {
     ? categoriesWithSubResponse.data
     : [];
 
-  console.log(filters);
-
   if (isLoadingCategories) return <div>Loading categories...</div>;
   if (getCategoriesError)
     return <div>Error al obtener categorias filtradas</div>;

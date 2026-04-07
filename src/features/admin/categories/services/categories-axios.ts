@@ -26,35 +26,37 @@ export const getCategories = async (
   const res = await axiosInstance.get("/categories", {
     params,
   });
-  console.log(res);
   return res.data;
 };
 
-export const getCategoryById = async (id: string): Promise<ApiResponse<ICategory>> => {
+export const getCategoryById = async (
+  id: string,
+): Promise<ApiResponse<ICategory>> => {
   const res = await axiosInstance.get<ApiResponse<ICategory>>(
     `/categories/${id}`,
   );
-  console.log(res);
   return res.data;
 };
 
-export const createCategory = async (data: ICreateCategory): Promise<ApiResponse<ICategory>> => {
+export const createCategory = async (
+  data: ICreateCategory,
+): Promise<ApiResponse<ICategory>> => {
   const res = await axiosInstance.post("/categories", data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
-export const updateCategory = async (id: string, data: IUpdateCategory): Promise<ApiResponse<ICategory>> => {
+export const updateCategory = async (
+  id: string,
+  data: IUpdateCategory,
+): Promise<ApiResponse<ICategory>> => {
   const res = await axiosInstance.put(`/categories/${id}`, data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
-export const deleteCategory = async (id: string): Promise<ApiResponse<ICategory>> => {
+export const deleteCategory = async (
+  id: string,
+): Promise<ApiResponse<ICategory>> => {
   const res = await axiosInstance.delete(`/categories/${id}`);
-  console.log(res);
   return res.data;
 };
 
@@ -73,7 +75,6 @@ export const updateManyCategories = async (
 
   const res = await axiosInstance.put("/categories", update, { params });
 
-  console.log(res);
   return res.data;
 };
 
@@ -87,6 +88,5 @@ export const deleteManyCategories = async (
 
   const res = await axiosInstance.delete("/categories", { params });
 
-  console.log(res);
   return res.data;
 };

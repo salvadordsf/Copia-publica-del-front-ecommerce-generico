@@ -39,7 +39,6 @@ export default function CreateProductForm() {
       ? data.imageUrls.split(",").map((url) => url.trim())
       : [],
     };
-    console.log(dataWithImageArray);
     mutate(dataWithImageArray, {
       onSuccess: () => {
         toast.success(`Producto "${data.name}" creado exitosamente.`);

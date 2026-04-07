@@ -7,7 +7,7 @@ export const createOrderProduct = async (
   data: ICreateOrderProduct,
 ): Promise<ApiResponse<{ orderProduct: IOrderProduct; order: IOrder }>> => {
   const res = await axiosInstance.post("/order-products", data);
-  console.log(res);
+
   return res.data;
 };
 
@@ -17,8 +17,7 @@ export const createManyOrderProducts = async (items: ICreateOrderProduct[]) => {
   for (const item of items) {
     const created = await createOrderProduct(item);
     results.push(created);
-    console.log("as");
   }
-  console.log(results);
+
   return results;
 };

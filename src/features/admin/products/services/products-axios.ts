@@ -44,7 +44,6 @@ export const getProducts = async (
   const res = await axiosInstance.get("/products", {
     params,
   });
-  console.log(res);
   return res.data;
 };
 
@@ -52,7 +51,6 @@ export const getProductById = async (
   id: string,
 ): Promise<ApiResponse<IProduct>> => {
   const res = await axiosInstance.get<ApiResponse<IProduct>>(`/products/${id}`);
-  console.log(res);
   return res.data;
 };
 
@@ -60,7 +58,6 @@ export const createProduct = async (
   data: ICreateProductMutation,
 ): Promise<ApiResponse<IProduct>> => {
   const res = await axiosInstance.post("/products", data);
-  console.log(res);
   return res.data;
 };
 
@@ -69,8 +66,6 @@ export const updateProduct = async (
   data: IUpdateProduct,
 ): Promise<ApiResponse<IProduct>> => {
   const res = await axiosInstance.put(`/products/${id}`, data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
@@ -78,8 +73,6 @@ export const reassignProducts = async (
   data: IReassignProducts,
 ): Promise<ApiResponse<IProduct[]>> => {
   const res = await axiosInstance.patch(`/products/reassign`, data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
@@ -87,7 +80,6 @@ export const deleteProduct = async (
   id: string,
 ): Promise<ApiResponse<IProduct>> => {
   const res = await axiosInstance.delete(`/products/${id}`);
-  console.log(res);
   return res.data;
 };
 
@@ -115,7 +107,6 @@ export const updateManyProducts = async (
 
   const res = await axiosInstance.put("/products", update, { params });
 
-  console.log(res);
   return res.data;
 };
 
@@ -137,7 +128,6 @@ export const deleteManyProducts = async (
 
   const res = await axiosInstance.delete("/products", { params });
 
-  console.log(res);
   return res.data;
 };
 

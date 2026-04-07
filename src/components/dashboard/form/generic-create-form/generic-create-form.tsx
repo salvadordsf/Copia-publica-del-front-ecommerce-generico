@@ -49,7 +49,6 @@ export default function GenericForm<TFormValues>({
         //Subcategory depends on category select options filter system
         let fieldOptions = field.options;
         if (field.name === "subcategoryId" && field.dependsOn) {
-          console.log(fieldOptions);
           fieldOptions = field.options?.filter(
             (option) => option?.categoryId === dependentValue,
           );

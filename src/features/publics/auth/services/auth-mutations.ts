@@ -12,23 +12,23 @@ interface AuthResponse {
 export const useRegister = () =>
   useMutation({
     mutationFn: register,
-    onSuccess: (res: AuthResponse ) => {
+    onSuccess: (res: AuthResponse) => {
       saveToken(res.token);
       useAuthStore.getState().setUser(res.user);
     },
-    onError: (error) => {
-      console.error("Error en register:", error);
+    onError: () => {
+      console.error("Error en register");
     },
   });
 
 export const useLogin = () =>
   useMutation({
     mutationFn: login,
-    onSuccess: (res: AuthResponse ) => {
+    onSuccess: (res: AuthResponse) => {
       saveToken(res.token);
       useAuthStore.getState().setUser(res.user);
     },
-    onError: (error) => {
-      console.error("Error en login:", error);
+    onError: () => {
+      console.error("Error en login");
     },
   });

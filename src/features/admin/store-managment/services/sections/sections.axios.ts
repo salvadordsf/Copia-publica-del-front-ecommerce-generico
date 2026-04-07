@@ -19,7 +19,6 @@ export const getSections = async (
   const res = await axiosInstance.get("/home/sections", {
     params,
   });
-  console.log(res);
   return res.data;
 };
 
@@ -27,7 +26,6 @@ export const getSectionById = async (
   id: string,
 ): Promise<ApiResponse<HomeSection>> => {
   const res = await axiosInstance.get(`/home/sections/${id}`);
-  console.log(res);
   return res.data;
 };
 
@@ -35,7 +33,6 @@ export const createSection = async (
   data: ICreateSection,
 ): Promise<ApiResponse<HomeSection>> => {
   const res = await axiosInstance.post("/home/sections", data);
-  console.log(res);
   return res.data;
 };
 
@@ -44,8 +41,6 @@ export const updateSection = async (
   data: IUpdateSectionForMutation,
 ): Promise<ApiResponse<HomeSection>> => {
   const res = await axiosInstance.put(`/home/sections/${id}`, data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
@@ -53,6 +48,5 @@ export const deleteSection = async (
   id: string,
 ): Promise<ApiResponse<HomeSection>> => {
   const res = await axiosInstance.delete(`/home/sections/${id}`);
-  console.log(res);
   return res.data;
 };

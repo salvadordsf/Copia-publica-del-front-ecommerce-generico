@@ -39,8 +39,6 @@ export default function TagsBulkFiltersResults() {
 
   const total = tags?.length ?? 0;
 
-  console.log(filters);
-
   if (isLoadingTags) return <div>Loading Tags...</div>;
   if (getTagsError) return <div>Error al obtener etiquetas filtradas</div>;
 

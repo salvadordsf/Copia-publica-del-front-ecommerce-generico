@@ -4,6 +4,5 @@ import { ApiResponse } from "@/types/responses.type";
 
 export const getHome = async (): Promise<ApiResponse<HomeSection[]>> => {
   const res = await axiosInstance.get("/home");
-  console.log(res);
   return res.data;
 };

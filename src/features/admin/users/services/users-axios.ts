@@ -39,13 +39,11 @@ export const getUsers = async (
     params,
   });
 
-  console.log(res);
   return res.data;
 };
 
 export const getUserById = async (id: string): Promise<ApiResponse<IUser>> => {
   const res = await axiosInstance.get(`/users/${id}`);
-  console.log(res);
   return res.data;
 };
 
@@ -53,8 +51,6 @@ export const createUser = async (
   data: ICreateUser,
 ): Promise<ApiResponse<IUser>> => {
   const res = await axiosInstance.post("/users", data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
@@ -63,13 +59,10 @@ export const updateUser = async (
   data: IUpdateUser,
 ): Promise<ApiResponse<IUser>> => {
   const res = await axiosInstance.put(`/users/${id}`, data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
 export const deleteUser = async (id: string): Promise<ApiResponse<IUser>> => {
   const res = await axiosInstance.delete(`/users/${id}`);
-  console.log(res);
   return res.data;
 };

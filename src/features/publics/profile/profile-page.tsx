@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import ProfileOrders from "./profile-orders";
 import ProfilePageSkeleton from "@/components/skeletons/public/profile/profile-skeleton";
+import { toast } from "sonner";
 
 export default function ProfilePage() {
   const { data: session, isPending: isSessionPending } =
@@ -66,7 +67,7 @@ export default function ProfilePage() {
             <Button
               className="h-6 w-6 p-1 cursor-pointer"
               variant="outline"
-              onClick={() => console.log("future feature")}
+              onClick={() => toast.info("Próximamente disponible")}
             >
               <Settings />
             </Button>
@@ -74,7 +75,7 @@ export default function ProfilePage() {
             <Button
               className="h-6 w-6 p-1 cursor-pointer"
               variant="outline"
-              onClick={() => console.log("future feature")}
+              onClick={() => toast.info("Próximamente disponible")}
             >
               <PencilIcon />
             </Button>

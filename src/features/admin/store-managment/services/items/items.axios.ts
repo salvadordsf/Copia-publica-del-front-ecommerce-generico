@@ -16,7 +16,6 @@ export const getItems = async (
   const res = await axiosInstance.get("/home/items-sections", {
     params,
   });
-  console.log(res);
   return res.data;
 };
 
@@ -24,7 +23,6 @@ export const getItemById = async (
   id: string,
 ): Promise<ApiResponse<ItemSection>> => {
   const res = await axiosInstance.get(`/home/items-sections/${id}`);
-  console.log(res);
   return res.data;
 };
 
@@ -32,7 +30,6 @@ export const createItem = async (
   data: ICreateItem,
 ): Promise<ApiResponse<ItemSection>> => {
   const res = await axiosInstance.post("/home/items-sections", data);
-  console.log(res);
   return res.data;
 };
 
@@ -41,8 +38,6 @@ export const updateItem = async <T>(
   data: T,
 ): Promise<ApiResponse<ItemSection>> => {
   const res = await axiosInstance.put(`/home/items-sections/${id}`, data);
-  console.log(data);
-  console.log(res);
   return res.data;
 };
 
@@ -50,6 +45,5 @@ export const deleteItem = async (
   id: string,
 ): Promise<ApiResponse<ItemSection>> => {
   const res = await axiosInstance.delete(`/home/items-sections/${id}`);
-  console.log(res);
   return res.data;
 };
