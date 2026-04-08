@@ -92,7 +92,14 @@ export default function BuyerForm({
             !isValid || isSubmitting || isLoadingOrder || isLoadingOrderProduct
           }
         >
-          {isSubmitting ? <Spinner /> : "Finalizar pedido"}
+          {!isValid ||
+          isSubmitting ||
+          isLoadingOrder ||
+          isLoadingOrderProduct ? (
+            <Spinner />
+          ) : (
+            "Finalizar pedido"
+          )}
         </Button>
       </div>
     </form>
