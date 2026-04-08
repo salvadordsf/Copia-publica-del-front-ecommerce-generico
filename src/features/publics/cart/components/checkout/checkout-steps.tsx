@@ -32,8 +32,10 @@ export default function CheckoutSteps() {
     phone: "",
   });
 
-  const { mutateAsync: createOrder } = useCreateOrder();
-  const { mutateAsync: createOrderProducts } = useCreateOrderProducts();
+  const { mutateAsync: createOrder, isPending: isLoadingOrder } =
+    useCreateOrder();
+  const { mutateAsync: createOrderProducts, isPending: isLoadingOrderProduct } =
+    useCreateOrderProducts();
 
   const handleCreateOrder = async () => {
     if (!shippingData) return;
@@ -78,6 +80,8 @@ export default function CheckoutSteps() {
             setBuyerData(data);
             handleCreateOrder();
           }}
+          isLoadingOrder={isLoadingOrder}
+          isLoadingOrderProduct={isLoadingOrderProduct}
         />
       )}
     </div>

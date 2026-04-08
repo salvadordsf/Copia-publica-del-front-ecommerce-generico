@@ -10,11 +10,15 @@ import { Spinner } from "@/components/ui/spinner";
 interface BuyerFormProps {
   onNextAction: (data: IBuyer) => void;
   onBackAction: () => void;
+  isLoadingOrder?: boolean;
+  isLoadingOrderProduct?: boolean;
 }
 
 export default function BuyerForm({
   onNextAction,
   onBackAction,
+  isLoadingOrder = false,
+  isLoadingOrderProduct = false,
 }: BuyerFormProps) {
   const {
     register,
@@ -81,7 +85,13 @@ export default function BuyerForm({
           Volver
         </Button>
 
-        <Button type="submit" className="flex-1" disabled={!isValid || isSubmitting}>
+        <Button
+          type="submit"
+          className="flex-1"
+          disabled={
+            !isValid || isSubmitting || isLoadingOrder || isLoadingOrderProduct
+          }
+        >
           {isSubmitting ? <Spinner /> : "Finalizar pedido"}
         </Button>
       </div>
